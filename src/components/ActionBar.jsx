@@ -41,7 +41,7 @@ export default function ActionBar({
     <div className="action-bar-container">
       {/* Bid Bumps & Increments + Undo / Redo */}
       <div className="bidding-increments">
-        <span style={{ fontSize: '0.72rem', fontWeight: 800, color: '#D4AF37', letterSpacing: '0.5px', marginRight: '0.2rem' }}>
+        <span style={{ fontSize: '0.72rem', fontWeight: 800, color: '#39ff88', letterSpacing: '0.12em', marginRight: '0.2rem', fontFamily: 'var(--font-display)' }}>
           BUMP:
         </span>
         <button className="increment-btn" onClick={() => onManualIncrement(0.20)} title="Bump Bid by ₹ 20 Lakh">
@@ -64,7 +64,7 @@ export default function ActionBar({
           disabled={!canUndo}
           title="Undo Last Action / Mistaken Bid (Z Key)"
         >
-          <RotateCcw size={14} />
+          <RotateCcw size={13} />
           <span>UNDO</span>
           <span className="key-hint">[Z]</span>
         </button>
@@ -76,9 +76,9 @@ export default function ActionBar({
             onClick={onRedoBid}
             disabled={!canRedo}
             title="Redo Undone Bid (Y Key)"
-            style={{ opacity: canRedo ? 1 : 0.4 }}
+            style={{ opacity: canRedo ? 1 : 0.35 }}
           >
-            <RotateCw size={14} />
+            <RotateCw size={13} />
             <span>REDO</span>
             <span className="key-hint">[Y]</span>
           </button>
@@ -93,7 +93,7 @@ export default function ActionBar({
           onClick={handlePrevClick}
           title="Previous Player (Left Arrow [←] or P Key)"
         >
-          <ArrowLeft size={18} />
+          <ArrowLeft size={16} />
           <span>PREV</span>
           <span className="key-hint">[←]</span>
         </button>
@@ -104,12 +104,12 @@ export default function ActionBar({
           onClick={handleSoldClick}
           disabled={!canSold || status === 'SOLD'}
           style={{
-            opacity: (!canSold || status === 'SOLD') ? 0.4 : 1,
+            opacity: (!canSold || status === 'SOLD') ? 0.35 : 1,
             cursor: (!canSold || status === 'SOLD') ? 'not-allowed' : 'pointer'
           }}
           title="Mark Player as SOLD (Spacebar)"
         >
-          <Gavel size={22} />
+          <Gavel size={20} />
           <span>SOLD</span>
           <span className="key-hint">[SPACE]</span>
         </button>
@@ -120,12 +120,12 @@ export default function ActionBar({
           onClick={handleUnsoldClick}
           disabled={status !== 'LIVE'}
           style={{
-            opacity: status !== 'LIVE' ? 0.4 : 1,
+            opacity: status !== 'LIVE' ? 0.35 : 1,
             cursor: status !== 'LIVE' ? 'not-allowed' : 'pointer'
           }}
           title="Mark Player as UNSOLD (U Key)"
         >
-          <XCircle size={18} />
+          <XCircle size={16} />
           <span>UNSOLD</span>
           <span className="key-hint">[U]</span>
         </button>
@@ -137,7 +137,7 @@ export default function ActionBar({
           title="Advance to Next Player (Right Arrow [→] or N Key)"
         >
           <span>NEXT</span>
-          <ArrowRight size={18} />
+          <ArrowRight size={16} />
           <span className="key-hint">[→]</span>
         </button>
       </div>

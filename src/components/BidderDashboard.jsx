@@ -45,9 +45,9 @@ export default function BidderDashboard({
 
   if (!team) {
     return (
-      <div className="bidder-dashboard-empty">
+      <div className="bidder-dashboard-empty" style={{ padding: '3rem', textAlign: 'center', color: '#fff' }}>
         <h2>Team Not Found</h2>
-        <button onClick={onLogout} className="logout-btn">Return to Login</button>
+        <button onClick={onLogout} className="btn-sold" style={{ marginTop: '1rem' }}>Return to Login</button>
       </div>
     );
   }
@@ -90,7 +90,7 @@ export default function BidderDashboard({
             style={{ 
               backgroundColor: team.primaryColor, 
               color: team.textColor || '#FFF',
-              boxShadow: `0 0 15px ${team.primaryColor}66`
+              boxShadow: `0 0 18px ${team.primaryColor}88`
             }}
           >
             {team.code}
@@ -99,7 +99,7 @@ export default function BidderDashboard({
             <h1 className="bidder-team-name">{team.name}</h1>
             <div className="bidder-role-tag">
               <Shield size={13} />
-              <span>FRANCHISE BIDDER PORTAL</span>
+              <span>ELOQUENCE '26 • TACTICAL BIDDER CONSOLE</span>
             </div>
           </div>
         </div>
@@ -107,22 +107,69 @@ export default function BidderDashboard({
         <div className="bidder-header-right">
           {/* Prominent Live Refresh Button */}
           <button 
-            type="button"
+            type="button" 
             className={`bidder-refresh-btn ${isSpinning ? 'refreshing' : ''} ${showSyncSuccess ? 'synced' : ''}`}
             onClick={handleRefreshClick}
             title="Refresh Live Auction Stage from Admin Console"
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: '0.45rem',
+              padding: '0.42rem 0.9rem',
+              borderRadius: '999px',
+              border: '1px solid rgba(57, 255, 136, 0.4)',
+              background: 'rgba(4, 18, 9, 0.75)',
+              color: '#39ff88',
+              fontFamily: 'var(--font-display)',
+              fontSize: '0.74rem',
+              fontWeight: 800,
+              cursor: 'pointer'
+            }}
           >
-            <RotateCw size={15} className={isSpinning ? 'spin-anim' : ''} />
-            <span>{isSpinning ? 'Syncing...' : showSyncSuccess ? '✓ Synced' : 'Refresh'}</span>
+            <RotateCw size={14} className={isSpinning ? 'spin-anim' : ''} />
+            <span>{isSpinning ? 'Syncing...' : showSyncSuccess ? '✓ Synced' : 'Sync Stage'}</span>
           </button>
 
-          <div className={`live-status-pill ${status.toLowerCase()}`}>
-            <Radio size={14} className="pulse-icon" />
-            <span>AUCTION {showIntro ? 'STANDBY' : status}</span>
+          <div 
+            className={`live-status-pill ${status.toLowerCase()}`}
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: '0.45rem',
+              background: 'rgba(0, 168, 59, 0.15)',
+              border: '1px solid rgba(57, 255, 136, 0.35)',
+              color: '#39ff88',
+              padding: '0.38rem 0.85rem',
+              borderRadius: '999px',
+              fontFamily: 'var(--font-display)',
+              fontSize: '0.74rem',
+              fontWeight: 800
+            }}
+          >
+            <Radio size={13} className="pulse-icon" />
+            <span>ARENA {showIntro ? 'STANDBY' : status}</span>
           </div>
 
-          <button className="bidder-logout-btn" onClick={onLogout} title="Log Out">
-            <LogOut size={16} />
+          <button 
+            className="bidder-logout-btn" 
+            onClick={onLogout} 
+            title="Log Out"
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: '0.4rem',
+              padding: '0.38rem 0.85rem',
+              borderRadius: '999px',
+              border: '1px solid rgba(239, 68, 68, 0.4)',
+              background: 'rgba(239, 68, 68, 0.12)',
+              color: '#f87171',
+              fontFamily: 'var(--font-display)',
+              fontSize: '0.74rem',
+              fontWeight: 800,
+              cursor: 'pointer'
+            }}
+          >
+            <LogOut size={14} />
             <span>Logout</span>
           </button>
         </div>
@@ -134,9 +181,24 @@ export default function BidderDashboard({
           <section className="bidder-live-arena">
             <div className="live-arena-header">
               <div className="arena-title">
-                <Sparkles size={16} className="sparkle-gold" />
-                <span>LIVE AUCTION STAGE</span>
-                <span className={`arena-live-indicator ${status.toLowerCase()}`}>
+                <Sparkles size={16} style={{ color: '#39ff88' }} />
+                <span style={{ fontFamily: 'var(--font-display)', letterSpacing: '0.1em' }}>LIVE DOOMSDAY ARENA</span>
+                <span 
+                  className={`arena-live-indicator ${status.toLowerCase()}`}
+                  style={{
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: '0.35rem',
+                    fontSize: '0.68rem',
+                    fontWeight: 800,
+                    padding: '0.2rem 0.6rem',
+                    borderRadius: '999px',
+                    background: status === 'LIVE' ? 'rgba(0, 168, 59, 0.25)' : 'rgba(255,255,255,0.1)',
+                    color: status === 'LIVE' ? '#39ff88' : '#fff',
+                    border: `1px solid ${status === 'LIVE' ? '#39ff88' : 'rgba(255,255,255,0.2)'}`,
+                    fontFamily: 'var(--font-display)'
+                  }}
+                >
                   <span className="pulsing-circle"></span>
                   {status === 'LIVE' ? 'LIVE NOW' : status}
                 </span>
@@ -147,24 +209,40 @@ export default function BidderDashboard({
                   onClick={handleRefreshClick}
                   title="Pull latest live auction data"
                 >
-                  <RotateCw size={12} className={isSpinning ? 'spin-anim' : ''} />
+                  <RotateCw size={11} className={isSpinning ? 'spin-anim' : ''} />
                   <span>{isSpinning ? 'Syncing...' : 'Sync'}</span>
                 </button>
               </div>
 
               <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', flexWrap: 'wrap' }}>
                 {isLeading && (
-                  <div className="arena-leader-alert">
-                    <Flame size={16} />
-                    <span>YOUR FRANCHISE IS CURRENTLY WINNING THIS BID!</span>
+                  <div 
+                    className="arena-leader-alert"
+                    style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '0.4rem',
+                      background: 'rgba(0, 168, 59, 0.25)',
+                      border: '1px solid #39ff88',
+                      color: '#39ff88',
+                      fontSize: '0.74rem',
+                      fontWeight: 800,
+                      padding: '0.3rem 0.85rem',
+                      borderRadius: '999px',
+                      boxShadow: '0 0 16px rgba(57, 255, 136, 0.3)',
+                      fontFamily: 'var(--font-display)'
+                    }}
+                  >
+                    <Flame size={15} />
+                    <span>YOUR FRANCHISE CURRENTLY HOLDS TOP BID!</span>
                   </div>
                 )}
                 {lastSoldPlayer && (
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '0.35rem', fontSize: '0.72rem', color: '#9CA3AF', background: 'rgba(255,255,255,0.06)', padding: '0.25rem 0.65rem', borderRadius: '12px' }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '0.35rem', fontSize: '0.72rem', color: '#a3ffd6', background: 'rgba(2, 8, 4, 0.8)', border: '1px solid rgba(57, 255, 136, 0.2)', padding: '0.25rem 0.65rem', borderRadius: '999px', fontFamily: 'var(--font-mono)' }}>
                     <span>LAST SALE:</span>
                     <strong style={{ color: '#FFF' }}>{lastSoldPlayer.name}</strong>
                     <span>➔</span>
-                    <span style={{ color: lastSoldPlayer.team?.primaryColor || '#D4AF37', fontWeight: 800 }}>{lastSoldPlayer.team?.code}</span>
+                    <span style={{ color: lastSoldPlayer.team?.primaryColor || '#39ff88', fontWeight: 800 }}>{lastSoldPlayer.team?.code}</span>
                     <span>({formatPrice(lastSoldPlayer.price)})</span>
                   </div>
                 )}
@@ -192,14 +270,14 @@ export default function BidderDashboard({
                 <div className="arena-player-meta">
                   <div className="arena-player-role-flag">
                     <span className={`role-badge ${currentPlayer.role}`}>{currentPlayer.role}</span>
-                    <span className="arena-country">
+                    <span className="arena-country" style={{ color: '#a3ffd6' }}>
                       {currentPlayer.flag || '🇮🇳'} {currentPlayer.country || 'India'}
                       {currentPlayer.isOverseas && <span title="Overseas Slot"> ✈️</span>}
                     </span>
                   </div>
                   <h2 className="arena-player-name">{currentPlayer.name}</h2>
-                  <div className="arena-base-price">
-                    BASE PRICE: <strong>{formatPrice(currentPlayer.basePrice)}</strong>
+                  <div className="arena-base-price" style={{ fontFamily: 'var(--font-mono)' }}>
+                    BASE PRICE: <strong style={{ color: '#d6c19a' }}>{formatPrice(currentPlayer.basePrice)}</strong>
                   </div>
                 </div>
               </div>
@@ -207,7 +285,7 @@ export default function BidderDashboard({
               {/* Center Column: Current Bid Box */}
               <div className="arena-bid-center">
                 <div className="arena-bid-box">
-                  <span className="arena-bid-title">CURRENT HIGHEST BID</span>
+                  <span className="arena-bid-title" style={{ fontFamily: 'var(--font-display)', color: '#a3ffd6' }}>CURRENT HIGHEST BID</span>
                   <div className="arena-bid-amount">
                     {formatPrice(currentBid)}
                   </div>
@@ -235,7 +313,7 @@ export default function BidderDashboard({
                   <div className="arena-recent-logs">
                     <div className="logs-header">
                       <Activity size={12} />
-                      <span>RECENT BIDS</span>
+                      <span style={{ fontFamily: 'var(--font-display)' }}>RECENT BIDS</span>
                     </div>
                     <div className="logs-items">
                       {recentLogs.map((log, index) => (
@@ -259,7 +337,7 @@ export default function BidderDashboard({
 
               {/* Right Column: Leading Team Showcase Card */}
               <div className={`arena-leading-showcase ${leadingTeam ? 'has-leader' : 'waiting'}`}>
-                <span className="leading-showcase-label">
+                <span className="leading-showcase-label" style={{ fontFamily: 'var(--font-display)', color: '#a3ffd6' }}>
                   {leadingTeam ? 'HOLDING HIGHEST BID' : 'WAITING FOR OPENING BID'}
                 </span>
 
@@ -285,9 +363,9 @@ export default function BidderDashboard({
                   </div>
                 ) : (
                   <div className="awaiting-bid-notice">
-                    <AlertCircle size={24} style={{ color: '#6B7280' }} />
-                    <p>No bids placed yet</p>
-                    <span className="awaiting-sub">Bids placed by franchises will appear here in real-time</span>
+                    <AlertCircle size={24} style={{ color: '#39ff88' }} />
+                    <p style={{ color: '#fff', fontFamily: 'var(--font-display)', fontSize: '0.85rem' }}>No bids placed yet</p>
+                    <span className="awaiting-sub" style={{ color: '#9eb8a8' }}>Bids placed by franchises will appear here in real-time</span>
                   </div>
                 )}
               </div>
@@ -296,14 +374,14 @@ export default function BidderDashboard({
         ) : (
           <section className="bidder-live-arena awaiting-stage">
             <div className="awaiting-stage-card">
-              <Sparkles size={32} className="sparkle-gold" />
+              <Sparkles size={32} style={{ color: '#39ff88' }} />
               <h3>Auction Floor Connected</h3>
               <p>Waiting for the Auctioneer to spotlight the next player on stage.</p>
               <button 
-                type="button"
-                className="bidder-refresh-btn" 
+                type="button" 
+                className="btn-sold" 
                 onClick={handleRefreshClick}
-                style={{ margin: '1rem auto 0 auto' }}
+                style={{ margin: '1rem auto 0 auto', fontSize: '0.9rem', padding: '0.5rem 1.5rem' }}
               >
                 <RotateCw size={15} className={isSpinning ? 'spin-anim' : ''} />
                 <span>{isSpinning ? 'Syncing with Admin...' : 'Check Live Stage'}</span>
@@ -316,7 +394,7 @@ export default function BidderDashboard({
         <section className="purse-cards-grid">
           {/* Card 1: Total Purse */}
           <div className="purse-card total-purse-card">
-            <div className="purse-card-icon" style={{ background: 'rgba(212, 175, 55, 0.15)', color: '#D4AF37' }}>
+            <div className="purse-card-icon" style={{ background: 'rgba(57, 255, 136, 0.15)', color: '#39ff88' }}>
               <Wallet size={24} />
             </div>
             <div className="purse-card-details">
@@ -326,60 +404,78 @@ export default function BidderDashboard({
                 {totalPurse.toFixed(2)}
                 <span className="unit-label">Cr</span>
               </div>
-              <span className="purse-card-subtext">Initial SGC Franchise Purse</span>
+              <span className="purse-card-subtext" style={{ color: '#9eb8a8', fontFamily: 'var(--font-mono)' }}>Official SGC Franchise Purse</span>
             </div>
           </div>
 
           {/* Card 2: Purse Spent */}
           <div className="purse-card spent-purse-card">
-            <div className="purse-card-icon" style={{ background: 'rgba(239, 68, 68, 0.15)', color: '#EF4444' }}>
+            <div className="purse-card-icon" style={{ background: 'rgba(255, 215, 0, 0.15)', color: '#ffd700' }}>
               <TrendingUp size={24} />
             </div>
             <div className="purse-card-details">
               <span className="purse-card-label">Purse Spent</span>
-              <div className="purse-card-value" style={{ color: '#EF4444' }}>
+              <div className="purse-card-value" style={{ color: '#ffd700' }}>
                 <span className="currency-symbol">₹</span>
                 {purseSpent.toFixed(2)}
                 <span className="unit-label">Cr</span>
               </div>
-              <span className="purse-card-subtext">Spent across {acquiredPlayers.length} acquisitions</span>
+              <span className="purse-card-subtext" style={{ color: '#9eb8a8', fontFamily: 'var(--font-mono)' }}>Spent across {acquiredPlayers.length} acquisitions</span>
             </div>
           </div>
 
           {/* Card 3: Purse Remaining */}
           <div className="purse-card remaining-purse-card">
-            <div className="purse-card-icon" style={{ background: 'rgba(16, 185, 129, 0.15)', color: '#10B981' }}>
+            <div className="purse-card-icon" style={{ background: 'rgba(57, 255, 136, 0.15)', color: '#39ff88' }}>
               <CreditCard size={24} />
             </div>
             <div className="purse-card-details">
               <span className="purse-card-label">Purse Remaining</span>
-              <div className="purse-card-value" style={{ color: purseRemaining < 10 ? '#EF4444' : '#10B981' }}>
+              <div className="purse-card-value" style={{ color: purseRemaining < 10 ? '#ef4444' : '#39ff88' }}>
                 <span className="currency-symbol">₹</span>
                 {purseRemaining.toFixed(2)}
                 <span className="unit-label">Cr</span>
               </div>
-              <span className="purse-card-subtext">Available for future bids</span>
+              <span className="purse-card-subtext" style={{ color: '#9eb8a8', fontFamily: 'var(--font-mono)' }}>Available for future bids</span>
             </div>
           </div>
         </section>
 
         {/* SECONDARY STATS & SQUAD COMPOSITION BAR */}
-        <section className="squad-metrics-bar">
-          <div className="metric-chip">
-            <Users size={16} />
-            <span>Squad: <strong>{team.squadCount || 0} / {team.squadMax || 18}</strong></span>
+        <section 
+          className="squad-metrics-bar"
+          style={{
+            background: 'linear-gradient(165deg, rgba(14, 34, 22, 0.9) 0%, rgba(4, 14, 8, 0.95) 100%)',
+            border: '1px solid rgba(57, 255, 136, 0.22)',
+            borderRadius: '16px',
+            padding: '0.85rem 1.25rem'
+          }}
+        >
+          <div className="metric-chip" style={{ color: '#ffffff', fontFamily: 'var(--font-display)', fontSize: '0.82rem' }}>
+            <Users size={16} style={{ color: '#39ff88' }} />
+            <span>Squad: <strong style={{ color: '#39ff88' }}>{team.squadCount || 0} / {team.squadMax || 18}</strong></span>
           </div>
 
-          <div className="metric-chip">
-            <Award size={16} />
-            <span>Overseas: <strong>{team.overseasCount || 0} / {team.overseasMax || 8}</strong></span>
+          <div className="metric-chip" style={{ color: '#ffffff', fontFamily: 'var(--font-display)', fontSize: '0.82rem' }}>
+            <Award size={16} style={{ color: '#38bdf8' }} />
+            <span>Overseas: <strong style={{ color: '#38bdf8' }}>{team.overseasCount || 0} / {team.overseasMax || 8}</strong></span>
           </div>
 
           {/* Role Counts */}
           <div className="role-distribution-group">
             {Object.entries(team.squadRoleCounts || {}).map(([role, count]) => (
-              <span key={role} className="role-pill">
-                {role}: <strong>{count}</strong>
+              <span 
+                key={role} 
+                className="role-pill"
+                style={{
+                  background: 'rgba(2, 8, 4, 0.8)',
+                  border: '1px solid rgba(57, 255, 136, 0.25)',
+                  color: '#e0e6e0',
+                  fontFamily: 'var(--font-mono)',
+                  fontSize: '0.74rem'
+                }}
+              >
+                {role}: <strong style={{ color: '#39ff88' }}>{count}</strong>
               </span>
             ))}
           </div>
@@ -389,19 +485,27 @@ export default function BidderDashboard({
         <section className="acquired-players-section">
           <div className="section-header-row">
             <div className="section-title-group">
-              <UserCheck size={20} style={{ color: '#D4AF37' }} />
-              <h2>Acquired Squad Players ({acquiredPlayers.length})</h2>
+              <UserCheck size={20} style={{ color: '#39ff88' }} />
+              <h2 style={{ fontFamily: 'var(--font-display)', fontSize: '1.2rem', color: '#ffffff' }}>Acquired Squad Players ({acquiredPlayers.length})</h2>
             </div>
 
             {/* Filter & Search Controls */}
             <div className="controls-group">
-              <div className="search-input-wrapper">
+              <div 
+                className="search-input-wrapper"
+                style={{
+                  background: 'rgba(2, 8, 4, 0.8)',
+                  border: '1px solid rgba(57, 255, 136, 0.25)',
+                  color: '#39ff88'
+                }}
+              >
                 <Search size={15} />
                 <input
                   type="text"
                   placeholder="Search player name..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
+                  style={{ color: '#ffffff' }}
                 />
               </div>
 
@@ -409,6 +513,13 @@ export default function BidderDashboard({
                 className="role-select-filter"
                 value={roleFilter}
                 onChange={(e) => setRoleFilter(e.target.value)}
+                style={{
+                  background: 'rgba(2, 8, 4, 0.8)',
+                  border: '1px solid rgba(57, 255, 136, 0.25)',
+                  color: '#ffffff',
+                  fontFamily: 'var(--font-display)',
+                  fontSize: '0.78rem'
+                }}
               >
                 <option value="ALL">All Roles</option>
                 <option value="Batsman">Batsmen</option>
@@ -424,30 +535,37 @@ export default function BidderDashboard({
             <div className="acquired-players-grid">
               {filteredPlayers.map((player, idx) => (
                 <div key={player.id || idx} className="acquired-player-card">
-                  <div className="player-card-badge" style={{ backgroundColor: team.primaryColor, color: team.textColor || '#FFF' }}>
+                  <div className="player-card-badge" style={{ backgroundColor: team.primaryColor, color: team.textColor || '#FFF', boxShadow: `0 0 10px ${team.primaryColor}88` }}>
                     {idx + 1}
                   </div>
                   <div className="player-card-main">
                     <h3 className="player-name">{player.name}</h3>
                     <div className="player-meta-tags">
-                      <span className="meta-tag role-tag">{player.role}</span>
+                      <span className="meta-tag role-tag" style={{ background: 'rgba(57,255,136,0.1)', color: '#39ff88' }}>{player.role}</span>
                       {(player.isOverseas || (player.country && player.country !== 'India')) && (
-                        <span className="meta-tag overseas-tag">✈️ {player.country || 'Overseas'}</span>
+                        <span className="meta-tag overseas-tag" style={{ background: 'rgba(56, 189, 248, 0.15)', color: '#38bdf8' }}>✈️ {player.country || 'Overseas'}</span>
                       )}
                     </div>
                   </div>
                   <div className="player-card-price">
-                    <span className="price-label">Purse Spent</span>
+                    <span className="price-label">Price</span>
                     <span className="price-value">₹ {(player.price || player.bidAmount || 0).toFixed(2)} Cr</span>
                   </div>
                 </div>
               ))}
             </div>
           ) : (
-            <div className="no-acquired-players-box">
-              <AlertCircle size={32} style={{ color: 'var(--text-muted)' }} />
-              <h3>{searchQuery || roleFilter !== 'ALL' ? 'No matching players found' : 'No players acquired yet'}</h3>
-              <p>
+            <div 
+              className="no-acquired-players-box"
+              style={{
+                background: 'linear-gradient(165deg, rgba(14, 34, 22, 0.85) 0%, rgba(4, 14, 8, 0.95) 100%)',
+                border: '1.5px dashed rgba(57, 255, 136, 0.25)',
+                color: '#ffffff'
+              }}
+            >
+              <AlertCircle size={32} style={{ color: '#39ff88' }} />
+              <h3 style={{ fontFamily: 'var(--font-display)', color: '#ffffff' }}>{searchQuery || roleFilter !== 'ALL' ? 'No matching players found' : 'No players acquired yet'}</h3>
+              <p style={{ color: '#9eb8a8', fontFamily: 'var(--font-mono)' }}>
                 {acquiredPlayers.length === 0
                   ? `Players acquired by ${team.name} during the live auction stage will automatically populate here in real-time.`
                   : 'Try clearing your search or role filter.'}

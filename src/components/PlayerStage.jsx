@@ -5,8 +5,8 @@ export default function PlayerStage({ player, status, leadingTeam, currentBid })
   if (!player) {
     return (
       <div className="auction-stage-box">
-        <div style={{ padding: '3rem', textAlign: 'center', color: '#9CA3AF' }}>
-          <h3>No Player Loaded</h3>
+        <div style={{ padding: '3rem', textAlign: 'center', color: '#a3ffd6', fontFamily: 'var(--font-display)' }}>
+          <h3>No Player Loaded in Chamber</h3>
         </div>
       </div>
     );
@@ -23,11 +23,10 @@ export default function PlayerStage({ player, status, leadingTeam, currentBid })
 
   return (
     <div className="auction-stage-box">
-      {/* Background Stadium Spotlight & Gavel Watermark */}
+      {/* Holographic Green Spotlight */}
       <div className="stage-spotlight"></div>
-      <Gavel className="stage-gavel-icon" />
 
-      {/* Sold / Unsold Notification Banner (Only shows when SOLD or UNSOLD) */}
+      {/* Sold / Unsold Notification Banner */}
       {status !== 'LIVE' && (
         <div className={`status-banner ${status}`}>
           <span className={`status-dot ${status.toLowerCase()}`}></span>
@@ -46,7 +45,7 @@ export default function PlayerStage({ player, status, leadingTeam, currentBid })
         </div>
       )}
 
-      {/* Centered Gold-Trimmed Marquee Player Card */}
+      {/* Centered Cyber Marquee Player Card */}
       <div className="marquee-player-card">
         <div className="marquee-card-inner">
           {/* Player Avatar / Photo Card */}
@@ -78,7 +77,7 @@ export default function PlayerStage({ player, status, leadingTeam, currentBid })
           {/* Role & Country Strip */}
           <div className="player-role-country-strip">
             <span className={`role-tag ${player.role}`}>{player.role}</span>
-            <span>|</span>
+            <span style={{ opacity: 0.5 }}>|</span>
             <span>{player.country}</span>
             {player.isOverseas && <span title="Overseas Slot">✈️</span>}
           </div>
@@ -109,7 +108,7 @@ export default function PlayerStage({ player, status, leadingTeam, currentBid })
               style={{ 
                 backgroundColor: leadingTeam.primaryColor,
                 color: leadingTeam.textColor || '#FFFFFF',
-                boxShadow: `0 4px 18px ${leadingTeam.primaryColor}66`,
+                boxShadow: `0 0 22px ${leadingTeam.primaryColor}88`,
                 padding: '0.25rem 1.25rem',
                 borderRadius: '12px',
                 fontFamily: 'var(--font-display)',
@@ -122,7 +121,7 @@ export default function PlayerStage({ player, status, leadingTeam, currentBid })
               {leadingTeam.code}
             </div>
           ) : (
-            <div style={{ color: '#6B7280', fontSize: '0.82rem', marginTop: '0.4rem', fontWeight: 600 }}>
+            <div style={{ color: '#9eb8a8', fontSize: '0.76rem', marginTop: '0.4rem', fontWeight: 700, fontFamily: 'var(--font-mono)', letterSpacing: '0.08em' }}>
               PRESS TEAM KEY TO BID
             </div>
           )}

@@ -42,21 +42,23 @@ export default function IntroScreen({ onStartAuction, onClose }) {
             position: 'absolute',
             top: '1.25rem',
             right: '1.5rem',
-            background: 'rgba(0, 0, 0, 0.55)',
-            border: '1.5px solid rgba(255, 255, 255, 0.25)',
-            color: '#FFFFFF',
-            padding: '0.45rem 0.95rem',
-            borderRadius: '20px',
-            fontFamily: 'var(--font-subdisplay)',
-            fontSize: '0.82rem',
+            background: 'rgba(4, 12, 7, 0.75)',
+            border: '1.5px solid rgba(57, 255, 136, 0.35)',
+            color: '#c8ffea',
+            padding: '0.45rem 1rem',
+            borderRadius: '999px',
+            fontFamily: 'var(--font-display)',
+            fontSize: '0.76rem',
             fontWeight: 800,
+            letterSpacing: '0.08em',
             cursor: 'pointer',
             zIndex: 100,
-            backdropFilter: 'blur(10px)',
-            boxShadow: '0 4px 15px rgba(0,0,0,0.3)',
+            backdropFilter: 'blur(12px)',
+            boxShadow: '0 4px 18px rgba(0,0,0,0.7)',
             display: 'flex',
             alignItems: 'center',
-            gap: '0.35rem'
+            gap: '0.4rem',
+            transition: 'all 0.2s ease'
           }}
           title="Dismiss Intro and Return to Stage"
         >
@@ -65,42 +67,63 @@ export default function IntroScreen({ onStartAuction, onClose }) {
       )}
 
       {countdown === null ? (
-        /* --- FULL SCREEN MINIMAL INTRO --- */
+        /* --- FULL SCREEN DOOM DAYS INTRO --- */
         <div className="intro-fullscreen-content">
-          <div className="brand-header-group" style={{ marginBottom: '0.8rem' }}>
-            <div className="sgc-logo-badge" style={{ width: '48px', height: '48px', fontSize: '1.1rem' }}>
-              SGC
+          {/* Doctor Doom Character Sticker Badge */}
+          <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '0.2rem' }}>
+            <div 
+              style={{
+                width: '90px',
+                height: '90px',
+                borderRadius: '50%',
+                background: 'radial-gradient(circle, rgba(57, 255, 136, 0.25) 0%, rgba(0, 168, 59, 0.05) 70%, transparent 100%)',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                border: '2px solid rgba(57, 255, 136, 0.45)',
+                boxShadow: '0 0 35px rgba(57, 255, 136, 0.35)',
+                padding: '6px'
+              }}
+            >
+              <img 
+                src="/sticker_bidding_doctordoom.png" 
+                alt="Doctor Doom - Doomsday Auction" 
+                style={{ width: '100%', height: '100%', objectFit: 'contain', filter: 'drop-shadow(0 0 10px rgba(57, 255, 136, 0.6))' }}
+                onError={(e) => { e.target.style.display = 'none'; }}
+              />
             </div>
-            <div className="brand-text">
-              <span className="brand-script" style={{ fontSize: '4.2rem' }}>
-                Revibe <span>'26</span>
-              </span>
-            </div>
+          </div>
+
+          <div className="brand-header-group">
+            <span className="brand-script" style={{ fontSize: '2.4rem', letterSpacing: '0.1em' }}>
+              ELOQUENCE <span style={{ color: '#39ff88' }}>'26</span>
+            </span>
           </div>
 
           <div className="intro-badge">
-            <Trophy size={16} /> IPL MEGA AUCTION 2026
+            <Trophy size={16} /> THE COUNTDOWN BEGINS • DOOMSDAY AUCTION
           </div>
 
           <h1 className="intro-minimal-heading">
-            FIGHT FOR YOUR <span className="crimson-gold-text">DREAM TEAM</span>
+            SURVIVE THE <span className="crimson-gold-text">BIDDING WAR</span>
           </h1>
 
           <p className="intro-minimal-subtext">
-            10 Franchises • ₹80 Crore Purse • 160+ Star Cricketers
+            Where ideas collide, skills survive, and legends emerge.<br/>
+            <span style={{ color: '#ffffff', fontWeight: 700 }}>10 Franchises • ₹80 Crore Purse • 160+ Star Cricketers</span>
           </p>
 
-          <button className="intro-start-btn" onClick={handleStartClick} style={{ marginTop: '1.8rem' }}>
-            <Play size={22} fill="currentColor" />
+          <button className="intro-start-btn" onClick={handleStartClick} style={{ marginTop: '1.2rem' }}>
+            <Play size={20} fill="currentColor" />
             <span>START AUCTION</span>
           </button>
         </div>
       ) : (
-        /* --- FULL SCREEN MINIMAL 10-SECOND COUNTDOWN --- */
+        /* --- FULL SCREEN 10-SECOND DOOMSDAY COUNTDOWN --- */
         <div className="intro-fullscreen-content">
-          <div className="brand-header-group" style={{ marginBottom: '0.5rem' }}>
-            <span className="brand-script" style={{ fontSize: '3.2rem' }}>
-              Revibe <span>'26</span>
+          <div className="brand-header-group" style={{ marginBottom: '0.2rem' }}>
+            <span className="brand-script" style={{ fontSize: '2.2rem' }}>
+              ELOQUENCE <span style={{ color: '#39ff88' }}>'26</span>
             </span>
           </div>
 
@@ -124,7 +147,7 @@ export default function IntroScreen({ onStartAuction, onClose }) {
           </div>
 
           <p className="countdown-footer-text">
-            {countdown > 0 ? 'Auction starting in...' : 'Launching Auction Stage!'}
+            {countdown > 0 ? 'Prepare your bids. Doomsday begins in...' : 'Launching Auction Arena!'}
           </p>
         </div>
       )}

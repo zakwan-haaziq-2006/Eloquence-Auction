@@ -42,8 +42,40 @@ export default function Header({
 
   return (
     <header className="header-bar" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', zIndex: 1000, position: 'relative' }}>
-      {/* Admin Role Badge Indicator */}
-      <div style={{ flex: 1, display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+      {/* Brand & Admin Indicator */}
+      <div style={{ flex: 1, display: 'flex', alignItems: 'center', gap: '0.65rem' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', cursor: 'pointer' }} onClick={() => handleTabSelect('bidding')}>
+          <div 
+            style={{ 
+              width: 32, 
+              height: 32, 
+              borderRadius: '8px', 
+              background: 'linear-gradient(135deg, #00a83b 0%, #063b1c 100%)', 
+              border: '1.5px solid #39ff88',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              boxShadow: '0 0 12px rgba(57, 255, 136, 0.45)',
+              overflow: 'hidden'
+            }}
+          >
+            <img 
+              src="/sticker_bidding_doctordoom.png" 
+              alt="Eloquence 26" 
+              style={{ width: '90%', height: '90%', objectFit: 'contain' }}
+              onError={(e) => { e.target.style.display = 'none'; }}
+            />
+          </div>
+          <div style={{ display: 'flex', flexDirection: 'column', lineHeight: 1 }}>
+            <span style={{ fontFamily: 'var(--font-display)', fontSize: '0.92rem', fontWeight: 900, color: '#FFFFFF', letterSpacing: '0.08em', textShadow: '0 0 10px rgba(57, 255, 136, 0.4)' }}>
+              ELOQUENCE <span style={{ color: '#39ff88' }}>'26</span>
+            </span>
+            <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.58rem', color: '#a3ffd6', letterSpacing: '0.15em', textTransform: 'uppercase', marginTop: '2px' }}>
+              DOOMSDAY AUCTION
+            </span>
+          </div>
+        </div>
+
         {onLogout && (
           <button
             onClick={onLogout}
@@ -51,33 +83,34 @@ export default function Header({
               display: 'flex',
               alignItems: 'center',
               gap: '0.35rem',
-              padding: '0.4rem 0.75rem',
-              borderRadius: '10px',
-              border: '1px solid rgba(0,0,0,0.15)',
-              background: 'rgba(255, 255, 255, 0.85)',
-              backdropFilter: 'blur(10px)',
-              color: '#EF4444',
-              fontFamily: 'var(--font-subdisplay)',
-              fontSize: '0.8rem',
+              padding: '0.35rem 0.65rem',
+              borderRadius: '999px',
+              border: '1px solid rgba(239, 68, 68, 0.4)',
+              background: 'rgba(239, 68, 68, 0.1)',
+              color: '#f87171',
+              fontFamily: 'var(--font-display)',
+              fontSize: '0.7rem',
               fontWeight: 800,
               cursor: 'pointer',
-              boxShadow: '0 2px 8px rgba(0,0,0,0.05)'
+              boxShadow: '0 2px 8px rgba(0,0,0,0.4)',
+              transition: 'all 0.2s ease',
+              marginLeft: '0.5rem'
             }}
             title="Log out of Admin console"
           >
-            <LogOut size={14} />
+            <LogOut size={12} />
             <span>LOGOUT</span>
           </button>
         )}
       </div>
 
       {/* Set indicator tag in center */}
-      <div className="header-set-tag" style={{ fontSize: '0.8rem', fontFamily: 'var(--font-subdisplay)', letterSpacing: '1px', color: 'var(--primary-red)', fontWeight: 700, background: 'rgba(255, 255, 255, 0.85)', backdropFilter: 'blur(10px)', padding: '0.35rem 1rem', borderRadius: '20px', border: '1px solid rgba(230, 43, 52, 0.2)', boxShadow: '0 4px 15px rgba(0,0,0,0.06)' }}>
+      <div className="header-set-tag">
         {currentSet || 'SET 1 — MARQUEE PLAYERS'}
       </div>
 
       {/* Right Controls + Expandable Toggle Bar Button */}
-      <div className="header-controls" style={{ flex: 1, display: 'flex', justifyContent: 'flex-end', alignItems: 'center', gap: '0.5rem', position: 'relative' }}>
+      <div className="header-controls" style={{ flex: 1, display: 'flex', justifyContent: 'flex-end', alignItems: 'center', gap: '0.45rem', position: 'relative' }}>
         {onOpenIntro && (
           <button
             onClick={onOpenIntro}
@@ -85,23 +118,24 @@ export default function Header({
               display: 'flex',
               alignItems: 'center',
               gap: '0.4rem',
-              padding: '0.45rem 0.85rem',
-              borderRadius: '12px',
-              border: '1.5px solid #D4AF37',
-              background: 'linear-gradient(135deg, rgba(212, 175, 55, 0.18) 0%, rgba(212, 175, 55, 0.08) 100%)',
+              padding: '0.4rem 0.8rem',
+              borderRadius: '999px',
+              border: '1px solid rgba(214, 193, 154, 0.45)',
+              background: 'linear-gradient(135deg, rgba(214, 193, 154, 0.18) 0%, rgba(6, 18, 11, 0.7) 100%)',
               backdropFilter: 'blur(10px)',
-              color: '#B48A18',
-              fontFamily: 'var(--font-subdisplay)',
-              fontSize: '0.82rem',
+              color: '#d6c19a',
+              fontFamily: 'var(--font-display)',
+              fontSize: '0.74rem',
               fontWeight: 800,
               cursor: 'pointer',
-              letterSpacing: '0.5px',
-              boxShadow: '0 4px 12px rgba(212, 175, 55, 0.18)'
+              letterSpacing: '0.06em',
+              boxShadow: '0 2px 10px rgba(0,0,0,0.5)',
+              transition: 'all 0.2s ease'
             }}
             title="Play 10-Second Countdown & Intro Animation"
           >
-            <Play size={14} fill="currentColor" />
-            <span>REPLAY INTRO</span>
+            <Play size={13} fill="currentColor" />
+            <span>INTRO</span>
           </button>
         )}
 
@@ -111,22 +145,23 @@ export default function Header({
             display: 'flex',
             alignItems: 'center',
             gap: '0.4rem',
-            padding: '0.45rem 0.85rem',
-            borderRadius: '12px',
-            border: '1.5px solid var(--primary-red)',
-            background: 'rgba(255, 255, 255, 0.85)',
+            padding: '0.4rem 0.8rem',
+            borderRadius: '999px',
+            border: '1px solid rgba(57, 255, 136, 0.45)',
+            background: 'linear-gradient(135deg, rgba(0, 168, 59, 0.25) 0%, rgba(6, 18, 11, 0.75) 100%)',
             backdropFilter: 'blur(10px)',
-            color: 'var(--primary-red)',
-            fontFamily: 'var(--font-subdisplay)',
-            fontSize: '0.82rem',
+            color: '#39ff88',
+            fontFamily: 'var(--font-display)',
+            fontSize: '0.74rem',
             fontWeight: 800,
             cursor: 'pointer',
-            letterSpacing: '0.5px',
-            boxShadow: '0 4px 12px rgba(0,0,0,0.06)'
+            letterSpacing: '0.06em',
+            boxShadow: '0 2px 10px rgba(0,0,0,0.5)',
+            transition: 'all 0.2s ease'
           }}
           title="View Official SGC Auction Rules"
         >
-          <BookOpen size={15} />
+          <BookOpen size={13} />
           <span>RULES</span>
         </button>
 
@@ -134,36 +169,32 @@ export default function Header({
           className="icon-btn" 
           onClick={toggleSound} 
           title={soundEnabled ? "Mute Audio FX" : "Enable Audio FX"}
-          style={{ background: 'rgba(255,255,255,0.85)', backdropFilter: 'blur(10px)' }}
         >
-          {soundEnabled ? <Volume2 size={18} /> : <VolumeX size={18} />}
+          {soundEnabled ? <Volume2 size={16} /> : <VolumeX size={16} />}
         </button>
 
         <button 
           className="icon-btn" 
           onClick={toggleFullscreen} 
           title="Toggle Fullscreen Mode"
-          style={{ background: 'rgba(255,255,255,0.85)', backdropFilter: 'blur(10px)' }}
         >
-          <Maximize size={18} />
+          <Maximize size={16} />
         </button>
 
         <button 
           className="icon-btn" 
           onClick={onOpenHelp} 
           title="Keyboard Hotkey Guide (?)"
-          style={{ background: 'rgba(255,255,255,0.85)', backdropFilter: 'blur(10px)' }}
         >
-          <HelpCircle size={18} />
+          <HelpCircle size={16} />
         </button>
 
         <button 
           className="icon-btn" 
           onClick={onResetData} 
           title="Reset Auction Demo Data"
-          style={{ background: 'rgba(255,255,255,0.85)', backdropFilter: 'blur(10px)' }}
         >
-          <RefreshCw size={18} />
+          <RefreshCw size={16} />
         </button>
 
         {/* Right Side Expandable Toggle Menu Button */}
@@ -171,39 +202,38 @@ export default function Header({
           className="icon-btn"
           onClick={() => setMenuOpen((prev) => !prev)}
           style={{
-            background: menuOpen ? 'var(--primary-red)' : 'rgba(255, 255, 255, 0.92)',
-            backdropFilter: 'blur(10px)',
-            color: menuOpen ? '#FFFFFF' : 'var(--primary-red)',
-            borderColor: 'var(--primary-red)',
-            boxShadow: '0 4px 15px rgba(230, 43, 52, 0.3)',
-            width: 40,
-            height: 40,
-            borderRadius: '12px'
+            background: menuOpen ? 'linear-gradient(135deg, #00a83b, #063b1c)' : 'rgba(8, 24, 15, 0.85)',
+            color: menuOpen ? '#FFFFFF' : '#39ff88',
+            borderColor: '#39ff88',
+            boxShadow: menuOpen ? '0 0 16px rgba(57, 255, 136, 0.6)' : 'none',
+            width: 36,
+            height: 36,
+            borderRadius: '10px'
           }}
           title="Expand Navigation Menu"
         >
-          {menuOpen ? <X size={20} /> : <Menu size={20} />}
+          {menuOpen ? <X size={18} /> : <Menu size={18} />}
         </button>
 
-        {/* Floating Expandable Dropdown Drawer */}
+        {/* Floating Expandable Dropdown Drawer (Cyber Style) */}
         {menuOpen && (
           <div 
             style={{
               position: 'absolute',
-              top: '50px',
+              top: '46px',
               right: 0,
-              background: 'rgba(255, 255, 255, 0.96)',
-              backdropFilter: 'blur(15px)',
-              WebkitBackdropFilter: 'blur(15px)',
+              background: 'rgba(4, 12, 7, 0.95)',
+              backdropFilter: 'blur(20px)',
+              WebkitBackdropFilter: 'blur(20px)',
               borderRadius: '18px',
-              boxShadow: '0 12px 35px rgba(0,0,0,0.22)',
-              border: '2px solid rgba(230, 43, 52, 0.25)',
+              boxShadow: '0 16px 40px rgba(0, 0, 0, 0.95), 0 0 25px rgba(0, 168, 59, 0.25)',
+              border: '1.5px solid rgba(57, 255, 136, 0.35)',
               padding: '0.65rem',
               display: 'flex',
               flexDirection: 'column',
               gap: '0.4rem',
               zIndex: 9999,
-              minWidth: '220px'
+              minWidth: '230px'
             }}
           >
             <button
@@ -212,20 +242,21 @@ export default function Header({
                 display: 'flex',
                 alignItems: 'center',
                 gap: '0.65rem',
-                padding: '0.65rem 0.95rem',
-                borderRadius: '12px',
-                border: 'none',
-                background: activeTab === 'bidding' ? 'var(--primary-red)' : 'rgba(0,0,0,0.03)',
-                color: activeTab === 'bidding' ? '#FFFFFF' : '#111111',
-                fontFamily: 'var(--font-subdisplay)',
-                fontSize: '0.9rem',
+                padding: '0.6rem 0.95rem',
+                borderRadius: '10px',
+                border: activeTab === 'bidding' ? '1px solid #39ff88' : '1px solid transparent',
+                background: activeTab === 'bidding' ? 'linear-gradient(135deg, rgba(0, 168, 59, 0.4) 0%, rgba(6, 43, 24, 0.7) 100%)' : 'rgba(255, 255, 255, 0.04)',
+                color: activeTab === 'bidding' ? '#39ff88' : '#e0e6e0',
+                fontFamily: 'var(--font-display)',
+                fontSize: '0.78rem',
                 fontWeight: 800,
+                letterSpacing: '0.06em',
                 cursor: 'pointer',
                 textAlign: 'left',
-                transition: 'all 0.15s ease'
+                transition: 'all 0.2s ease'
               }}
             >
-              <Gavel size={17} />
+              <Gavel size={15} />
               <span>BIDDING CONSOLE</span>
             </button>
 
@@ -235,20 +266,21 @@ export default function Header({
                 display: 'flex',
                 alignItems: 'center',
                 gap: '0.65rem',
-                padding: '0.65rem 0.95rem',
-                borderRadius: '12px',
-                border: 'none',
-                background: activeTab === 'teams' ? 'var(--primary-red)' : 'rgba(0,0,0,0.03)',
-                color: activeTab === 'teams' ? '#FFFFFF' : '#111111',
-                fontFamily: 'var(--font-subdisplay)',
-                fontSize: '0.9rem',
+                padding: '0.6rem 0.95rem',
+                borderRadius: '10px',
+                border: activeTab === 'teams' ? '1px solid #39ff88' : '1px solid transparent',
+                background: activeTab === 'teams' ? 'linear-gradient(135deg, rgba(0, 168, 59, 0.4) 0%, rgba(6, 43, 24, 0.7) 100%)' : 'rgba(255, 255, 255, 0.04)',
+                color: activeTab === 'teams' ? '#39ff88' : '#e0e6e0',
+                fontFamily: 'var(--font-display)',
+                fontSize: '0.78rem',
                 fontWeight: 800,
+                letterSpacing: '0.06em',
                 cursor: 'pointer',
                 textAlign: 'left',
-                transition: 'all 0.15s ease'
+                transition: 'all 0.2s ease'
               }}
             >
-              <Shield size={17} />
+              <Shield size={15} />
               <span>LIVE TEAM OVERVIEW</span>
             </button>
 
@@ -258,24 +290,25 @@ export default function Header({
                 display: 'flex',
                 alignItems: 'center',
                 gap: '0.65rem',
-                padding: '0.65rem 0.95rem',
-                borderRadius: '12px',
-                border: 'none',
-                background: activeTab === 'queue' ? 'var(--primary-red)' : 'rgba(0,0,0,0.03)',
-                color: activeTab === 'queue' ? '#FFFFFF' : '#111111',
-                fontFamily: 'var(--font-subdisplay)',
-                fontSize: '0.9rem',
+                padding: '0.6rem 0.95rem',
+                borderRadius: '10px',
+                border: activeTab === 'queue' ? '1px solid #39ff88' : '1px solid transparent',
+                background: activeTab === 'queue' ? 'linear-gradient(135deg, rgba(0, 168, 59, 0.4) 0%, rgba(6, 43, 24, 0.7) 100%)' : 'rgba(255, 255, 255, 0.04)',
+                color: activeTab === 'queue' ? '#39ff88' : '#e0e6e0',
+                fontFamily: 'var(--font-display)',
+                fontSize: '0.78rem',
                 fontWeight: 800,
+                letterSpacing: '0.06em',
                 cursor: 'pointer',
                 textAlign: 'left',
-                transition: 'all 0.15s ease'
+                transition: 'all 0.2s ease'
               }}
             >
-              <Users size={17} />
+              <Users size={15} />
               <span>AUCTION QUEUE</span>
             </button>
 
-            <div style={{ height: '1px', background: 'rgba(0,0,0,0.08)', margin: '0.2rem 0' }} />
+            <div style={{ height: '1px', background: 'rgba(57, 255, 136, 0.15)', margin: '0.2rem 0' }} />
 
             <button
               onClick={() => {
@@ -286,20 +319,21 @@ export default function Header({
                 display: 'flex',
                 alignItems: 'center',
                 gap: '0.65rem',
-                padding: '0.65rem 0.95rem',
-                borderRadius: '12px',
+                padding: '0.6rem 0.95rem',
+                borderRadius: '10px',
                 border: 'none',
-                background: 'rgba(230, 43, 52, 0.08)',
-                color: 'var(--primary-red)',
-                fontFamily: 'var(--font-subdisplay)',
-                fontSize: '0.9rem',
+                background: 'rgba(57, 255, 136, 0.08)',
+                color: '#39ff88',
+                fontFamily: 'var(--font-display)',
+                fontSize: '0.78rem',
                 fontWeight: 800,
+                letterSpacing: '0.06em',
                 cursor: 'pointer',
                 textAlign: 'left'
               }}
             >
-              <BookOpen size={17} />
-              <span>SGC AUCTION RULES</span>
+              <BookOpen size={15} />
+              <span>AUCTION RULES</span>
             </button>
 
             {onLogout && (
@@ -312,19 +346,20 @@ export default function Header({
                   display: 'flex',
                   alignItems: 'center',
                   gap: '0.65rem',
-                  padding: '0.65rem 0.95rem',
-                  borderRadius: '12px',
+                  padding: '0.6rem 0.95rem',
+                  borderRadius: '10px',
                   border: 'none',
-                  background: 'rgba(239, 68, 68, 0.1)',
-                  color: '#EF4444',
-                  fontFamily: 'var(--font-subdisplay)',
-                  fontSize: '0.9rem',
+                  background: 'rgba(239, 68, 68, 0.12)',
+                  color: '#f87171',
+                  fontFamily: 'var(--font-display)',
+                  fontSize: '0.78rem',
                   fontWeight: 800,
+                  letterSpacing: '0.06em',
                   cursor: 'pointer',
                   textAlign: 'left'
                 }}
               >
-                <LogOut size={17} />
+                <LogOut size={15} />
                 <span>LOGOUT ADMIN</span>
               </button>
             )}

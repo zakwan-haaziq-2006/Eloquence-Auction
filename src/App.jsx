@@ -288,7 +288,7 @@ export default function App() {
       particleCount: 120,
       spread: 80,
       origin: { y: 0.6 },
-      colors: [leadingTeam.primaryColor, '#D4AF37', '#E62B34', '#FFFFFF']
+      colors: [leadingTeam.primaryColor, '#39ff88', '#00a83b', '#ffd700', '#FFFFFF']
     });
 
     setTeams((prevTeams) =>

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Users, Check, X, Play, Filter, Sparkles, Award } from 'lucide-react';
+import { Users, Check, X, Play } from 'lucide-react';
 
 export default function UpcomingQueue({ 
   players, 
@@ -18,52 +18,53 @@ export default function UpcomingQueue({
   const remainingCount = players.length - soldCount - unsoldCount;
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem', padding: '0.5rem', width: '100%' }}>
+    <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem', padding: '0.5rem', width: '100%', overflowY: 'auto', height: '100%' }}>
       {/* Top Header Summary & Role Filter Bar */}
       <div 
         style={{ 
-          background: 'rgba(255, 255, 255, 0.92)', 
-          backdropFilter: 'blur(12px)',
-          WebkitBackdropFilter: 'blur(12px)',
-          borderRadius: '18px', 
-          border: '1.5px solid rgba(230, 43, 52, 0.2)', 
-          padding: '1rem 1.25rem',
+          background: 'linear-gradient(165deg, rgba(14, 34, 22, 0.92) 0%, rgba(4, 14, 8, 0.96) 100%)', 
+          backdropFilter: 'blur(16px)',
+          WebkitBackdropFilter: 'blur(16px)',
+          borderRadius: '16px', 
+          border: '1px solid rgba(57, 255, 136, 0.28)', 
+          padding: '0.9rem 1.25rem',
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'space-between',
-          boxShadow: '0 8px 25px rgba(0,0,0,0.06)'
+          boxShadow: '0 8px 25px rgba(0, 0, 0, 0.75)'
         }}
       >
         <div style={{ display: 'flex', alignItems: 'center', gap: '0.85rem' }}>
-          <div style={{ background: 'var(--primary-red)', color: '#FFFFFF', padding: '0.55rem', borderRadius: '12px', display: 'flex' }}>
-            <Users size={22} />
+          <div style={{ background: 'linear-gradient(135deg, #00a83b, #063b1c)', border: '1.5px solid #39ff88', color: '#FFFFFF', padding: '0.5rem', borderRadius: '10px', display: 'flex', boxShadow: '0 0 12px rgba(57, 255, 136, 0.4)' }}>
+            <Users size={20} />
           </div>
           <div>
-            <h3 style={{ fontFamily: 'var(--font-subdisplay)', fontSize: '1.2rem', margin: 0, color: '#111111' }}>
-              IPL AUCTION PLAYER QUEUE & SET DIRECTORY
+            <h3 style={{ fontFamily: 'var(--font-display)', fontSize: '1.1rem', margin: 0, color: '#ffffff' }}>
+              ELOQUENCE '26 AUCTION ROSTER & QUEUE
             </h3>
-            <span style={{ fontSize: '0.78rem', color: 'var(--text-muted)' }}>
+            <span style={{ fontSize: '0.74rem', color: '#9eb8a8', fontFamily: 'var(--font-mono)' }}>
               Total: {players.length} Players • Remaining: {remainingCount} • Sold: {soldCount} • Unsold: {unsoldCount}
             </span>
           </div>
         </div>
 
-        {/* Role Filter Tabs (Exact Sequence: Batsmen -> Wicketkeepers -> All-Rounders -> Bowlers) */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', background: 'var(--bg-surface-secondary)', padding: '0.3rem', borderRadius: '14px' }}>
+        {/* Role Filter Tabs */}
+        <div style={{ display: 'flex', alignItems: 'center', gap: '0.35rem', background: 'rgba(2, 8, 4, 0.8)', padding: '0.25rem', borderRadius: '12px', border: '1px solid rgba(57, 255, 136, 0.2)' }}>
           {['ALL', 'Batsman', 'Wicketkeeper', 'All-Rounder', 'Bowler'].map((role) => (
             <button
               key={role}
               onClick={() => setRoleFilter(role)}
               style={{
-                padding: '0.35rem 0.8rem',
-                borderRadius: '10px',
-                border: 'none',
-                fontSize: '0.78rem',
-                fontWeight: 700,
-                fontFamily: 'var(--font-subdisplay)',
+                padding: '0.3rem 0.75rem',
+                borderRadius: '8px',
+                border: roleFilter === role ? '1px solid #39ff88' : '1px solid transparent',
+                fontSize: '0.74rem',
+                fontWeight: 800,
+                fontFamily: 'var(--font-display)',
                 cursor: 'pointer',
-                background: roleFilter === role ? 'var(--primary-red)' : 'transparent',
-                color: roleFilter === role ? '#FFFFFF' : 'var(--text-dark)',
+                background: roleFilter === role ? 'linear-gradient(135deg, #00a83b, #063b1c)' : 'transparent',
+                color: roleFilter === role ? '#FFFFFF' : '#c8c8c8',
+                boxShadow: roleFilter === role ? '0 0 10px rgba(57, 255, 136, 0.4)' : 'none',
                 transition: 'all 0.15s ease'
               }}
             >
@@ -85,18 +86,18 @@ export default function UpcomingQueue({
               onClick={() => onSelectPlayer(player)}
               style={{
                 background: isCurrent 
-                  ? 'rgba(255, 255, 255, 0.98)' 
-                  : 'rgba(255, 255, 255, 0.92)',
+                  ? 'linear-gradient(165deg, rgba(16, 42, 28, 0.95) 0%, rgba(4, 16, 9, 0.98) 100%)' 
+                  : 'linear-gradient(165deg, rgba(10, 26, 17, 0.88) 0%, rgba(2, 8, 4, 0.95) 100%)',
                 backdropFilter: 'blur(10px)',
                 WebkitBackdropFilter: 'blur(10px)',
-                borderRadius: '18px',
+                borderRadius: '16px',
                 border: isCurrent 
-                  ? '2.5px solid var(--primary-red)' 
-                  : '1.5px solid rgba(230, 43, 52, 0.18)',
-                padding: '1rem 1.15rem',
+                  ? '2px solid #39ff88' 
+                  : '1px solid rgba(57, 255, 136, 0.22)',
+                padding: '1rem',
                 boxShadow: isCurrent 
-                  ? '0 10px 30px rgba(230, 43, 52, 0.25)' 
-                  : '0 6px 20px rgba(0, 0, 0, 0.05)',
+                  ? '0 10px 30px rgba(0, 0, 0, 0.9), 0 0 20px rgba(57, 255, 136, 0.35)' 
+                  : '0 6px 20px rgba(0, 0, 0, 0.6)',
                 cursor: 'pointer',
                 transition: 'all 0.2s ease',
                 display: 'flex',
@@ -107,25 +108,25 @@ export default function UpcomingQueue({
             >
               {/* Card Header: Set Name & Status Badge */}
               <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                <span style={{ fontSize: '0.68rem', fontWeight: 800, fontFamily: 'var(--font-subdisplay)', color: 'var(--primary-red)', letterSpacing: '0.5px' }}>
+                <span style={{ fontSize: '0.68rem', fontWeight: 800, fontFamily: 'var(--font-display)', color: '#39ff88', letterSpacing: '0.08em' }}>
                   #{idx + 1} • {player.set || 'SET 1'}
                 </span>
 
                 {isCurrent && (
-                  <span style={{ background: 'var(--primary-red)', color: '#FFFFFF', fontSize: '0.65rem', fontWeight: 800, padding: '0.2rem 0.6rem', borderRadius: '12px', display: 'flex', alignItems: 'center', gap: '0.3rem' }}>
-                    <Play size={10} fill="#FFFFFF" /> ON STAGE
+                  <span style={{ background: 'linear-gradient(135deg, #00a83b, #063b1c)', border: '1px solid #39ff88', color: '#FFFFFF', fontSize: '0.62rem', fontWeight: 800, padding: '0.2rem 0.55rem', borderRadius: '999px', display: 'flex', alignItems: 'center', gap: '0.3rem', fontFamily: 'var(--font-display)', boxShadow: '0 0 8px rgba(57, 255, 136, 0.5)' }}>
+                    <Play size={9} fill="#FFFFFF" /> ON STAGE
                   </span>
                 )}
 
                 {completedState === 'SOLD' && (
-                  <span style={{ background: '#10B981', color: '#FFFFFF', fontSize: '0.65rem', fontWeight: 800, padding: '0.2rem 0.6rem', borderRadius: '12px', display: 'flex', alignItems: 'center', gap: '0.2rem' }}>
-                    <Check size={12} /> SOLD
+                  <span style={{ background: 'rgba(0, 168, 59, 0.25)', border: '1px solid #39ff88', color: '#39ff88', fontSize: '0.62rem', fontWeight: 800, padding: '0.2rem 0.55rem', borderRadius: '999px', display: 'flex', alignItems: 'center', gap: '0.2rem', fontFamily: 'var(--font-display)' }}>
+                    <Check size={11} /> SOLD
                   </span>
                 )}
 
                 {completedState === 'UNSOLD' && (
-                  <span style={{ background: '#EF4444', color: '#FFFFFF', fontSize: '0.65rem', fontWeight: 800, padding: '0.2rem 0.6rem', borderRadius: '12px', display: 'flex', alignItems: 'center', gap: '0.2rem' }}>
-                    <X size={12} /> UNSOLD
+                  <span style={{ background: 'rgba(239, 68, 68, 0.2)', border: '1px solid #ef4444', color: '#f87171', fontSize: '0.62rem', fontWeight: 800, padding: '0.2rem 0.55rem', borderRadius: '999px', display: 'flex', alignItems: 'center', gap: '0.2rem', fontFamily: 'var(--font-display)' }}>
+                    <X size={11} /> UNSOLD
                   </span>
                 )}
               </div>
@@ -134,16 +135,17 @@ export default function UpcomingQueue({
               <div style={{ display: 'flex', alignItems: 'center', gap: '0.85rem' }}>
                 <div 
                   style={{
-                    width: 54,
-                    height: 54,
-                    borderRadius: '12px',
-                    border: '2px solid var(--primary-red)',
+                    width: 52,
+                    height: 52,
+                    borderRadius: '10px',
+                    border: '1.5px solid rgba(57, 255, 136, 0.4)',
                     overflow: 'hidden',
                     flexShrink: 0,
-                    background: 'rgba(230, 43, 52, 0.08)',
+                    background: 'rgba(2, 8, 4, 0.9)',
                     display: 'flex',
                     alignItems: 'center',
-                    justifyContent: 'center'
+                    justifyContent: 'center',
+                    boxShadow: '0 0 10px rgba(57, 255, 136, 0.2)'
                   }}
                 >
                   {(player.photoUrl || player.image) ? (
@@ -153,28 +155,28 @@ export default function UpcomingQueue({
                       style={{ width: '100%', height: '100%', objectFit: 'cover' }}
                     />
                   ) : (
-                    <Users size={28} style={{ color: 'var(--primary-red)' }} />
+                    <Users size={26} style={{ color: '#39ff88' }} />
                   )}
                 </div>
 
                 <div>
-                  <h4 style={{ fontFamily: 'var(--font-display)', fontSize: '1.4rem', margin: 0, color: '#111111', lineHeight: 1 }}>
+                  <h4 style={{ fontFamily: 'var(--font-display)', fontSize: '1.15rem', margin: 0, color: '#ffffff', lineHeight: 1.15 }}>
                     {player.name}
                   </h4>
                   <div style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', marginTop: '0.25rem' }}>
                     <span className={`role-tag ${player.role}`}>{player.role}</span>
-                    <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>• {player.country} {player.flag}</span>
+                    <span style={{ fontSize: '0.72rem', color: '#9eb8a8', fontFamily: 'var(--font-mono)' }}>• {player.country} {player.flag}</span>
                   </div>
                 </div>
               </div>
 
               {/* Base Price & Stats Preview */}
-              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', background: 'var(--bg-surface-secondary)', padding: '0.45rem 0.75rem', borderRadius: '10px', marginTop: '0.2rem' }}>
-                <span style={{ fontSize: '0.72rem', color: 'var(--text-muted)', fontWeight: 600 }}>
-                  BASE PRICE: <strong style={{ color: '#111111' }}>₹ {player.basePrice.toFixed(2)} CR</strong>
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', background: 'rgba(2, 8, 4, 0.7)', border: '1px solid rgba(57, 255, 136, 0.15)', padding: '0.4rem 0.75rem', borderRadius: '10px', marginTop: '0.2rem' }}>
+                <span style={{ fontSize: '0.7rem', color: '#9eb8a8', fontFamily: 'var(--font-mono)' }}>
+                  BASE: <strong style={{ color: '#c8ffea', fontFamily: 'var(--font-display)' }}>₹ {player.basePrice.toFixed(2)} CR</strong>
                 </span>
 
-                <span style={{ fontSize: '0.72rem', color: 'var(--primary-red)', fontWeight: 700 }}>
+                <span style={{ fontSize: '0.68rem', color: '#39ff88', fontWeight: 800, fontFamily: 'var(--font-display)' }}>
                   CLICK TO LOAD →
                 </span>
               </div>

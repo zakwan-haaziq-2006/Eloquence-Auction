@@ -1,5 +1,5 @@
 import React from 'react';
-import { Shield, DollarSign, Users, Award, ExternalLink, TrendingUp, PieChart } from 'lucide-react';
+import { Shield, DollarSign, Users, ExternalLink, TrendingUp, PieChart } from 'lucide-react';
 
 export default function SidebarTeams({ teams, onInspectTeam }) {
   // Aggregate overall auction stats
@@ -10,65 +10,65 @@ export default function SidebarTeams({ teams, onInspectTeam }) {
   const totalOverseasBought = teams.reduce((acc, t) => acc + t.overseasCount, 0);
 
   return (
-    <div className="team-dashboard-container" style={{ padding: '0.5rem', display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+    <div className="team-dashboard-container">
       {/* Overview Macro Summary Cards Bar */}
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '0.85rem' }}>
-        <div className="stat-box" style={{ background: '#FFFFFF', border: '1px solid rgba(230, 43, 52, 0.2)', padding: '0.85rem 1rem', borderRadius: '16px' }}>
+        <div className="stat-box">
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '0.3rem' }}>
-            <span className="stat-label" style={{ color: 'var(--text-muted)', fontWeight: 700 }}>REMAINING PURSE</span>
-            <DollarSign size={16} style={{ color: '#10B981' }} />
+            <span className="stat-label">REMAINING PURSE</span>
+            <DollarSign size={16} style={{ color: '#39ff88' }} />
           </div>
-          <div className="stat-val" style={{ color: '#10B981', fontSize: '1.6rem' }}>
+          <div className="stat-val" style={{ color: '#39ff88', fontSize: '1.5rem' }}>
             ₹ {remainingPurseAll.toFixed(2)} Cr
           </div>
-          <span style={{ fontSize: '0.7rem', color: 'var(--text-muted)' }}>
+          <span style={{ fontSize: '0.7rem', color: '#9eb8a8', fontFamily: 'var(--font-mono)' }}>
             Spent: ₹ {spentPurseAll.toFixed(2)} Cr ({((spentPurseAll / totalPurseAll) * 100).toFixed(1)}%)
           </span>
         </div>
 
-        <div className="stat-box" style={{ background: '#FFFFFF', border: '1px solid rgba(230, 43, 52, 0.2)', padding: '0.85rem 1rem', borderRadius: '16px' }}>
+        <div className="stat-box">
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '0.3rem' }}>
-            <span className="stat-label" style={{ color: 'var(--text-muted)', fontWeight: 700 }}>TOTAL SPENT</span>
-            <TrendingUp size={16} style={{ color: 'var(--primary-red)' }} />
+            <span className="stat-label">TOTAL SPENT</span>
+            <TrendingUp size={16} style={{ color: '#ffd700' }} />
           </div>
-          <div className="stat-val" style={{ color: 'var(--primary-red)', fontSize: '1.6rem' }}>
+          <div className="stat-val" style={{ color: '#ffd700', fontSize: '1.5rem' }}>
             ₹ {spentPurseAll.toFixed(2)} Cr
           </div>
-          <span style={{ fontSize: '0.7rem', color: 'var(--text-muted)' }}>
+          <span style={{ fontSize: '0.7rem', color: '#9eb8a8', fontFamily: 'var(--font-mono)' }}>
             Out of ₹ {totalPurseAll.toFixed(2)} Cr Pool
           </span>
         </div>
 
-        <div className="stat-box" style={{ background: '#FFFFFF', border: '1px solid rgba(230, 43, 52, 0.2)', padding: '0.85rem 1rem', borderRadius: '16px' }}>
+        <div className="stat-box">
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '0.3rem' }}>
-            <span className="stat-label" style={{ color: 'var(--text-muted)', fontWeight: 700 }}>PLAYERS BOUGHT</span>
-            <Users size={16} style={{ color: '#111111' }} />
+            <span className="stat-label">PLAYERS BOUGHT</span>
+            <Users size={16} style={{ color: '#39ff88' }} />
           </div>
-          <div className="stat-val" style={{ color: '#111111', fontSize: '1.6rem' }}>
-            {totalPlayersBought} <span style={{ fontSize: '0.9rem', color: 'var(--text-muted)' }}>/ 250</span>
+          <div className="stat-val" style={{ color: '#ffffff', fontSize: '1.5rem' }}>
+            {totalPlayersBought} <span style={{ fontSize: '0.85rem', color: '#9eb8a8' }}>/ 250</span>
           </div>
-          <span style={{ fontSize: '0.7rem', color: 'var(--text-muted)' }}>
+          <span style={{ fontSize: '0.7rem', color: '#9eb8a8', fontFamily: 'var(--font-mono)' }}>
             Across 10 Franchises
           </span>
         </div>
 
-        <div className="stat-box" style={{ background: '#FFFFFF', border: '1px solid rgba(230, 43, 52, 0.2)', padding: '0.85rem 1rem', borderRadius: '16px' }}>
+        <div className="stat-box">
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '0.3rem' }}>
-            <span className="stat-label" style={{ color: 'var(--text-muted)', fontWeight: 700 }}>OVERSEAS SLOTS</span>
-            <PieChart size={16} style={{ color: '#3B82F6' }} />
+            <span className="stat-label">OVERSEAS SLOTS</span>
+            <PieChart size={16} style={{ color: '#38bdf8' }} />
           </div>
-          <div className="stat-val" style={{ color: '#3B82F6', fontSize: '1.6rem' }}>
-            {totalOverseasBought} <span style={{ fontSize: '0.9rem', color: 'var(--text-muted)' }}>/ 80</span>
+          <div className="stat-val" style={{ color: '#38bdf8', fontSize: '1.5rem' }}>
+            {totalOverseasBought} <span style={{ fontSize: '0.85rem', color: '#9eb8a8' }}>/ 80</span>
           </div>
-          <span style={{ fontSize: '0.7rem', color: 'var(--text-muted)' }}>
+          <span style={{ fontSize: '0.7rem', color: '#9eb8a8', fontFamily: 'var(--font-mono)' }}>
             Max 8 per team
           </span>
         </div>
       </div>
 
-      {/* 10 Team Cards Grid */}
-      <h3 style={{ fontFamily: 'var(--font-subdisplay)', letterSpacing: '1px', fontSize: '1.1rem', marginTop: '0.5rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-        <Shield size={18} style={{ color: 'var(--primary-red)' }} />
+      {/* 10 Team Cards Grid Header */}
+      <h3 style={{ fontFamily: 'var(--font-display)', letterSpacing: '0.08em', fontSize: '1.05rem', marginTop: '0.5rem', display: 'flex', alignItems: 'center', gap: '0.5rem', color: '#ffffff' }}>
+        <Shield size={18} style={{ color: '#39ff88' }} />
         <span>FRANCHISE PURSE & SQUAD ANALYSIS</span>
       </h3>
 
@@ -87,18 +87,19 @@ export default function SidebarTeams({ teams, onInspectTeam }) {
               key={team.id}
               onClick={() => onInspectTeam(team)}
               style={{
-                background: '#FFFFFF',
-                borderRadius: '18px',
-                border: `2px solid ${team.primaryColor}`,
+                background: 'linear-gradient(165deg, rgba(12, 30, 20, 0.92) 0%, rgba(3, 10, 6, 0.96) 100%)',
+                borderRadius: '16px',
+                border: `1.5px solid ${team.primaryColor}`,
                 padding: '1.1rem',
-                boxShadow: '0 8px 25px rgba(0, 0, 0, 0.05)',
+                boxShadow: '0 8px 25px rgba(0, 0, 0, 0.75)',
                 cursor: 'pointer',
-                transition: 'all 0.2s ease',
+                transition: 'all 0.25s ease',
                 display: 'flex',
                 flexDirection: 'column',
                 gap: '0.75rem',
                 position: 'relative',
-                overflow: 'hidden'
+                overflow: 'hidden',
+                color: '#ffffff'
               }}
               className="team-dashboard-card"
             >
@@ -109,8 +110,9 @@ export default function SidebarTeams({ teams, onInspectTeam }) {
                   top: 0, 
                   left: 0, 
                   right: 0, 
-                  height: '6px', 
-                  backgroundColor: team.primaryColor 
+                  height: '4px', 
+                  backgroundColor: team.primaryColor,
+                  boxShadow: `0 0 10px ${team.primaryColor}`
                 }} 
               />
 
@@ -121,7 +123,7 @@ export default function SidebarTeams({ teams, onInspectTeam }) {
                     style={{
                       width: 42,
                       height: 42,
-                      borderRadius: '50%',
+                      borderRadius: '10px',
                       backgroundColor: team.primaryColor,
                       color: team.textColor || '#FFFFFF',
                       display: 'flex',
@@ -130,26 +132,26 @@ export default function SidebarTeams({ teams, onInspectTeam }) {
                       fontWeight: 900,
                       fontFamily: 'var(--font-display)',
                       fontSize: '1.2rem',
-                      boxShadow: `0 3px 10px ${team.primaryColor}55`
+                      boxShadow: `0 0 16px ${team.primaryColor}66`
                     }}
                   >
                     {team.code}
                   </div>
                   <div>
-                    <h4 style={{ fontFamily: 'var(--font-subdisplay)', fontSize: '1.05rem', margin: 0 }}>
+                    <h4 style={{ fontFamily: 'var(--font-display)', fontSize: '0.98rem', margin: 0, color: '#ffffff' }}>
                       {team.name}
                     </h4>
-                    <span style={{ fontSize: '0.72rem', color: 'var(--text-muted)' }}>
-                      Squad: {team.squadCount} / 18 (15 Mandatory) • OS: {team.overseasCount} / 8
+                    <span style={{ fontSize: '0.72rem', color: '#9eb8a8', fontFamily: 'var(--font-mono)' }}>
+                      Squad: {team.squadCount} / 18 • OS: {team.overseasCount} / 8
                     </span>
                   </div>
                 </div>
 
                 <div style={{ textAlign: 'right' }}>
-                  <div style={{ fontFamily: 'var(--font-display)', fontSize: '1.5rem', color: '#111111', lineHeight: 1 }}>
+                  <div style={{ fontFamily: 'var(--font-display)', fontSize: '1.35rem', color: '#39ff88', lineHeight: 1, textShadow: '0 0 10px rgba(57,255,136,0.5)' }}>
                     ₹ {team.purseRemaining.toFixed(2)} Cr
                   </div>
-                  <span style={{ fontSize: '0.68rem', color: 'var(--text-muted)', textTransform: 'uppercase' }}>
+                  <span style={{ fontSize: '0.65rem', color: '#a3ffd6', textTransform: 'uppercase', fontFamily: 'var(--font-mono)' }}>
                     REMAINING PURSE
                   </span>
                 </div>
@@ -157,72 +159,73 @@ export default function SidebarTeams({ teams, onInspectTeam }) {
 
               {/* Purse Progress Bar */}
               <div>
-                <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.7rem', color: 'var(--text-muted)', marginBottom: '0.25rem' }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.7rem', color: '#9eb8a8', marginBottom: '0.25rem', fontFamily: 'var(--font-mono)' }}>
                   <span>Spent: ₹ {purseSpent.toFixed(2)} Cr ({spentPercent.toFixed(1)}%)</span>
                   <span>Total: ₹ {team.purseTotal.toFixed(2)} Cr</span>
                 </div>
-                <div style={{ width: '100%', height: '8px', background: 'rgba(0,0,0,0.08)', borderRadius: '4px', overflow: 'hidden' }}>
+                <div style={{ width: '100%', height: '6px', background: 'rgba(255,255,255,0.08)', borderRadius: '4px', overflow: 'hidden' }}>
                   <div 
                     style={{ 
                       height: '100%', 
                       width: `${spentPercent}%`, 
                       backgroundColor: team.primaryColor,
                       borderRadius: '4px',
+                      boxShadow: `0 0 8px ${team.primaryColor}`,
                       transition: 'width 0.4s ease'
-                    }}
+                    }} 
                   />
                 </div>
               </div>
 
-              {/* Squad Composition Metrics (5 columns: 15 Mandatory + 3 Flex) */}
+              {/* Squad Composition Metrics */}
               <div style={{ display: 'grid', gridTemplateColumns: 'repeat(5, 1fr)', gap: '0.35rem' }}>
-                <div className="stat-box" style={{ background: '#111111', padding: '0.35rem 0.2rem' }}>
-                  <span className="stat-label" style={{ color: '#9CA3AF', fontSize: '0.55rem' }}>BAT</span>
-                  <div className="stat-val" style={{ color: '#FFFFFF', fontSize: '0.9rem' }}>
+                <div className="stat-box" style={{ background: 'rgba(2, 8, 4, 0.8)', padding: '0.35rem 0.2rem' }}>
+                  <span className="stat-label" style={{ color: '#a3ffd6', fontSize: '0.55rem' }}>BAT</span>
+                  <div className="stat-val" style={{ color: '#ffffff', fontSize: '0.85rem' }}>
                     {team.squadRoleCounts.Batsman || 0}/5
                   </div>
                 </div>
-                <div className="stat-box" style={{ background: '#111111', padding: '0.35rem 0.2rem' }}>
-                  <span className="stat-label" style={{ color: '#9CA3AF', fontSize: '0.55rem' }}>BOWL</span>
-                  <div className="stat-val" style={{ color: '#FFFFFF', fontSize: '0.9rem' }}>
+                <div className="stat-box" style={{ background: 'rgba(2, 8, 4, 0.8)', padding: '0.35rem 0.2rem' }}>
+                  <span className="stat-label" style={{ color: '#a3ffd6', fontSize: '0.55rem' }}>BOWL</span>
+                  <div className="stat-val" style={{ color: '#ffffff', fontSize: '0.85rem' }}>
                     {team.squadRoleCounts.Bowler || 0}/5
                   </div>
                 </div>
-                <div className="stat-box" style={{ background: '#111111', padding: '0.35rem 0.2rem' }}>
-                  <span className="stat-label" style={{ color: '#9CA3AF', fontSize: '0.55rem' }}>AR</span>
-                  <div className="stat-val" style={{ color: '#FFFFFF', fontSize: '0.9rem' }}>
+                <div className="stat-box" style={{ background: 'rgba(2, 8, 4, 0.8)', padding: '0.35rem 0.2rem' }}>
+                  <span className="stat-label" style={{ color: '#a3ffd6', fontSize: '0.55rem' }}>AR</span>
+                  <div className="stat-val" style={{ color: '#ffffff', fontSize: '0.85rem' }}>
                     {team.squadRoleCounts['All-Rounder'] || 0}/3
                   </div>
                 </div>
-                <div className="stat-box" style={{ background: '#111111', padding: '0.35rem 0.2rem' }}>
-                  <span className="stat-label" style={{ color: '#9CA3AF', fontSize: '0.55rem' }}>WK</span>
-                  <div className="stat-val" style={{ color: '#FFFFFF', fontSize: '0.9rem' }}>
+                <div className="stat-box" style={{ background: 'rgba(2, 8, 4, 0.8)', padding: '0.35rem 0.2rem' }}>
+                  <span className="stat-label" style={{ color: '#a3ffd6', fontSize: '0.55rem' }}>WK</span>
+                  <div className="stat-val" style={{ color: '#ffffff', fontSize: '0.85rem' }}>
                     {team.squadRoleCounts.Wicketkeeper || 0}/2
                   </div>
                 </div>
-                <div className="stat-box" style={{ background: '#111111', border: '1px solid rgba(212, 175, 55, 0.4)', padding: '0.35rem 0.2rem' }}>
-                  <span className="stat-label" style={{ color: 'var(--gold-accent)', fontSize: '0.55rem' }}>FLEX</span>
-                  <div className="stat-val" style={{ color: 'var(--gold-accent)', fontSize: '0.9rem' }}>
+                <div className="stat-box" style={{ background: 'rgba(2, 8, 4, 0.8)', border: '1px solid rgba(214, 193, 154, 0.4)', padding: '0.35rem 0.2rem' }}>
+                  <span className="stat-label" style={{ color: '#d6c19a', fontSize: '0.55rem' }}>FLEX</span>
+                  <div className="stat-val" style={{ color: '#ffd700', fontSize: '0.85rem' }}>
                     {Math.max(0, team.squadCount - Math.min(5, team.squadRoleCounts.Batsman || 0) - Math.min(5, team.squadRoleCounts.Bowler || 0) - Math.min(3, team.squadRoleCounts['All-Rounder'] || 0) - Math.min(2, team.squadRoleCounts.Wicketkeeper || 0))}/3
                   </div>
                 </div>
               </div>
 
               {/* Top Buy Highlight & Action */}
-              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', background: 'var(--bg-surface-secondary)', padding: '0.5rem 0.75rem', borderRadius: '10px' }}>
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', background: 'rgba(2, 8, 4, 0.65)', border: '1px solid rgba(57, 255, 136, 0.15)', padding: '0.5rem 0.75rem', borderRadius: '10px' }}>
                 <div style={{ fontSize: '0.75rem' }}>
                   {topBuy ? (
                     <span>
-                      🌟 <strong>Highest Buy:</strong> {topBuy.name} (<span style={{ color: 'var(--primary-red)', fontWeight: 700 }}>₹ {topBuy.price.toFixed(2)} Cr</span>)
+                      🌟 <strong>Highest Buy:</strong> {topBuy.name} (<span style={{ color: '#39ff88', fontWeight: 700, fontFamily: 'var(--font-mono)' }}>₹ {topBuy.price.toFixed(2)} Cr</span>)
                     </span>
                   ) : (
-                    <span style={{ color: 'var(--text-muted)' }}>No players acquired yet</span>
+                    <span style={{ color: '#9eb8a8' }}>No players acquired yet</span>
                   )}
                 </div>
 
-                <div style={{ display: 'flex', alignItems: 'center', gap: '0.3rem', color: 'var(--primary-red)', fontWeight: 700, fontSize: '0.75rem' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '0.3rem', color: '#39ff88', fontWeight: 800, fontSize: '0.72rem', fontFamily: 'var(--font-display)' }}>
                   <span>ANALYZE</span>
-                  <ExternalLink size={14} />
+                  <ExternalLink size={13} />
                 </div>
               </div>
             </div>
