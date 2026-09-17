@@ -109,19 +109,19 @@ export default function PlayerStage({ player, status, leadingTeam, currentBid })
                 backgroundColor: leadingTeam.primaryColor,
                 color: leadingTeam.textColor || '#FFFFFF',
                 boxShadow: `0 0 22px ${leadingTeam.primaryColor}88`,
-                padding: '0.25rem 1.25rem',
+                padding: '0.2rem 1.1rem',
                 borderRadius: '12px',
                 fontFamily: 'var(--font-display)',
-                fontSize: '2.1rem',
+                fontSize: 'clamp(1.4rem, 2.2vw, 2.05rem)',
                 letterSpacing: '1px',
-                marginTop: '0.2rem',
+                marginTop: '0.15rem',
                 lineHeight: 1
               }}
             >
               {leadingTeam.code}
             </div>
           ) : (
-            <div style={{ color: '#9eb8a8', fontSize: '0.76rem', marginTop: '0.4rem', fontWeight: 700, fontFamily: 'var(--font-mono)', letterSpacing: '0.08em' }}>
+            <div style={{ color: '#9eb8a8', fontSize: 'clamp(0.68rem, 1vw, 0.76rem)', marginTop: '0.35rem', fontWeight: 700, fontFamily: 'var(--font-mono)', letterSpacing: '0.08em' }}>
               PRESS TEAM KEY TO BID
             </div>
           )}

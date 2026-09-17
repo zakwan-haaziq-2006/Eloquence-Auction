@@ -27,10 +27,12 @@ export default function UpcomingQueue({
           WebkitBackdropFilter: 'blur(16px)',
           borderRadius: '16px', 
           border: '1px solid rgba(57, 255, 136, 0.28)', 
-          padding: '0.9rem 1.25rem',
+          padding: '0.85rem 1.2rem',
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'space-between',
+          flexWrap: 'wrap',
+          gap: '0.75rem',
           boxShadow: '0 8px 25px rgba(0, 0, 0, 0.75)'
         }}
       >
@@ -49,7 +51,7 @@ export default function UpcomingQueue({
         </div>
 
         {/* Role Filter Tabs */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: '0.35rem', background: 'rgba(2, 8, 4, 0.8)', padding: '0.25rem', borderRadius: '12px', border: '1px solid rgba(57, 255, 136, 0.2)' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '0.35rem', background: 'rgba(2, 8, 4, 0.8)', padding: '0.25rem', borderRadius: '12px', border: '1px solid rgba(57, 255, 136, 0.2)', flexWrap: 'wrap' }}>
           {['ALL', 'Batsman', 'Wicketkeeper', 'All-Rounder', 'Bowler'].map((role) => (
             <button
               key={role}
@@ -75,7 +77,7 @@ export default function UpcomingQueue({
       </div>
 
       {/* Player Queue Cards Grid */}
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '1rem' }}>
+      <div className="queue-grid">
         {filteredPlayers.map((player, idx) => {
           const isCurrent = player.id === currentPlayerId;
           const completedState = completedPlayersMap[player.id];

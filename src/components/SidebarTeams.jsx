@@ -12,7 +12,7 @@ export default function SidebarTeams({ teams, onInspectTeam }) {
   return (
     <div className="team-dashboard-container">
       {/* Overview Macro Summary Cards Bar */}
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '0.85rem' }}>
+      <div className="teams-summary-grid">
         <div className="stat-box">
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '0.3rem' }}>
             <span className="stat-label">REMAINING PURSE</span>
@@ -72,7 +72,7 @@ export default function SidebarTeams({ teams, onInspectTeam }) {
         <span>FRANCHISE PURSE & SQUAD ANALYSIS</span>
       </h3>
 
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '1rem' }}>
+      <div className="teams-cards-grid">
         {teams.map((team) => {
           const purseSpent = team.purseTotal - team.purseRemaining;
           const spentPercent = Math.min(100, (purseSpent / team.purseTotal) * 100);

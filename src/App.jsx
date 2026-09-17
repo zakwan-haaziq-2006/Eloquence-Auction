@@ -677,7 +677,7 @@ export default function App() {
 
       {/* Main Tabbed Views */}
       {activeTab === 'bidding' && (
-        <main style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: '0.65rem', overflow: 'hidden' }}>
+        <main className="bidding-main-view">
           <div className="center-stage-container" style={{ flex: 1 }}>
             <PlayerStage
               player={currentPlayer}

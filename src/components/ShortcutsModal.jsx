@@ -53,9 +53,9 @@ export default function ShortcutsModal({ onClose }) {
 
         <div style={{ marginTop: '1.2rem', textAlign: 'right' }}>
           <button 
-            className="btn-next" 
+            className="btn-nav" 
             onClick={onClose} 
-            style={{ display: 'inline-flex', padding: '0.45rem 1.2rem' }}
+            style={{ display: 'inline-flex', padding: '0.45rem 1.4rem', justifyContent: 'center' }}
           >
             GOT IT
           </button>

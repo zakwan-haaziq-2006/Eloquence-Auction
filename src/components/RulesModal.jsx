@@ -32,7 +32,7 @@ export default function RulesModal({ onClose }) {
         </div>
 
         {/* Rules Highlights Banner */}
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '0.6rem', marginBottom: '1rem' }}>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(160px, 1fr))', gap: '0.6rem', marginBottom: '1rem' }}>
           <div className="stat-box" style={{ background: 'rgba(2, 8, 4, 0.85)', padding: '0.6rem' }}>
             <span className="stat-label">TOTAL PURSE</span>
             <div className="stat-val" style={{ color: '#39ff88', fontSize: '1.2rem' }}>₹ 80.00 Cr</div>

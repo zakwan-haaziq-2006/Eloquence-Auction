@@ -285,6 +285,16 @@ html, body {
 /* ==========================================================================
    CENTER STAGE AREA — HOLOGRAPHIC DOOM ARENA
    ========================================================================== */
+.bidding-main-view {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  overflow: hidden;
+  min-height: 0;
+  width: 100%;
+}
+
 .center-stage-container {
   display: flex;
   flex-direction: column;
@@ -413,7 +423,8 @@ html, body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  flex: 0 1 auto;
+  justify-content: center;
+  flex: 1 1 auto;
   min-height: 0;
   z-index: 2;
 }
@@ -425,17 +436,20 @@ html, body {
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
   position: relative;
   width: 100%;
   min-height: 0;
 }
 
-/* Avatar Frame with Doctor Doom Cyber Glow */
+/* Avatar Frame with Doctor Doom Cyber Glow — Fluid Dynamic Sizing */
 .player-avatar-wrapper {
-  width: clamp(340px, 48vw, 560px);
-  height: clamp(280px, 48vh, 520px);
-  border-radius: 20px;
-  background: linear-gradient(165deg, rgba(8, 24, 15, 0.85) 0%, rgba(2, 8, 4, 0.95) 100%);
+  width: auto;
+  max-width: min(88vw, 480px);
+  height: clamp(160px, 32vh, 380px);
+  aspect-ratio: 16 / 11;
+  border-radius: 18px;
+  background: linear-gradient(165deg, rgba(8, 24, 15, 0.88) 0%, rgba(2, 8, 4, 0.98) 100%);
   backdrop-filter: blur(14px);
   -webkit-backdrop-filter: blur(14px);
   border: 2px solid rgba(57, 255, 136, 0.35);
@@ -443,7 +457,7 @@ html, body {
   align-items: center;
   justify-content: center;
   margin: 0.1rem 0;
-  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.9), 0 0 30px rgba(57, 255, 136, 0.25), inset 0 0 25px rgba(57, 255, 136, 0.08);
+  box-shadow: 0 16px 45px rgba(0, 0, 0, 0.9), 0 0 25px rgba(57, 255, 136, 0.22), inset 0 0 20px rgba(57, 255, 136, 0.06);
   position: relative;
   overflow: hidden;
   flex: 0 1 auto;
@@ -452,7 +466,7 @@ html, body {
 
 .player-avatar-wrapper:hover {
   border-color: rgba(57, 255, 136, 0.7);
-  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.95), 0 0 40px rgba(57, 255, 136, 0.45);
+  box-shadow: 0 20px 55px rgba(0, 0, 0, 0.95), 0 0 35px rgba(57, 255, 136, 0.4);
 }
 
 .player-avatar-svg {
@@ -518,13 +532,13 @@ html, body {
 
 .player-name-display {
   font-family: var(--font-display);
-  font-size: clamp(1.75rem, 2.7vw, 2.5rem);
+  font-size: clamp(1.4rem, 2.3vw, 2.2rem);
   color: #ffffff;
   letter-spacing: 0.08em;
   text-align: center;
   line-height: 1.1;
-  margin-top: 0.15rem;
-  margin-bottom: 0.1rem;
+  margin-top: 0.1rem;
+  margin-bottom: 0.05rem;
   text-shadow: 0 0 20px rgba(57, 255, 136, 0.5), 0 4px 12px rgba(0, 0, 0, 0.9);
   font-weight: 900;
   text-transform: uppercase;
@@ -534,14 +548,14 @@ html, body {
   display: flex;
   align-items: center;
   gap: 0.6rem;
-  margin-top: 0.1rem;
-  padding: 0.2rem 0.95rem;
+  margin-top: 0.08rem;
+  padding: 0.18rem 0.85rem;
   background: linear-gradient(135deg, rgba(0, 168, 59, 0.35) 0%, rgba(6, 43, 24, 0.75) 100%);
   border: 1px solid rgba(57, 255, 136, 0.45);
   border-radius: 999px;
   color: #ffffff;
   font-family: var(--font-display);
-  font-size: 0.76rem;
+  font-size: 0.74rem;
   font-weight: 800;
   letter-spacing: 0.1em;
   box-shadow: 0 3px 14px rgba(0, 0, 0, 0.6), 0 0 12px rgba(57, 255, 136, 0.25);
@@ -557,11 +571,11 @@ html, body {
 .stage-bidding-console {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 0.75rem;
+  gap: 0.65rem;
   width: 100%;
-  max-width: 540px;
-  margin-top: 0.2rem;
-  margin-bottom: 0.2rem;
+  max-width: 500px;
+  margin-top: 0.15rem;
+  margin-bottom: 0.15rem;
   flex-shrink: 0;
   z-index: 5;
 }
@@ -570,8 +584,8 @@ html, body {
   background: linear-gradient(165deg, rgba(8, 24, 15, 0.92) 0%, rgba(3, 10, 6, 0.98) 100%);
   backdrop-filter: blur(14px);
   -webkit-backdrop-filter: blur(14px);
-  border-radius: 14px;
-  padding: 0.45rem 0.85rem;
+  border-radius: 12px;
+  padding: 0.4rem 0.75rem;
   border: 1.5px solid rgba(57, 255, 136, 0.4);
   box-shadow: 0 8px 25px rgba(0, 0, 0, 0.8), 0 0 20px rgba(57, 255, 136, 0.2);
   display: flex;
@@ -583,7 +597,7 @@ html, body {
 
 .bid-box-label {
   font-family: var(--font-display);
-  font-size: 0.7rem;
+  font-size: 0.68rem;
   letter-spacing: 0.15em;
   color: #a3ffd6;
   text-transform: uppercase;
@@ -593,11 +607,11 @@ html, body {
 
 .bid-amount-value {
   font-family: var(--font-display);
-  font-size: clamp(1.8rem, 2.6vw, 2.35rem);
+  font-size: clamp(1.55rem, 2.3vw, 2.15rem);
   color: #c8ffea;
   font-weight: 900;
   line-height: 1;
-  margin-top: 0.1rem;
+  margin-top: 0.08rem;
   text-shadow: 0 0 20px rgba(57, 255, 136, 0.65), 0 0 35px rgba(0, 255, 102, 0.3);
   font-variant-numeric: tabular-nums;
   letter-spacing: 0.04em;
@@ -605,9 +619,9 @@ html, body {
 
 .base-price-tag {
   font-family: var(--font-display);
-  font-size: 0.68rem;
+  font-size: 0.65rem;
   color: var(--gold-bronze);
-  margin-top: 0.15rem;
+  margin-top: 0.12rem;
   font-weight: 700;
   letter-spacing: 0.08em;
   text-shadow: 0 0 8px rgba(214, 193, 154, 0.4);
@@ -617,8 +631,8 @@ html, body {
   background: linear-gradient(165deg, rgba(8, 24, 15, 0.92) 0%, rgba(3, 10, 6, 0.98) 100%);
   backdrop-filter: blur(14px);
   -webkit-backdrop-filter: blur(14px);
-  border-radius: 14px;
-  padding: 0.45rem 0.85rem;
+  border-radius: 12px;
+  padding: 0.4rem 0.75rem;
   border: 1.5px solid rgba(57, 255, 136, 0.25);
   box-shadow: 0 8px 25px rgba(0, 0, 0, 0.8);
   display: flex;
@@ -643,13 +657,13 @@ html, body {
   background: rgba(6, 14, 9, 0.92);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
-  border-radius: 16px;
-  padding: 0.45rem 1.15rem;
+  border-radius: 14px;
+  padding: 0.4rem 1rem;
   box-shadow: 0 -4px 30px rgba(0, 0, 0, 0.9), 0 0 25px rgba(57, 255, 136, 0.22);
   border: 1.5px solid rgba(57, 255, 136, 0.35);
-  gap: 0.85rem;
+  gap: 0.65rem;
   width: 100%;
-  max-width: 980px;
+  max-width: 960px;
   flex-shrink: 0;
   margin-top: auto;
   margin-bottom: 0.15rem;
@@ -1000,7 +1014,8 @@ html, body {
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 1rem;
+  padding: 1.25rem 1rem;
+  overflow-y: auto;
   animation: modalOverlayIn 0.3s ease-out;
 }
 
@@ -1009,11 +1024,16 @@ html, body {
   border-radius: 20px;
   max-width: 520px;
   width: 100%;
+  max-height: min(88vh, 720px);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
   padding: 1.75rem;
   box-shadow: 0 25px 60px rgba(0, 0, 0, 0.95), 0 0 35px rgba(57, 255, 136, 0.25);
   border: 1.5px solid rgba(57, 255, 136, 0.35);
   color: #ffffff;
   animation: modalSlideIn 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  margin: auto;
 }
 
 @keyframes modalOverlayIn {
@@ -1349,7 +1369,8 @@ html, body {
   justify-content: center;
   background: #020603 url('/hero_doomsday_backdrop.jpg') no-repeat center center / cover;
   backdrop-filter: blur(14px);
-  padding: 1rem;
+  padding: 1.5rem 1rem;
+  overflow-y: auto;
 }
 
 .login-screen-overlay::before {
@@ -1368,13 +1389,14 @@ html, body {
   position: relative;
   z-index: 2;
   width: 100%;
-  max-width: 490px;
+  max-width: 480px;
+  margin: auto;
   background: linear-gradient(170deg, rgba(8, 24, 15, 0.96) 0%, rgba(3, 12, 7, 0.98) 100%);
   backdrop-filter: blur(20px);
   border: 1.5px solid rgba(57, 255, 136, 0.35);
   box-shadow: 0 25px 60px rgba(0, 0, 0, 0.95), 0 0 35px rgba(57, 255, 136, 0.25);
   border-radius: 24px;
-  padding: 2.2rem;
+  padding: 2rem;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -1780,11 +1802,51 @@ html, body {
 }
 
 /* ==========================================================================
-   MOBILE & TABLET RESPONSIVE STYLES
+   TEAMS & QUEUE RESPONSIVE GRID SYSTEMS
    ========================================================================== */
+.teams-summary-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+  gap: 0.85rem;
+  width: 100%;
+}
+
+.teams-cards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(330px, 1fr));
+  gap: 1rem;
+  width: 100%;
+}
+
+/* ==========================================================================
+   MOBILE & TABLET & LAPTOP RESPONSIVE STYLES
+   ========================================================================== */
+@media (max-width: 1200px) {
+  .action-bar-container {
+    padding: 0.35rem 0.75rem;
+    gap: 0.5rem;
+  }
+  .increment-btn {
+    padding: 0.32rem 0.55rem;
+    font-size: 0.76rem;
+  }
+  .btn-sold {
+    padding: 0.38rem 1.35rem;
+    font-size: 1.2rem;
+  }
+  .btn-unsold {
+    padding: 0.38rem 1.15rem;
+    font-size: 1.15rem;
+  }
+}
+
 @media (max-width: 1024px) {
+  .header-set-tag {
+    font-size: 0.7rem !important;
+    padding: 0.25rem 0.65rem !important;
+  }
   .purse-cards-grid {
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
     gap: 0.75rem;
   }
   .live-arena-grid {
@@ -1793,11 +1855,45 @@ html, body {
   }
 }
 
+@media (max-width: 900px) {
+  .header-set-tag {
+    display: none !important;
+  }
+  .action-bar-container {
+    flex-wrap: wrap;
+    justify-content: center;
+    padding: 0.5rem;
+    gap: 0.5rem;
+  }
+  .bidding-increments {
+    width: 100%;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+  .primary-actions {
+    width: 100%;
+    justify-content: center;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   TABLET & MOBILE BASE BREAKPOINT (<= 768px)
+   -------------------------------------------------------------------------- */
 @media (max-width: 768px) {
+  /* Prevent iOS automatic zoom on text field focus */
+  input, select, textarea {
+    font-size: 16px !important;
+  }
+
+  button, a, [role="button"] {
+    touch-action: manipulation;
+  }
+
   html, body {
     overflow-y: auto !important;
     height: auto;
     min-height: 100dvh;
+    -webkit-overflow-scrolling: touch;
   }
 
   .admin-app {
@@ -1805,79 +1901,571 @@ html, body {
     max-height: none;
     min-height: 100dvh;
     overflow-y: auto;
-    padding: 0.5rem;
-    gap: 0.5rem;
+    padding: 0.45rem;
+    gap: 0.45rem;
   }
 
+  /* Header Bar on Mobile */
   .header-bar {
-    border-radius: 14px;
-    padding: 0.4rem 0.65rem;
+    border-radius: 12px;
+    padding: 0.35rem 0.6rem;
   }
 
+  .brand-text .brand-script {
+    font-size: 1.05rem;
+  }
+
+  .brand-text .brand-subtitle {
+    display: none;
+  }
+
+  /* Hide non-essential desktop buttons from the top bar on mobile */
+  .header-intro-btn,
+  .header-rules-btn,
+  .header-fullscreen-btn,
+  .header-help-btn,
+  .header-reset-btn,
+  .header-logout-btn,
   .header-set-tag {
     display: none !important;
   }
 
-  .stage-bidding-console {
-    grid-template-columns: 1fr;
-    gap: 0.5rem;
+  .header-controls {
+    gap: 0.35rem;
   }
 
-  .action-bar-container {
-    flex-direction: column;
-    padding: 0.65rem;
-    gap: 0.65rem;
-  }
-
-  .bidding-increments {
-    width: 100%;
-    justify-content: center;
-    flex-wrap: wrap;
-  }
-
-  .primary-actions {
-    width: 100%;
-    justify-content: space-between;
-  }
-
-  .btn-sold, .btn-unsold, .btn-nav {
+  /* Bidding Stage on Mobile */
+  .bidding-main-view {
+    overflow-y: auto;
+    height: auto;
+    min-height: 0;
     flex: 1;
-    justify-content: center;
-    font-size: 1.05rem;
+    padding-bottom: 0.5rem;
   }
 
-  .purse-cards-grid {
-    grid-template-columns: 1fr;
+  .center-stage-container {
+    height: auto;
+    min-height: 0;
+    gap: 0.45rem;
   }
-}
 
-@media (max-height: 660px) {
-  .admin-app {
-    padding: 0.2rem 0.5rem;
-    gap: 0.2rem;
+  .auction-stage-box {
+    height: auto;
+    min-height: 0;
+    flex: 1 1 auto;
+    padding: 0.25rem 0;
   }
 
   .player-avatar-wrapper {
-    width: clamp(260px, 38vw, 420px);
-    height: clamp(210px, 44vh, 300px);
+    width: min(86vw, 340px);
+    height: clamp(160px, 32vh, 260px);
+    aspect-ratio: 16 / 11;
+    border-radius: 14px;
+    margin: 0 auto;
+  }
+
+  .player-avatar-img {
+    border-radius: 12px;
   }
 
   .player-name-display {
-    font-size: 1.5rem;
+    font-size: clamp(1.25rem, 5.5vw, 1.85rem);
+    margin: 0.1rem 0 0.05rem 0;
+    line-height: 1.15;
+  }
+
+  .player-role-country-strip {
+    padding: 0.14rem 0.65rem;
+    font-size: 0.7rem;
+    gap: 0.4rem;
+  }
+
+  .stage-bidding-console {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.45rem;
+    width: 100%;
+    max-width: 440px;
+    margin: 0.15rem auto;
+  }
+
+  .bid-box-card, .leading-team-card {
+    padding: 0.35rem 0.55rem;
+    border-radius: 10px;
+  }
+
+  .bid-box-label {
+    font-size: 0.62rem;
+    letter-spacing: 0.1em;
   }
 
   .bid-amount-value {
-    font-size: 1.6rem;
+    font-size: clamp(1.25rem, 4vw, 1.65rem);
+  }
+
+  .base-price-tag {
+    font-size: 0.6rem;
+  }
+
+  /* Action Bar on Mobile: Touch-first tactical console */
+  .action-bar-container {
+    flex-direction: column;
+    padding: 0.5rem;
+    gap: 0.45rem;
+    border-radius: 14px;
+    width: 100%;
+    max-width: 100%;
+    margin-top: 0.35rem;
+  }
+
+  .bidding-increments {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0.35rem;
+    width: 100%;
+  }
+
+  .bidding-increments > span:first-child {
+    display: none;
+  }
+
+  .increment-btn, .action-undo-btn {
+    padding: 0.42rem 0.3rem;
+    font-size: 0.78rem;
+    min-height: 38px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 8px;
+  }
+
+  .primary-actions {
+    display: grid;
+    grid-template-columns: auto 1.4fr 1.2fr auto;
+    gap: 0.35rem;
+    width: 100%;
+  }
+
+  .primary-actions .key-hint,
+  .action-undo-btn .key-hint {
+    display: none !important;
   }
 
   .btn-sold {
-    font-size: 1.2rem;
-    padding: 0.32rem 1.2rem;
+    font-size: 1.15rem;
+    padding: 0.5rem 0.75rem;
+    border-radius: 10px;
+    min-height: 44px;
+    justify-content: center;
   }
 
   .btn-unsold {
+    font-size: 1.05rem;
+    padding: 0.5rem 0.65rem;
+    border-radius: 10px;
+    min-height: 44px;
+    justify-content: center;
+  }
+
+  .btn-nav {
+    padding: 0.5rem 0.65rem;
+    border-radius: 10px;
+    min-height: 44px;
+    justify-content: center;
+    font-size: 0.74rem;
+  }
+
+  /* --------------------------------------------------------------------------
+     FRANCHISE BIDDER DASHBOARD ON MOBILE
+     -------------------------------------------------------------------------- */
+  .bidder-dashboard-container {
+    height: auto;
+    min-height: 100dvh;
+    overflow-y: auto;
+  }
+
+  .bidder-header {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.6rem;
+    padding: 0.65rem 0.85rem;
+  }
+
+  .bidder-header-left {
+    gap: 0.65rem;
+  }
+
+  .bidder-team-badge {
+    width: 40px;
+    height: 40px;
     font-size: 1.1rem;
-    padding: 0.32rem 1rem;
+    border-radius: 10px;
+  }
+
+  .bidder-team-name {
+    font-size: 1.15rem;
+  }
+
+  .bidder-role-tag {
+    font-size: 0.68rem;
+  }
+
+  .bidder-header-right {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.35rem;
+    width: 100%;
+  }
+
+  .bidder-refresh-btn, .live-status-pill, .bidder-logout-btn {
+    padding: 0.32rem 0.6rem !important;
+    font-size: 0.68rem !important;
+  }
+
+  .bidder-content {
+    padding: 0.65rem 0.55rem;
+    gap: 0.75rem;
+  }
+
+  .bidder-live-arena {
+    padding: 0.85rem 0.65rem;
+    border-radius: 14px;
+    gap: 0.65rem;
+  }
+
+  .live-arena-grid {
+    grid-template-columns: 1fr;
+    gap: 0.65rem;
+  }
+
+  .arena-player-card {
+    padding: 0.65rem;
+    gap: 0.75rem;
+  }
+
+  .arena-player-img {
+    width: 65px;
+    height: 80px;
+    border-radius: 10px;
+  }
+
+  .arena-player-name {
+    font-size: 1.25rem;
+  }
+
+  .arena-bid-box {
+    padding: 0.65rem;
+  }
+
+  .arena-bid-amount {
+    font-size: 1.85rem;
+  }
+
+  /* Purse Cards: 3-column compact cards on mobile */
+  .purse-cards-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0.4rem;
+  }
+
+  .purse-card {
+    padding: 0.6rem 0.35rem;
+    border-radius: 12px;
+    flex-direction: column;
+    text-align: center;
+    gap: 0.25rem;
+  }
+
+  .purse-card-icon {
+    display: none;
+  }
+
+  .purse-card-label {
+    font-size: 0.6rem;
+    letter-spacing: 0.06em;
+  }
+
+  .purse-card-value {
+    font-size: 1.18rem;
+    justify-content: center;
+    gap: 0.1rem;
+  }
+
+  .purse-card-subtext {
+    display: none;
+  }
+
+  .squad-metrics-bar {
+    padding: 0.6rem 0.75rem;
+    border-radius: 12px;
+  }
+
+  .role-distribution-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.25rem;
+    justify-content: center;
+    width: 100%;
+    margin-top: 0.35rem;
+  }
+
+  .section-header-row {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.5rem;
+  }
+
+  .controls-group {
+    flex-direction: column;
+    width: 100%;
+    gap: 0.4rem;
+  }
+
+  .search-input-wrapper, .role-select-filter {
+    width: 100%;
+  }
+
+  .acquired-players-grid {
+    grid-template-columns: 1fr;
+    gap: 0.65rem;
+  }
+
+  /* Teams and Queue tabs on Mobile */
+  .teams-summary-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.5rem;
+  }
+
+  .teams-cards-grid {
+    grid-template-columns: 1fr;
+    gap: 0.75rem;
+  }
+
+  .queue-grid {
+    grid-template-columns: 1fr;
+    gap: 0.75rem;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   SMALL MOBILE PHONES (<= 480px)
+   -------------------------------------------------------------------------- */
+@media (max-width: 480px) {
+  .admin-app {
+    padding: 0.35rem;
+    gap: 0.35rem;
+  }
+
+  .login-screen-overlay {
+    padding: 0.65rem;
+  }
+
+  .login-card-container {
+    padding: 1.25rem 0.95rem;
+    border-radius: 16px;
+    width: 100%;
+  }
+
+  .login-title {
+    font-size: 1.05rem;
+    letter-spacing: 0.08em;
+  }
+
+  .login-subtitle {
+    font-size: 0.72rem;
+    margin-bottom: 0.75rem;
+  }
+
+  .role-tab-btn {
+    padding: 0.5rem 0.35rem;
+    font-size: 0.74rem;
+  }
+
+  .login-input {
+    padding: 0.65rem 0.8rem;
+  }
+
+  .login-submit-btn {
+    padding: 0.75rem;
+    font-size: 0.88rem;
+  }
+
+  .quick-cred-chip {
+    padding: 0.25rem 0.5rem;
+    font-size: 0.68rem;
+  }
+
+  /* Modals on small phones */
+  .modal-overlay {
+    padding: 0.4rem;
+  }
+
+  .modal-card {
+    padding: 1rem 0.85rem;
+    border-radius: 16px;
+    max-height: 94vh;
+    width: 100%;
+  }
+
+  .modal-title {
+    font-size: 0.92rem;
+  }
+
+  /* Intro Screen on small phones */
+  .intro-screen-overlay {
+    padding: 0.85rem;
+  }
+
+  .intro-fullscreen-content {
+    gap: 0.5rem;
+  }
+
+  .intro-minimal-heading {
+    font-size: 1.65rem;
+  }
+
+  .intro-minimal-subtext {
+    font-size: 0.82rem;
+  }
+
+  .countdown-timer-circle {
+    width: 110px;
+    height: 110px;
+    margin: 0.4rem 0;
+  }
+
+  .countdown-number-display {
+    font-size: 2.6rem;
+  }
+
+  .countdown-category-title {
+    font-size: 1.6rem;
+  }
+
+  .intro-start-btn, .proceed-category-btn {
+    padding: 0.75rem 1.6rem;
+    font-size: 0.95rem;
+    width: 100%;
+    max-width: 260px;
+  }
+}
+
+/* Height-based breakpoints to guarantee the stage and action bar NEVER clip on laptops */
+@media (max-height: 820px) {
+  .admin-app {
+    padding: 0.25rem 0.65rem;
+    gap: 0.25rem;
+  }
+
+  .player-avatar-wrapper {
+    height: clamp(150px, 30vh, 260px);
+  }
+
+  .player-name-display {
+    font-size: clamp(1.3rem, 2vw, 1.85rem);
+    margin-top: 0.08rem;
+    margin-bottom: 0.04rem;
+  }
+
+  .stage-bidding-console {
+    max-width: 460px;
+    gap: 0.5rem;
+    margin-top: 0.1rem;
+    margin-bottom: 0.1rem;
+  }
+
+  .bid-box-card, .leading-team-card {
+    padding: 0.32rem 0.65rem;
+  }
+
+  .bid-amount-value {
+    font-size: 1.65rem;
+  }
+
+  .action-bar-container {
+    padding: 0.32rem 0.85rem;
+    border-radius: 12px;
+  }
+
+  .btn-sold {
+    font-size: 1.15rem;
+    padding: 0.35rem 1.35rem;
+  }
+
+  .btn-unsold {
+    font-size: 1.05rem;
+    padding: 0.35rem 1.1rem;
+  }
+
+  .increment-btn {
+    padding: 0.32rem 0.55rem;
+    font-size: 0.76rem;
+  }
+}
+
+@media (max-height: 680px) {
+  .admin-app {
+    padding: 0.15rem 0.45rem;
+    gap: 0.15rem;
+  }
+
+  .header-bar {
+    padding: 0.25rem 0.65rem;
+  }
+
+  .player-avatar-wrapper {
+    height: clamp(120px, 25vh, 190px);
+    border-radius: 14px;
+  }
+
+  .player-name-display {
+    font-size: 1.25rem;
+    margin: 0.05rem 0;
+  }
+
+  .player-role-country-strip {
+    padding: 0.1rem 0.6rem;
+    font-size: 0.68rem;
+  }
+
+  .stage-bidding-console {
+    max-width: 400px;
+    gap: 0.4rem;
+    margin: 0.08rem 0;
+  }
+
+  .bid-box-label {
+    font-size: 0.62rem;
+  }
+
+  .bid-amount-value {
+    font-size: 1.35rem;
+  }
+
+  .action-bar-container {
+    padding: 0.25rem 0.65rem;
+    border-radius: 12px;
+  }
+
+  .btn-sold {
+    font-size: 1rem;
+    padding: 0.28rem 1rem;
+  }
+
+  .btn-unsold {
+    font-size: 0.95rem;
+    padding: 0.28rem 0.85rem;
+  }
+
+  .btn-nav {
+    padding: 0.28rem 0.65rem;
+    font-size: 0.72rem;
+  }
+
+  .increment-btn {
+    padding: 0.25rem 0.45rem;
+    font-size: 0.7rem;
   }
 }
 

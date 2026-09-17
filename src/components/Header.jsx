@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Volume2, VolumeX, Maximize, HelpCircle, RefreshCw, Gavel, Users, Shield, Menu, X, BookOpen, LogOut, Play } from 'lucide-react';
 import { sounds } from '../utils/soundEffects';
 
@@ -15,6 +15,24 @@ export default function Header({
   onLogout
 }) {
   const [menuOpen, setMenuOpen] = useState(false);
+
+  useEffect(() => {
+    if (!menuOpen) return;
+    const handleOutsideClick = (e) => {
+      if (!e.target.closest('.header-controls')) {
+        setMenuOpen(false);
+      }
+    };
+    const handleEscape = (e) => {
+      if (e.key === 'Escape') setMenuOpen(false);
+    };
+    window.addEventListener('click', handleOutsideClick);
+    window.addEventListener('keydown', handleEscape);
+    return () => {
+      window.removeEventListener('click', handleOutsideClick);
+      window.removeEventListener('keydown', handleEscape);
+    };
+  }, [menuOpen]);
 
   const toggleSound = () => {
     const nextState = !soundEnabled;
@@ -78,6 +96,7 @@ export default function Header({
 
         {onLogout && (
           <button
+            className="header-logout-btn"
             onClick={onLogout}
             style={{
               display: 'flex',
@@ -113,6 +132,7 @@ export default function Header({
       <div className="header-controls" style={{ flex: 1, display: 'flex', justifyContent: 'flex-end', alignItems: 'center', gap: '0.45rem', position: 'relative' }}>
         {onOpenIntro && (
           <button
+            className="header-intro-btn"
             onClick={onOpenIntro}
             style={{
               display: 'flex',
@@ -140,6 +160,7 @@ export default function Header({
         )}
 
         <button
+          className="header-rules-btn"
           onClick={onOpenRules}
           style={{
             display: 'flex',
@@ -166,7 +187,7 @@ export default function Header({
         </button>
 
         <button 
-          className="icon-btn" 
+          className="icon-btn header-sound-btn" 
           onClick={toggleSound} 
           title={soundEnabled ? "Mute Audio FX" : "Enable Audio FX"}
         >
@@ -174,7 +195,7 @@ export default function Header({
         </button>
 
         <button 
-          className="icon-btn" 
+          className="icon-btn header-fullscreen-btn" 
           onClick={toggleFullscreen} 
           title="Toggle Fullscreen Mode"
         >
@@ -182,7 +203,7 @@ export default function Header({
         </button>
 
         <button 
-          className="icon-btn" 
+          className="icon-btn header-help-btn" 
           onClick={onOpenHelp} 
           title="Keyboard Hotkey Guide (?)"
         >
@@ -190,7 +211,7 @@ export default function Header({
         </button>
 
         <button 
-          className="icon-btn" 
+          className="icon-btn header-reset-btn" 
           onClick={onResetData} 
           title="Reset Auction Demo Data"
         >
@@ -334,6 +355,86 @@ export default function Header({
             >
               <BookOpen size={15} />
               <span>AUCTION RULES</span>
+            </button>
+
+            {onOpenIntro && (
+              <button
+                onClick={() => {
+                  onOpenIntro();
+                  setMenuOpen(false);
+                }}
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '0.65rem',
+                  padding: '0.6rem 0.95rem',
+                  borderRadius: '10px',
+                  border: 'none',
+                  background: 'rgba(214, 193, 154, 0.1)',
+                  color: '#d6c19a',
+                  fontFamily: 'var(--font-display)',
+                  fontSize: '0.78rem',
+                  fontWeight: 800,
+                  letterSpacing: '0.06em',
+                  cursor: 'pointer',
+                  textAlign: 'left'
+                }}
+              >
+                <Play size={15} />
+                <span>PLAY INTRO & COUNTDOWN</span>
+              </button>
+            )}
+
+            <button
+              onClick={() => {
+                onOpenHelp();
+                setMenuOpen(false);
+              }}
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: '0.65rem',
+                padding: '0.6rem 0.95rem',
+                borderRadius: '10px',
+                border: 'none',
+                background: 'rgba(255, 255, 255, 0.04)',
+                color: '#c8c8c8',
+                fontFamily: 'var(--font-display)',
+                fontSize: '0.78rem',
+                fontWeight: 800,
+                letterSpacing: '0.06em',
+                cursor: 'pointer',
+                textAlign: 'left'
+              }}
+            >
+              <HelpCircle size={15} />
+              <span>KEYBOARD SHORTCUTS</span>
+            </button>
+
+            <button
+              onClick={() => {
+                onResetData();
+                setMenuOpen(false);
+              }}
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: '0.65rem',
+                padding: '0.6rem 0.95rem',
+                borderRadius: '10px',
+                border: 'none',
+                background: 'rgba(255, 255, 255, 0.04)',
+                color: '#ffd700',
+                fontFamily: 'var(--font-display)',
+                fontSize: '0.78rem',
+                fontWeight: 800,
+                letterSpacing: '0.06em',
+                cursor: 'pointer',
+                textAlign: 'left'
+              }}
+            >
+              <RefreshCw size={15} />
+              <span>RESET DEMO DATA</span>
             </button>
 
             {onLogout && (
