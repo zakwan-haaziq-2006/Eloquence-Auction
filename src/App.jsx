@@ -12,6 +12,7 @@ import IntroScreen from './components/IntroScreen';
 import CategoryTransitionModal from './components/CategoryTransitionModal';
 import LoginScreen from './components/LoginScreen';
 import BidderDashboard from './components/BidderDashboard';
+import AddTeamModal from './components/AddTeamModal';
 import { INITIAL_TEAMS, INITIAL_PLAYERS } from './data/auctionData';
 import { sounds } from './utils/soundEffects';
 import { 
@@ -62,6 +63,7 @@ export default function App() {
   
   const [showShortcutsModal, setShowShortcutsModal] = useState(false);
   const [showRulesModal, setShowRulesModal] = useState(false);
+  const [showAddTeamModal, setShowAddTeamModal] = useState(false);
   const [inspectedTeam, setInspectedTeam] = useState(null);
   const [celebrationActive, setCelebrationActive] = useState(false);
 
@@ -294,17 +296,35 @@ export default function App() {
     setTeams((prevTeams) =>
       prevTeams.map((t) => {
         if (t.id === leadingTeam.id) {
-          const newRoleCounts = { ...t.squadRoleCounts };
-          newRoleCounts[currentPlayer.role] = (newRoleCounts[currentPlayer.role] || 0) + 1;
+          const role = currentPlayer.role || 'Batsman';
+          const newRoleCounts = { 
+            Batsman: t.squadRoleCounts?.Batsman || 0,
+            Bowler: t.squadRoleCounts?.Bowler || 0,
+            'All-Rounder': t.squadRoleCounts?.['All-Rounder'] || 0,
+            Wicketkeeper: t.squadRoleCounts?.Wicketkeeper || 0
+          };
+          if (newRoleCounts[role] !== undefined) {
+            newRoleCounts[role] += 1;
+          } else if (role.toLowerCase().includes('bat')) {
+            newRoleCounts.Batsman += 1;
+          } else if (role.toLowerCase().includes('bowl')) {
+            newRoleCounts.Bowler += 1;
+          } else if (role.toLowerCase().includes('round')) {
+            newRoleCounts['All-Rounder'] += 1;
+          } else if (role.toLowerCase().includes('keep')) {
+            newRoleCounts.Wicketkeeper += 1;
+          } else {
+            newRoleCounts[role] = (newRoleCounts[role] || 0) + 1;
+          }
 
           return {
             ...t,
             purseRemaining: +(t.purseRemaining - currentBid).toFixed(2),
-            squadCount: t.squadCount + 1,
-            overseasCount: currentPlayer.isOverseas ? t.overseasCount + 1 : t.overseasCount,
+            squadCount: (t.squadCount || 0) + 1,
+            overseasCount: currentPlayer.isOverseas ? (t.overseasCount || 0) + 1 : (t.overseasCount || 0),
             squadRoleCounts: newRoleCounts,
             acquiredPlayers: [
-              ...t.acquiredPlayers,
+              ...(t.acquiredPlayers || []),
               { 
                 id: currentPlayer.id,
                 name: currentPlayer.name, 
@@ -313,7 +333,7 @@ export default function App() {
                 role: currentPlayer.role,
                 isOverseas: currentPlayer.isOverseas,
                 country: currentPlayer.country || 'India',
-                image: currentPlayer.image
+                image: currentPlayer.image || currentPlayer.photoUrl
               }
             ]
           };
@@ -502,6 +522,29 @@ export default function App() {
     }
   };
 
+  const handleAddTeam = (newTeam) => {
+    setTeams((prev) => {
+      const exists = prev.some((t) => t.id === newTeam.id);
+      if (exists) {
+        return prev.map((t) => (t.id === newTeam.id ? newTeam : t));
+      }
+      return [...prev, newTeam];
+    });
+  };
+
+  const handleClearTeams = () => {
+    if (window.confirm("Are you sure you want to clear all teams? You can re-add your own custom teams manually.")) {
+      setTeams([]);
+      setLeadingTeam(null);
+    }
+  };
+
+  const handleResetDefaultTeams = () => {
+    if (window.confirm("Reset all teams to default Eloquence lineup?")) {
+      setTeams(INITIAL_TEAMS);
+    }
+  };
+
   const handleLoginSuccess = (userData) => {
     setCurrentUser(userData);
     // Immediately hydrate state from local storage and cloud upon login
@@ -575,7 +618,19 @@ export default function App() {
         return;
       }
 
-      // Letter & Number Key mappings for Teams
+      // Check dynamic team hotkeys first (supports custom added teams!)
+      const matchedTeam = teams.find(
+        (t) => (t.hotkey && t.hotkey.toUpperCase() === key) ||
+               (t.code && t.code.toUpperCase() === key) ||
+               (t.id && t.id.toUpperCase() === key)
+      );
+      if (matchedTeam) {
+        e.preventDefault();
+        handlePlaceBid(matchedTeam);
+        return;
+      }
+
+      // Fallback number & letter key mappings for Teams
       const teamHotkeyMap = {
         'C': 'csk', '1': 'csk',
         'M': 'mi',  '2': 'mi',
@@ -592,6 +647,7 @@ export default function App() {
       if (teamHotkeyMap[key]) {
         const targetTeam = teams.find((t) => t.id === teamHotkeyMap[key]);
         if (targetTeam) {
+          e.preventDefault();
           handlePlaceBid(targetTeam);
         }
       }
@@ -605,6 +661,7 @@ export default function App() {
   if (!currentUser) {
     return (
       <LoginScreen 
+        teams={teams}
         onLoginSuccess={handleLoginSuccess} 
         onRefresh={handleManualRefresh}
         isRefreshing={isRefreshing}
@@ -671,6 +728,7 @@ export default function App() {
         onOpenHelp={() => setShowShortcutsModal(true)}
         onOpenRules={() => setShowRulesModal(true)}
         onOpenIntro={() => setShowIntro(true)}
+        onOpenAddTeam={() => setShowAddTeamModal(true)}
         onResetData={handleResetData}
         onLogout={handleLogout}
       />
@@ -730,6 +788,16 @@ export default function App() {
 
       {showRulesModal && (
         <RulesModal onClose={() => setShowRulesModal(false)} />
+      )}
+
+      {showAddTeamModal && (
+        <AddTeamModal
+          teams={teams}
+          onAddTeam={handleAddTeam}
+          onClearAllTeams={handleClearTeams}
+          onResetDefaultTeams={handleResetDefaultTeams}
+          onClose={() => setShowAddTeamModal(false)}
+        />
       )}
 
       {inspectedTeam && (

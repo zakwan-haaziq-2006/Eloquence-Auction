@@ -177,36 +177,30 @@ export default function SidebarTeams({ teams, onInspectTeam }) {
                 </div>
               </div>
 
-              {/* Squad Composition Metrics */}
-              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(5, 1fr)', gap: '0.35rem' }}>
-                <div className="stat-box" style={{ background: 'rgba(2, 8, 4, 0.8)', padding: '0.35rem 0.2rem' }}>
-                  <span className="stat-label" style={{ color: '#a3ffd6', fontSize: '0.55rem' }}>BAT</span>
-                  <div className="stat-val" style={{ color: '#ffffff', fontSize: '0.85rem' }}>
-                    {team.squadRoleCounts.Batsman || 0}/5
+              {/* Squad Composition Metrics (16 Squad: 5 Bat, 5 Bowl, 4 AR, 2 WK) */}
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '0.4rem' }}>
+                <div className="stat-box" style={{ background: 'rgba(2, 8, 4, 0.8)', padding: '0.4rem 0.2rem' }}>
+                  <span className="stat-label" style={{ color: '#a3ffd6', fontSize: '0.58rem' }}>BAT</span>
+                  <div className="stat-val" style={{ color: '#ffffff', fontSize: '0.9rem' }}>
+                    {team.squadRoleCounts?.Batsman || 0}/5
                   </div>
                 </div>
-                <div className="stat-box" style={{ background: 'rgba(2, 8, 4, 0.8)', padding: '0.35rem 0.2rem' }}>
-                  <span className="stat-label" style={{ color: '#a3ffd6', fontSize: '0.55rem' }}>BOWL</span>
-                  <div className="stat-val" style={{ color: '#ffffff', fontSize: '0.85rem' }}>
-                    {team.squadRoleCounts.Bowler || 0}/5
+                <div className="stat-box" style={{ background: 'rgba(2, 8, 4, 0.8)', padding: '0.4rem 0.2rem' }}>
+                  <span className="stat-label" style={{ color: '#a3ffd6', fontSize: '0.58rem' }}>BOWL</span>
+                  <div className="stat-val" style={{ color: '#ffffff', fontSize: '0.9rem' }}>
+                    {team.squadRoleCounts?.Bowler || 0}/5
                   </div>
                 </div>
-                <div className="stat-box" style={{ background: 'rgba(2, 8, 4, 0.8)', padding: '0.35rem 0.2rem' }}>
-                  <span className="stat-label" style={{ color: '#a3ffd6', fontSize: '0.55rem' }}>AR</span>
-                  <div className="stat-val" style={{ color: '#ffffff', fontSize: '0.85rem' }}>
-                    {team.squadRoleCounts['All-Rounder'] || 0}/3
+                <div className="stat-box" style={{ background: 'rgba(2, 8, 4, 0.8)', padding: '0.4rem 0.2rem' }}>
+                  <span className="stat-label" style={{ color: '#a3ffd6', fontSize: '0.58rem' }}>AR</span>
+                  <div className="stat-val" style={{ color: '#ffffff', fontSize: '0.9rem' }}>
+                    {team.squadRoleCounts?.['All-Rounder'] || 0}/4
                   </div>
                 </div>
-                <div className="stat-box" style={{ background: 'rgba(2, 8, 4, 0.8)', padding: '0.35rem 0.2rem' }}>
-                  <span className="stat-label" style={{ color: '#a3ffd6', fontSize: '0.55rem' }}>WK</span>
-                  <div className="stat-val" style={{ color: '#ffffff', fontSize: '0.85rem' }}>
-                    {team.squadRoleCounts.Wicketkeeper || 0}/2
-                  </div>
-                </div>
-                <div className="stat-box" style={{ background: 'rgba(2, 8, 4, 0.8)', border: '1px solid rgba(214, 193, 154, 0.4)', padding: '0.35rem 0.2rem' }}>
-                  <span className="stat-label" style={{ color: '#d6c19a', fontSize: '0.55rem' }}>FLEX</span>
-                  <div className="stat-val" style={{ color: '#ffd700', fontSize: '0.85rem' }}>
-                    {Math.max(0, team.squadCount - Math.min(5, team.squadRoleCounts.Batsman || 0) - Math.min(5, team.squadRoleCounts.Bowler || 0) - Math.min(3, team.squadRoleCounts['All-Rounder'] || 0) - Math.min(2, team.squadRoleCounts.Wicketkeeper || 0))}/1
+                <div className="stat-box" style={{ background: 'rgba(2, 8, 4, 0.8)', padding: '0.4rem 0.2rem' }}>
+                  <span className="stat-label" style={{ color: '#a3ffd6', fontSize: '0.58rem' }}>WK</span>
+                  <div className="stat-val" style={{ color: '#ffffff', fontSize: '0.9rem' }}>
+                    {team.squadRoleCounts?.Wicketkeeper || 0}/2
                   </div>
                 </div>
               </div>

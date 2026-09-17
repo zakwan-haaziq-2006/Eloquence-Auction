@@ -41,36 +41,34 @@ export default function ActionBar({
     <div className="action-bar-container">
       {/* Bid Bumps & Increments + Undo / Redo */}
       <div className="bidding-increments">
-        <span style={{ fontSize: '0.72rem', fontWeight: 800, color: '#39ff88', letterSpacing: '0.12em', marginRight: '0.2rem', fontFamily: 'var(--font-display)' }}>
-          BUMP:
-        </span>
-        <button className="increment-btn" onClick={() => onManualIncrement(0.20)} title="Bump Bid by ₹ 20 Lakh">
-          +20L
-        </button>
-        <button className="increment-btn" onClick={() => onManualIncrement(0.50)} title="Bump Bid by ₹ 50 Lakh">
-          +50L
-        </button>
-        <button className="increment-btn" onClick={() => onManualIncrement(1.00)} title="Bump Bid by ₹ 1.00 Crore">
-          +1.00 Cr
-        </button>
-        <button className="increment-btn" onClick={() => onManualIncrement(2.00)} title="Bump Bid by ₹ 2.00 Crore">
-          +2.00 Cr
-        </button>
+        <div className="increments-grid">
+          <button className="increment-btn" onClick={() => onManualIncrement(0.20)} title="Bump Bid by ₹ 20 Lakh">
+            +20L
+          </button>
+          <button className="increment-btn" onClick={() => onManualIncrement(0.50)} title="Bump Bid by ₹ 50 Lakh">
+            +50L
+          </button>
+          <button className="increment-btn" onClick={() => onManualIncrement(1.00)} title="Bump Bid by ₹ 1.00 Crore">
+            +1.00 Cr
+          </button>
+          <button className="increment-btn" onClick={() => onManualIncrement(2.00)} title="Bump Bid by ₹ 2.00 Crore">
+            +2.00 Cr
+          </button>
+        </div>
 
-        {/* Dedicated Undo Button */}
-        <button 
-          className="action-undo-btn" 
-          onClick={onUndoBid}
-          disabled={!canUndo}
-          title="Undo Last Action / Mistaken Bid (Z Key)"
-        >
-          <RotateCcw size={13} />
-          <span>UNDO</span>
-          <span className="key-hint">[Z]</span>
-        </button>
+        <div className="history-actions">
+          {/* Dedicated Undo Button */}
+          <button 
+            className="action-undo-btn" 
+            onClick={onUndoBid}
+            disabled={!canUndo}
+            title="Undo Last Action / Mistaken Bid (Z Key)"
+          >
+            <RotateCcw size={13} />
+            <span>UNDO</span>
+          </button>
 
-        {/* Dedicated Redo Button */}
-        {onRedoBid && (
+          {/* Dedicated Redo Button */}
           <button 
             className="action-undo-btn" 
             onClick={onRedoBid}
@@ -80,9 +78,8 @@ export default function ActionBar({
           >
             <RotateCw size={13} />
             <span>REDO</span>
-            <span className="key-hint">[Y]</span>
           </button>
-        )}
+        </div>
       </div>
 
       {/* Primary Action Buttons (Prev, SOLD, UNSOLD, Next) */}
@@ -95,7 +92,6 @@ export default function ActionBar({
         >
           <ArrowLeft size={16} />
           <span>PREV</span>
-          <span className="key-hint">[←]</span>
         </button>
 
         {/* SOLD Button */}
@@ -111,7 +107,6 @@ export default function ActionBar({
         >
           <Gavel size={20} />
           <span>SOLD</span>
-          <span className="key-hint">[SPACE]</span>
         </button>
 
         {/* UNSOLD Button */}
@@ -127,7 +122,6 @@ export default function ActionBar({
         >
           <XCircle size={16} />
           <span>UNSOLD</span>
-          <span className="key-hint">[U]</span>
         </button>
 
         {/* NEXT PLAYER Control (Arrow Right) */}
@@ -138,7 +132,6 @@ export default function ActionBar({
         >
           <span>NEXT</span>
           <ArrowRight size={16} />
-          <span className="key-hint">[→]</span>
         </button>
       </div>
     </div>

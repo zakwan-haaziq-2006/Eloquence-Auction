@@ -93,7 +93,7 @@ export default function TeamDetailModal({ team, onClose }) {
                 {team.squadCount} / {team.squadMax}
               </div>
               <span style={{ fontSize: '0.62rem', color: '#39ff88', display: 'block', marginTop: '0.1rem', fontFamily: 'var(--font-mono)' }}>
-                {team.squadCount >= 15 ? '✓ Mandatory Met' : '15 Mandatory + 1 Flex'}
+                {team.squadCount >= (team.squadMax || 16) ? '✓ 16 Squad Complete' : `${16 - team.squadCount} Slots Needed`}
               </span>
             </div>
           </div>
@@ -101,56 +101,46 @@ export default function TeamDetailModal({ team, onClose }) {
           {/* Role Composition Progress Grid */}
           <div>
             <h4 style={{ fontFamily: 'var(--font-display)', fontSize: '0.76rem', letterSpacing: '0.08em', marginBottom: '0.45rem', color: '#a3ffd6' }}>
-              ROLE TARGETS PROGRESS (15 MANDATORY + 1 FLEX EXTRA SLOT)
+              ROLE TARGETS PROGRESS (5 BAT • 5 BOWL • 4 AR • 2 WK)
             </h4>
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(90px, 1fr))', gap: '0.5rem' }}>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '0.5rem' }}>
               <div style={{ background: 'rgba(4, 14, 8, 0.75)', border: '1px solid rgba(57, 255, 136, 0.15)', padding: '0.45rem', borderRadius: '10px' }}>
                 <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.68rem', fontWeight: 700, color: '#e0e6e0' }}>
                   <span>BAT</span>
-                  <span>{team.squadRoleCounts.Batsman || 0}/{team.squadTargets.Batsman}</span>
+                  <span>{team.squadRoleCounts?.Batsman || 0}/{team.squadTargets?.Batsman || 5}</span>
                 </div>
                 <div style={{ width: '100%', height: '4px', background: 'rgba(255,255,255,0.08)', borderRadius: '2px', marginTop: '0.3rem' }}>
-                  <div style={{ width: `${Math.min(100, ((team.squadRoleCounts.Batsman || 0) / team.squadTargets.Batsman) * 100)}%`, height: '100%', background: '#38bdf8', borderRadius: '2px', boxShadow: '0 0 6px #38bdf8' }} />
+                  <div style={{ width: `${Math.min(100, ((team.squadRoleCounts?.Batsman || 0) / (team.squadTargets?.Batsman || 5)) * 100)}%`, height: '100%', background: '#38bdf8', borderRadius: '2px', boxShadow: '0 0 6px #38bdf8' }} />
                 </div>
               </div>
 
               <div style={{ background: 'rgba(4, 14, 8, 0.75)', border: '1px solid rgba(57, 255, 136, 0.15)', padding: '0.45rem', borderRadius: '10px' }}>
                 <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.68rem', fontWeight: 700, color: '#e0e6e0' }}>
                   <span>BOWL</span>
-                  <span>{team.squadRoleCounts.Bowler || 0}/{team.squadTargets.Bowler}</span>
+                  <span>{team.squadRoleCounts?.Bowler || 0}/{team.squadTargets?.Bowler || 5}</span>
                 </div>
                 <div style={{ width: '100%', height: '4px', background: 'rgba(255,255,255,0.08)', borderRadius: '2px', marginTop: '0.3rem' }}>
-                  <div style={{ width: `${Math.min(100, ((team.squadRoleCounts.Bowler || 0) / team.squadTargets.Bowler) * 100)}%`, height: '100%', background: '#ef4444', borderRadius: '2px', boxShadow: '0 0 6px #ef4444' }} />
+                  <div style={{ width: `${Math.min(100, ((team.squadRoleCounts?.Bowler || 0) / (team.squadTargets?.Bowler || 5)) * 100)}%`, height: '100%', background: '#ef4444', borderRadius: '2px', boxShadow: '0 0 6px #ef4444' }} />
                 </div>
               </div>
 
               <div style={{ background: 'rgba(4, 14, 8, 0.75)', border: '1px solid rgba(57, 255, 136, 0.15)', padding: '0.45rem', borderRadius: '10px' }}>
                 <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.68rem', fontWeight: 700, color: '#e0e6e0' }}>
                   <span>AR</span>
-                  <span>{team.squadRoleCounts['All-Rounder'] || 0}/{team.squadTargets['All-Rounder']}</span>
+                  <span>{team.squadRoleCounts?.['All-Rounder'] || 0}/{team.squadTargets?.['All-Rounder'] || 4}</span>
                 </div>
                 <div style={{ width: '100%', height: '4px', background: 'rgba(255,255,255,0.08)', borderRadius: '2px', marginTop: '0.3rem' }}>
-                  <div style={{ width: `${Math.min(100, ((team.squadRoleCounts['All-Rounder'] || 0) / team.squadTargets['All-Rounder']) * 100)}%`, height: '100%', background: '#39ff88', borderRadius: '2px', boxShadow: '0 0 6px #39ff88' }} />
+                  <div style={{ width: `${Math.min(100, ((team.squadRoleCounts?.['All-Rounder'] || 0) / (team.squadTargets?.['All-Rounder'] || 4)) * 100)}%`, height: '100%', background: '#39ff88', borderRadius: '2px', boxShadow: '0 0 6px #39ff88' }} />
                 </div>
               </div>
 
               <div style={{ background: 'rgba(4, 14, 8, 0.75)', border: '1px solid rgba(57, 255, 136, 0.15)', padding: '0.45rem', borderRadius: '10px' }}>
                 <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.68rem', fontWeight: 700, color: '#e0e6e0' }}>
                   <span>WK</span>
-                  <span>{team.squadRoleCounts.Wicketkeeper || 0}/{team.squadTargets.Wicketkeeper}</span>
+                  <span>{team.squadRoleCounts?.Wicketkeeper || 0}/{team.squadTargets?.Wicketkeeper || 2}</span>
                 </div>
                 <div style={{ width: '100%', height: '4px', background: 'rgba(255,255,255,0.08)', borderRadius: '2px', marginTop: '0.3rem' }}>
-                  <div style={{ width: `${Math.min(100, ((team.squadRoleCounts.Wicketkeeper || 0) / team.squadTargets.Wicketkeeper) * 100)}%`, height: '100%', background: '#f59e0b', borderRadius: '2px', boxShadow: '0 0 6px #f59e0b' }} />
-                </div>
-              </div>
-
-              <div style={{ background: 'rgba(4, 14, 8, 0.75)', padding: '0.45rem', borderRadius: '10px', border: '1px solid rgba(214, 193, 154, 0.4)' }}>
-                <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.68rem', fontWeight: 700, color: '#d6c19a' }}>
-                  <span>FLEX</span>
-                  <span>{Math.max(0, team.squadCount - Math.min(5, team.squadRoleCounts.Batsman || 0) - Math.min(5, team.squadRoleCounts.Bowler || 0) - Math.min(3, team.squadRoleCounts['All-Rounder'] || 0) - Math.min(2, team.squadRoleCounts.Wicketkeeper || 0))}/1</span>
-                </div>
-                <div style={{ width: '100%', height: '4px', background: 'rgba(255,255,255,0.08)', borderRadius: '2px', marginTop: '0.3rem' }}>
-                  <div style={{ width: `${Math.min(100, (Math.max(0, team.squadCount - Math.min(5, team.squadRoleCounts.Batsman || 0) - Math.min(5, team.squadRoleCounts.Bowler || 0) - Math.min(3, team.squadRoleCounts['All-Rounder'] || 0) - Math.min(2, team.squadRoleCounts.Wicketkeeper || 0)) / 1) * 100)}%`, height: '100%', background: '#ffd700', borderRadius: '2px', boxShadow: '0 0 6px #ffd700' }} />
+                  <div style={{ width: `${Math.min(100, ((team.squadRoleCounts?.Wicketkeeper || 0) / (team.squadTargets?.Wicketkeeper || 2)) * 100)}%`, height: '100%', background: '#f59e0b', borderRadius: '2px', boxShadow: '0 0 6px #f59e0b' }} />
                 </div>
               </div>
             </div>

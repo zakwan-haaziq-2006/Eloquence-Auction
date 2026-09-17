@@ -22,7 +22,7 @@ export const INITIAL_TEAMS = [
     overseasCount: 0,
     overseasMax: 8,
     squadRoleCounts: { Batsman: 0, Bowler: 0, 'All-Rounder': 0, Wicketkeeper: 0 },
-    squadTargets: { Batsman: 5, Bowler: 5, 'All-Rounder': 3, Wicketkeeper: 2 },
+    squadTargets: { Batsman: 5, Bowler: 5, 'All-Rounder': 4, Wicketkeeper: 2 },
     acquiredPlayers: []
   },
   {
@@ -43,7 +43,7 @@ export const INITIAL_TEAMS = [
     overseasCount: 0,
     overseasMax: 8,
     squadRoleCounts: { Batsman: 0, Bowler: 0, 'All-Rounder': 0, Wicketkeeper: 0 },
-    squadTargets: { Batsman: 5, Bowler: 5, 'All-Rounder': 3, Wicketkeeper: 2 },
+    squadTargets: { Batsman: 5, Bowler: 5, 'All-Rounder': 4, Wicketkeeper: 2 },
     acquiredPlayers: []
   },
   {
@@ -64,7 +64,7 @@ export const INITIAL_TEAMS = [
     overseasCount: 0,
     overseasMax: 8,
     squadRoleCounts: { Batsman: 0, Bowler: 0, 'All-Rounder': 0, Wicketkeeper: 0 },
-    squadTargets: { Batsman: 5, Bowler: 5, 'All-Rounder': 3, Wicketkeeper: 2 },
+    squadTargets: { Batsman: 5, Bowler: 5, 'All-Rounder': 4, Wicketkeeper: 2 },
     acquiredPlayers: []
   },
   {
@@ -85,7 +85,7 @@ export const INITIAL_TEAMS = [
     overseasCount: 0,
     overseasMax: 8,
     squadRoleCounts: { Batsman: 0, Bowler: 0, 'All-Rounder': 0, Wicketkeeper: 0 },
-    squadTargets: { Batsman: 5, Bowler: 5, 'All-Rounder': 3, Wicketkeeper: 2 },
+    squadTargets: { Batsman: 5, Bowler: 5, 'All-Rounder': 4, Wicketkeeper: 2 },
     acquiredPlayers: []
   },
   {
@@ -106,7 +106,7 @@ export const INITIAL_TEAMS = [
     overseasCount: 0,
     overseasMax: 8,
     squadRoleCounts: { Batsman: 0, Bowler: 0, 'All-Rounder': 0, Wicketkeeper: 0 },
-    squadTargets: { Batsman: 5, Bowler: 5, 'All-Rounder': 3, Wicketkeeper: 2 },
+    squadTargets: { Batsman: 5, Bowler: 5, 'All-Rounder': 4, Wicketkeeper: 2 },
     acquiredPlayers: []
   },
   {
@@ -127,7 +127,7 @@ export const INITIAL_TEAMS = [
     overseasCount: 0,
     overseasMax: 8,
     squadRoleCounts: { Batsman: 0, Bowler: 0, 'All-Rounder': 0, Wicketkeeper: 0 },
-    squadTargets: { Batsman: 5, Bowler: 5, 'All-Rounder': 3, Wicketkeeper: 2 },
+    squadTargets: { Batsman: 5, Bowler: 5, 'All-Rounder': 4, Wicketkeeper: 2 },
     acquiredPlayers: []
   },
   {
@@ -148,7 +148,7 @@ export const INITIAL_TEAMS = [
     overseasCount: 0,
     overseasMax: 8,
     squadRoleCounts: { Batsman: 0, Bowler: 0, 'All-Rounder': 0, Wicketkeeper: 0 },
-    squadTargets: { Batsman: 5, Bowler: 5, 'All-Rounder': 3, Wicketkeeper: 2 },
+    squadTargets: { Batsman: 5, Bowler: 5, 'All-Rounder': 4, Wicketkeeper: 2 },
     acquiredPlayers: []
   },
   {
@@ -169,7 +169,7 @@ export const INITIAL_TEAMS = [
     overseasCount: 0,
     overseasMax: 8,
     squadRoleCounts: { Batsman: 0, Bowler: 0, 'All-Rounder': 0, Wicketkeeper: 0 },
-    squadTargets: { Batsman: 5, Bowler: 5, 'All-Rounder': 3, Wicketkeeper: 2 },
+    squadTargets: { Batsman: 5, Bowler: 5, 'All-Rounder': 4, Wicketkeeper: 2 },
     acquiredPlayers: []
   },
   {
@@ -190,7 +190,7 @@ export const INITIAL_TEAMS = [
     overseasCount: 0,
     overseasMax: 8,
     squadRoleCounts: { Batsman: 0, Bowler: 0, 'All-Rounder': 0, Wicketkeeper: 0 },
-    squadTargets: { Batsman: 5, Bowler: 5, 'All-Rounder': 3, Wicketkeeper: 2 },
+    squadTargets: { Batsman: 5, Bowler: 5, 'All-Rounder': 4, Wicketkeeper: 2 },
     acquiredPlayers: []
   },
   {
@@ -211,7 +211,7 @@ export const INITIAL_TEAMS = [
     overseasCount: 0,
     overseasMax: 8,
     squadRoleCounts: { Batsman: 0, Bowler: 0, 'All-Rounder': 0, Wicketkeeper: 0 },
-    squadTargets: { Batsman: 5, Bowler: 5, 'All-Rounder': 3, Wicketkeeper: 2 },
+    squadTargets: { Batsman: 5, Bowler: 5, 'All-Rounder': 4, Wicketkeeper: 2 },
     acquiredPlayers: []
   }
 ];
@@ -220,8 +220,8 @@ export const SGC_AUCTION_RULES = [
   { id: 1, title: 'Random Team Allocation', text: 'A maximum of 10 teams will be allowed to participate. One representative from each team will pick a chit to randomly determine their IPL franchise. Once allotted, the team name cannot be changed.' },
   { id: 2, title: 'IPL Franchise Names', text: 'The participating teams will be assigned actual IPL franchise names: CSK, MI, RCB, KKR, SRH, RR, DC, PBKS, GT and LSG.' },
   { id: 3, title: '₹ 80 Crore Virtual Purse', text: 'Each team will receive a virtual purse of ₹80 Crore for the entire auction.' },
-  { id: 4, title: '15 Mandatory Core Composition', text: 'Every team must build a mandatory core of 15 players, consisting of at least 5 Batsmen, 5 Bowlers, 3 All-rounders and 2 Wicketkeepers.' },
-  { id: 5, title: '1 Optional Flex Slot (Max 16 Cap)', text: 'After completing the 15 mandatory core players, teams may choose to acquire 1 extra flex player of their preference (maximum squad cap of 16 players).' },
+  { id: 4, title: '16 Mandatory Core Composition', text: 'Every team must build a mandatory squad of 16 players, consisting of 5 Batsmen, 5 Bowlers, 4 All-rounders and 2 Wicketkeepers (no flex slots).' },
+  { id: 5, title: 'Strict 16-Player Roster Cap', text: 'Once a team acquires its 16 mandatory players, its squad is locked and no further acquisitions are permitted.' },
   { id: 6, title: 'Purse Overflow Disqualification', text: 'Any team found bidding beyond its available purse will be immediately disqualified from the auction.' },
   { id: 7, title: 'Purse Management Responsibility', text: 'Teams are responsible for managing their purse and must ensure they have sufficient funds to complete their 15 mandatory core players.' },
   { id: 8, title: 'Bidding Efficiency', text: 'For smoother bidding, it is recommended that active bidding be primarily between two teams at a time, wherever possible.' },

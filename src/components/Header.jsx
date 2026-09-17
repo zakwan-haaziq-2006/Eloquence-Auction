@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { Volume2, VolumeX, Maximize, HelpCircle, RefreshCw, Gavel, Users, Shield, Menu, X, BookOpen, LogOut, Play } from 'lucide-react';
+import React, { useState, useEffect, useRef } from 'react';
+import { Volume2, VolumeX, Maximize, Minimize, HelpCircle, RefreshCw, Gavel, Users, Shield, Menu, X, BookOpen, LogOut, Play, PlusCircle } from 'lucide-react';
 import { sounds } from '../utils/soundEffects';
 
 export default function Header({ 
@@ -11,26 +11,45 @@ export default function Header({
   onOpenHelp, 
   onOpenRules,
   onOpenIntro,
+  onOpenAddTeam,
   onResetData,
   onLogout
 }) {
   const [menuOpen, setMenuOpen] = useState(false);
+  const [isFullscreen, setIsFullscreen] = useState(false);
+  const menuButtonRef = useRef(null);
+  const menuDropdownRef = useRef(null);
 
+  // Sync fullscreen state
+  useEffect(() => {
+    const handleFullscreenChange = () => {
+      setIsFullscreen(Boolean(document.fullscreenElement));
+    };
+    document.addEventListener('fullscreenchange', handleFullscreenChange);
+    return () => document.removeEventListener('fullscreenchange', handleFullscreenChange);
+  }, []);
+
+  // Instant outside click detection using mousedown
   useEffect(() => {
     if (!menuOpen) return;
-    const handleOutsideClick = (e) => {
-      if (!e.target.closest('.header-controls')) {
+    const handleOutsidePointer = (e) => {
+      if (
+        menuDropdownRef.current && 
+        !menuDropdownRef.current.contains(e.target) &&
+        menuButtonRef.current &&
+        !menuButtonRef.current.contains(e.target)
+      ) {
         setMenuOpen(false);
       }
     };
     const handleEscape = (e) => {
       if (e.key === 'Escape') setMenuOpen(false);
     };
-    window.addEventListener('click', handleOutsideClick);
-    window.addEventListener('keydown', handleEscape);
+    document.addEventListener('mousedown', handleOutsidePointer);
+    document.addEventListener('keydown', handleEscape);
     return () => {
-      window.removeEventListener('click', handleOutsideClick);
-      window.removeEventListener('keydown', handleEscape);
+      document.removeEventListener('mousedown', handleOutsidePointer);
+      document.removeEventListener('keydown', handleEscape);
     };
   }, [menuOpen]);
 
@@ -48,7 +67,9 @@ export default function Header({
       });
     } else {
       if (document.exitFullscreen) {
-        document.exitFullscreen();
+        document.exitFullscreen().catch((err) => {
+          console.warn('Error attempting to exit fullscreen:', err);
+        });
       }
     }
   };
@@ -159,33 +180,6 @@ export default function Header({
           </button>
         )}
 
-        <button
-          className="header-rules-btn"
-          onClick={onOpenRules}
-          style={{
-            display: 'flex',
-            alignItems: 'center',
-            gap: '0.4rem',
-            padding: '0.4rem 0.8rem',
-            borderRadius: '999px',
-            border: '1px solid rgba(57, 255, 136, 0.45)',
-            background: 'linear-gradient(135deg, rgba(0, 168, 59, 0.25) 0%, rgba(6, 18, 11, 0.75) 100%)',
-            backdropFilter: 'blur(10px)',
-            color: '#39ff88',
-            fontFamily: 'var(--font-display)',
-            fontSize: '0.74rem',
-            fontWeight: 800,
-            cursor: 'pointer',
-            letterSpacing: '0.06em',
-            boxShadow: '0 2px 10px rgba(0,0,0,0.5)',
-            transition: 'all 0.2s ease'
-          }}
-          title="View Official Eloquence Auction Rules"
-        >
-          <BookOpen size={13} />
-          <span>RULES</span>
-        </button>
-
         <button 
           className="icon-btn header-sound-btn" 
           onClick={toggleSound} 
@@ -197,31 +191,20 @@ export default function Header({
         <button 
           className="icon-btn header-fullscreen-btn" 
           onClick={toggleFullscreen} 
-          title="Toggle Fullscreen Mode"
+          title={isFullscreen ? "Exit Fullscreen (Minimize)" : "Enter Fullscreen Mode"}
         >
-          <Maximize size={16} />
-        </button>
-
-        <button 
-          className="icon-btn header-help-btn" 
-          onClick={onOpenHelp} 
-          title="Keyboard Hotkey Guide (?)"
-        >
-          <HelpCircle size={16} />
-        </button>
-
-        <button 
-          className="icon-btn header-reset-btn" 
-          onClick={onResetData} 
-          title="Reset Auction Demo Data"
-        >
-          <RefreshCw size={16} />
+          {isFullscreen ? <Minimize size={16} /> : <Maximize size={16} />}
         </button>
 
         {/* Right Side Expandable Toggle Menu Button */}
         <button 
-          className="icon-btn"
-          onClick={() => setMenuOpen((prev) => !prev)}
+          ref={menuButtonRef}
+          type="button"
+          className="icon-btn header-menu-toggle-btn"
+          onClick={(e) => {
+            e.stopPropagation();
+            setMenuOpen((prev) => !prev);
+          }}
           style={{
             background: menuOpen ? 'linear-gradient(135deg, #00a83b, #063b1c)' : 'rgba(8, 24, 15, 0.85)',
             color: menuOpen ? '#FFFFFF' : '#39ff88',
@@ -229,32 +212,35 @@ export default function Header({
             boxShadow: menuOpen ? '0 0 16px rgba(57, 255, 136, 0.6)' : 'none',
             width: 36,
             height: 36,
-            borderRadius: '10px'
+            borderRadius: '10px',
+            cursor: 'pointer'
           }}
           title="Expand Navigation Menu"
         >
           {menuOpen ? <X size={18} /> : <Menu size={18} />}
         </button>
 
-        {/* Floating Expandable Dropdown Drawer (Cyber Style) */}
+        {/* Floating Expandable Dropdown Drawer (Fast Instant Render) */}
         {menuOpen && (
           <div 
+            ref={menuDropdownRef}
+            onClick={(e) => e.stopPropagation()}
             style={{
               position: 'absolute',
               top: '46px',
               right: 0,
-              background: 'rgba(4, 12, 7, 0.95)',
-              backdropFilter: 'blur(20px)',
-              WebkitBackdropFilter: 'blur(20px)',
-              borderRadius: '18px',
-              boxShadow: '0 16px 40px rgba(0, 0, 0, 0.95), 0 0 25px rgba(0, 168, 59, 0.25)',
-              border: '1.5px solid rgba(57, 255, 136, 0.35)',
+              background: '#040e08',
+              borderRadius: '16px',
+              boxShadow: '0 16px 40px rgba(0, 0, 0, 0.98), 0 0 25px rgba(0, 168, 59, 0.3)',
+              border: '1.5px solid rgba(57, 255, 136, 0.45)',
               padding: '0.65rem',
               display: 'flex',
               flexDirection: 'column',
               gap: '0.4rem',
               zIndex: 9999,
-              minWidth: '230px'
+              minWidth: '235px',
+              willChange: 'transform, opacity',
+              transform: 'translateZ(0)'
             }}
           >
             <button
@@ -330,6 +316,34 @@ export default function Header({
             </button>
 
             <div style={{ height: '1px', background: 'rgba(57, 255, 136, 0.15)', margin: '0.2rem 0' }} />
+
+            {onOpenAddTeam && (
+              <button
+                onClick={() => {
+                  onOpenAddTeam();
+                  setMenuOpen(false);
+                }}
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '0.65rem',
+                  padding: '0.6rem 0.95rem',
+                  borderRadius: '10px',
+                  border: 'none',
+                  background: 'rgba(56, 189, 248, 0.1)',
+                  color: '#38bdf8',
+                  fontFamily: 'var(--font-display)',
+                  fontSize: '0.78rem',
+                  fontWeight: 800,
+                  letterSpacing: '0.06em',
+                  cursor: 'pointer',
+                  textAlign: 'left'
+                }}
+              >
+                <PlusCircle size={15} />
+                <span>+ ADD / MANAGE TEAMS</span>
+              </button>
+            )}
 
             <button
               onClick={() => {

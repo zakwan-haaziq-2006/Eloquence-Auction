@@ -58,27 +58,40 @@ export default function BidderDashboard({
   const purseSpent = +(totalPurse - purseRemaining).toFixed(2);
   const acquiredPlayers = team.acquiredPlayers || [];
 
-  // Dynamic role counts computed directly from acquiredPlayers (guaranteed accurate across all devices/sync)
+  // Dynamic role counts computed directly from acquiredPlayers + squadRoleCounts fallback
   const computedRoleCounts = useMemo(() => {
     const counts = { Batsman: 0, Bowler: 0, 'All-Rounder': 0, Wicketkeeper: 0 };
-    acquiredPlayers.forEach((p) => {
-      const role = p.role || 'Batsman';
-      if (counts[role] !== undefined) {
-        counts[role] += 1;
-      } else if (role.toLowerCase().includes('bat')) {
-        counts.Batsman += 1;
-      } else if (role.toLowerCase().includes('bowl')) {
-        counts.Bowler += 1;
-      } else if (role.toLowerCase().includes('round')) {
-        counts['All-Rounder'] += 1;
-      } else if (role.toLowerCase().includes('keep')) {
-        counts.Wicketkeeper += 1;
-      } else {
-        counts[role] = (counts[role] || 0) + 1;
-      }
-    });
+    
+    // 1. First count from acquiredPlayers list
+    if (Array.isArray(acquiredPlayers) && acquiredPlayers.length > 0) {
+      acquiredPlayers.forEach((p) => {
+        const role = p.role || 'Batsman';
+        if (counts[role] !== undefined) {
+          counts[role] += 1;
+        } else if (role.toLowerCase().includes('bat')) {
+          counts.Batsman += 1;
+        } else if (role.toLowerCase().includes('bowl')) {
+          counts.Bowler += 1;
+        } else if (role.toLowerCase().includes('round')) {
+          counts['All-Rounder'] += 1;
+        } else if (role.toLowerCase().includes('keep')) {
+          counts.Wicketkeeper += 1;
+        } else {
+          counts[role] = (counts[role] || 0) + 1;
+        }
+      });
+    }
+
+    // 2. Cross-check against team.squadRoleCounts to guarantee no counts are lost on mobile/cloud sync
+    if (team.squadRoleCounts) {
+      counts.Batsman = Math.max(counts.Batsman, team.squadRoleCounts.Batsman || 0);
+      counts.Bowler = Math.max(counts.Bowler, team.squadRoleCounts.Bowler || 0);
+      counts['All-Rounder'] = Math.max(counts['All-Rounder'], team.squadRoleCounts['All-Rounder'] || 0);
+      counts.Wicketkeeper = Math.max(counts.Wicketkeeper, team.squadRoleCounts.Wicketkeeper || 0);
+    }
+
     return counts;
-  }, [acquiredPlayers]);
+  }, [acquiredPlayers, team.squadRoleCounts]);
 
   const isLeading = leadingTeam?.id === team.id;
 
@@ -427,36 +440,57 @@ export default function BidderDashboard({
             background: 'linear-gradient(165deg, rgba(14, 34, 22, 0.9) 0%, rgba(4, 14, 8, 0.95) 100%)',
             border: '1px solid rgba(57, 255, 136, 0.22)',
             borderRadius: '16px',
-            padding: '0.85rem 1.25rem'
+            padding: '0.85rem 1.25rem',
+            display: 'flex',
+            flexDirection: 'column',
+            gap: '0.65rem'
           }}
         >
-          <div className="metric-chip" style={{ color: '#ffffff', fontFamily: 'var(--font-display)', fontSize: '0.82rem' }}>
-            <Users size={16} style={{ color: '#39ff88' }} />
-            <span>Squad: <strong style={{ color: '#39ff88' }}>{team.squadCount || 0} / {team.squadMax || 16}</strong></span>
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '0.5rem', flexWrap: 'wrap', width: '100%' }}>
+            <div className="metric-chip" style={{ color: '#ffffff', fontFamily: 'var(--font-display)', fontSize: '0.82rem' }}>
+              <Users size={16} style={{ color: '#39ff88' }} />
+              <span>Squad: <strong style={{ color: '#39ff88' }}>{team.squadCount || 0} / {team.squadMax || 16}</strong></span>
+            </div>
+
+            <div className="metric-chip" style={{ color: '#ffffff', fontFamily: 'var(--font-display)', fontSize: '0.82rem' }}>
+              <Award size={16} style={{ color: '#38bdf8' }} />
+              <span>Overseas: <strong style={{ color: '#38bdf8' }}>{team.overseasCount || 0} / {team.overseasMax || 8}</strong></span>
+            </div>
           </div>
 
-          <div className="metric-chip" style={{ color: '#ffffff', fontFamily: 'var(--font-display)', fontSize: '0.82rem' }}>
-            <Award size={16} style={{ color: '#38bdf8' }} />
-            <span>Overseas: <strong style={{ color: '#38bdf8' }}>{team.overseasCount || 0} / {team.overseasMax || 8}</strong></span>
-          </div>
-
-          {/* Role Counts */}
+          {/* Role Counts (5 Bat, 5 Bowl, 4 AR, 2 WK) */}
           <div className="role-distribution-group">
-            {Object.entries(computedRoleCounts).map(([role, count]) => (
-              <span 
-                key={role} 
-                className="role-pill"
-                style={{
-                  background: 'rgba(2, 8, 4, 0.8)',
-                  border: '1px solid rgba(57, 255, 136, 0.25)',
-                  color: '#e0e6e0',
-                  fontFamily: 'var(--font-mono)',
-                  fontSize: '0.74rem'
-                }}
-              >
-                {role}: <strong style={{ color: '#39ff88' }}>{count}</strong>
-              </span>
-            ))}
+            {[
+              { key: 'Batsman', label: 'BAT', target: 5 },
+              { key: 'Bowler', label: 'BOWL', target: 5 },
+              { key: 'All-Rounder', label: 'AR', target: 4 },
+              { key: 'Wicketkeeper', label: 'WK', target: 2 }
+            ].map(({ key, label, target }) => {
+              const count = computedRoleCounts[key] || 0;
+              const isMet = count >= target;
+              return (
+                <span 
+                  key={key} 
+                  className={`role-pill ${isMet ? 'role-met' : ''}`}
+                  style={{
+                    background: isMet ? 'rgba(0, 168, 59, 0.25)' : 'rgba(2, 8, 4, 0.8)',
+                    border: isMet ? '1px solid #39ff88' : '1px solid rgba(57, 255, 136, 0.25)',
+                    color: isMet ? '#39ff88' : '#e0e6e0',
+                    fontFamily: 'var(--font-mono)',
+                    fontSize: '0.74rem',
+                    padding: '0.32rem 0.5rem',
+                    borderRadius: '8px',
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    gap: '0.25rem'
+                  }}
+                >
+                  <span style={{ opacity: 0.8 }}>{label}:</span>
+                  <strong style={{ color: isMet ? '#39ff88' : '#ffffff' }}>{count}/{target}</strong>
+                </span>
+              );
+            })}
           </div>
         </section>
 

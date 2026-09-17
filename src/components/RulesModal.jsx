@@ -43,7 +43,7 @@ export default function RulesModal({ onClose }) {
           </div>
           <div className="stat-box" style={{ background: 'rgba(2, 8, 4, 0.85)', padding: '0.6rem' }}>
             <span className="stat-label">MANDATORY ROLES</span>
-            <div className="stat-val" style={{ color: '#ffd700', fontSize: '0.85rem', marginTop: '0.2rem' }}>5 Bat • 5 Bowl • 3 AR • 2 WK</div>
+            <div className="stat-val" style={{ color: '#ffd700', fontSize: '0.85rem', marginTop: '0.2rem' }}>5 Bat • 5 Bowl • 4 AR • 2 WK</div>
           </div>
         </div>
 
