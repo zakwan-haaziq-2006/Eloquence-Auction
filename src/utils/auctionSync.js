@@ -103,26 +103,52 @@ export function decompressAuctionState(compact, baseTeams = INITIAL_TEAMS, baseP
       ? compact.squads[t.id] 
       : t.squadCount;
 
+    let overseasCount = 0;
+    const roleCounts = { Batsman: 0, Bowler: 0, 'All-Rounder': 0, Wicketkeeper: 0 };
+
     const teamAcquired = (compact.acquired || [])
       .filter((a) => a.teamId === t.id)
       .map((a) => {
         const fullPlayer = (basePlayers || INITIAL_PLAYERS).find((p) => p.id === a.id);
+        const playerRole = a.role || fullPlayer?.role || 'Batsman';
+        const isOverseas = fullPlayer?.isOverseas || false;
+
+        if (roleCounts[playerRole] !== undefined) {
+          roleCounts[playerRole] += 1;
+        } else if (playerRole.toLowerCase().includes('bat')) {
+          roleCounts.Batsman += 1;
+        } else if (playerRole.toLowerCase().includes('bowl')) {
+          roleCounts.Bowler += 1;
+        } else if (playerRole.toLowerCase().includes('round')) {
+          roleCounts['All-Rounder'] += 1;
+        } else if (playerRole.toLowerCase().includes('keep')) {
+          roleCounts.Wicketkeeper += 1;
+        } else {
+          roleCounts[playerRole] = 1;
+        }
+
+        if (isOverseas) overseasCount += 1;
+
         return {
           id: a.id,
           name: fullPlayer?.name || 'Player',
           price: a.price,
           bidAmount: a.price,
-          role: a.role || fullPlayer?.role || 'Batsman',
-          isOverseas: fullPlayer?.isOverseas || false,
+          role: playerRole,
+          isOverseas: isOverseas,
           country: fullPlayer?.country || 'India',
-          image: fullPlayer?.image
+          image: fullPlayer?.image,
+          photoUrl: fullPlayer?.photoUrl || fullPlayer?.image
         };
       });
 
     return {
       ...t,
+      squadMax: 16,
       purseRemaining: updatedPurse,
-      squadCount: updatedSquad,
+      squadCount: updatedSquad ?? teamAcquired.length,
+      overseasCount: overseasCount,
+      squadRoleCounts: roleCounts,
       acquiredPlayers: teamAcquired
     };
   });

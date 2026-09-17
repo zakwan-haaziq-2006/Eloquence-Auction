@@ -180,7 +180,7 @@ export default function Header({
             boxShadow: '0 2px 10px rgba(0,0,0,0.5)',
             transition: 'all 0.2s ease'
           }}
-          title="View Official SGC Auction Rules"
+          title="View Official Eloquence Auction Rules"
         >
           <BookOpen size={13} />
           <span>RULES</span>

@@ -93,7 +93,7 @@ export default function TeamDetailModal({ team, onClose }) {
                 {team.squadCount} / {team.squadMax}
               </div>
               <span style={{ fontSize: '0.62rem', color: '#39ff88', display: 'block', marginTop: '0.1rem', fontFamily: 'var(--font-mono)' }}>
-                {team.squadCount >= 15 ? '✓ Mandatory Met' : '15 Mandatory + 3 Flex'}
+                {team.squadCount >= 15 ? '✓ Mandatory Met' : '15 Mandatory + 1 Flex'}
               </span>
             </div>
           </div>
@@ -101,7 +101,7 @@ export default function TeamDetailModal({ team, onClose }) {
           {/* Role Composition Progress Grid */}
           <div>
             <h4 style={{ fontFamily: 'var(--font-display)', fontSize: '0.76rem', letterSpacing: '0.08em', marginBottom: '0.45rem', color: '#a3ffd6' }}>
-              ROLE TARGETS PROGRESS (15 MANDATORY + 3 FLEX EXTRA SLOTS)
+              ROLE TARGETS PROGRESS (15 MANDATORY + 1 FLEX EXTRA SLOT)
             </h4>
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(90px, 1fr))', gap: '0.5rem' }}>
               <div style={{ background: 'rgba(4, 14, 8, 0.75)', border: '1px solid rgba(57, 255, 136, 0.15)', padding: '0.45rem', borderRadius: '10px' }}>
@@ -147,10 +147,10 @@ export default function TeamDetailModal({ team, onClose }) {
               <div style={{ background: 'rgba(4, 14, 8, 0.75)', padding: '0.45rem', borderRadius: '10px', border: '1px solid rgba(214, 193, 154, 0.4)' }}>
                 <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.68rem', fontWeight: 700, color: '#d6c19a' }}>
                   <span>FLEX</span>
-                  <span>{Math.max(0, team.squadCount - Math.min(5, team.squadRoleCounts.Batsman || 0) - Math.min(5, team.squadRoleCounts.Bowler || 0) - Math.min(3, team.squadRoleCounts['All-Rounder'] || 0) - Math.min(2, team.squadRoleCounts.Wicketkeeper || 0))}/3</span>
+                  <span>{Math.max(0, team.squadCount - Math.min(5, team.squadRoleCounts.Batsman || 0) - Math.min(5, team.squadRoleCounts.Bowler || 0) - Math.min(3, team.squadRoleCounts['All-Rounder'] || 0) - Math.min(2, team.squadRoleCounts.Wicketkeeper || 0))}/1</span>
                 </div>
                 <div style={{ width: '100%', height: '4px', background: 'rgba(255,255,255,0.08)', borderRadius: '2px', marginTop: '0.3rem' }}>
-                  <div style={{ width: `${Math.min(100, (Math.max(0, team.squadCount - Math.min(5, team.squadRoleCounts.Batsman || 0) - Math.min(5, team.squadRoleCounts.Bowler || 0) - Math.min(3, team.squadRoleCounts['All-Rounder'] || 0) - Math.min(2, team.squadRoleCounts.Wicketkeeper || 0)) / 3) * 100)}%`, height: '100%', background: '#ffd700', borderRadius: '2px', boxShadow: '0 0 6px #ffd700' }} />
+                  <div style={{ width: `${Math.min(100, (Math.max(0, team.squadCount - Math.min(5, team.squadRoleCounts.Batsman || 0) - Math.min(5, team.squadRoleCounts.Bowler || 0) - Math.min(3, team.squadRoleCounts['All-Rounder'] || 0) - Math.min(2, team.squadRoleCounts.Wicketkeeper || 0)) / 1) * 100)}%`, height: '100%', background: '#ffd700', borderRadius: '2px', boxShadow: '0 0 6px #ffd700' }} />
                 </div>
               </div>
             </div>

@@ -142,7 +142,7 @@ export default function SidebarTeams({ teams, onInspectTeam }) {
                       {team.name}
                     </h4>
                     <span style={{ fontSize: '0.72rem', color: '#9eb8a8', fontFamily: 'var(--font-mono)' }}>
-                      Squad: {team.squadCount} / 18 • OS: {team.overseasCount} / 8
+                      Squad: {team.squadCount} / {team.squadMax || 16} • OS: {team.overseasCount} / {team.overseasMax || 8}
                     </span>
                   </div>
                 </div>
@@ -206,7 +206,7 @@ export default function SidebarTeams({ teams, onInspectTeam }) {
                 <div className="stat-box" style={{ background: 'rgba(2, 8, 4, 0.8)', border: '1px solid rgba(214, 193, 154, 0.4)', padding: '0.35rem 0.2rem' }}>
                   <span className="stat-label" style={{ color: '#d6c19a', fontSize: '0.55rem' }}>FLEX</span>
                   <div className="stat-val" style={{ color: '#ffd700', fontSize: '0.85rem' }}>
-                    {Math.max(0, team.squadCount - Math.min(5, team.squadRoleCounts.Batsman || 0) - Math.min(5, team.squadRoleCounts.Bowler || 0) - Math.min(3, team.squadRoleCounts['All-Rounder'] || 0) - Math.min(2, team.squadRoleCounts.Wicketkeeper || 0))}/3
+                    {Math.max(0, team.squadCount - Math.min(5, team.squadRoleCounts.Batsman || 0) - Math.min(5, team.squadRoleCounts.Bowler || 0) - Math.min(3, team.squadRoleCounts['All-Rounder'] || 0) - Math.min(2, team.squadRoleCounts.Wicketkeeper || 0))}/1
                   </div>
                 </div>
               </div>

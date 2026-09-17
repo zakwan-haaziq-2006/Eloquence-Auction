@@ -238,9 +238,9 @@ export default function App() {
   const handlePlaceBid = useCallback((team) => {
     if (status !== 'LIVE' || showIntro || showCategoryTransition) return;
 
-    // Rule 12: 18-Player Squad Cap Check
-    if (team.squadCount >= 18) {
-      alert(`RULE 12 VIOLATION: ${team.name} (${team.code}) has completed its exact 18-player squad! No further bids permitted.`);
+    // Rule 12: 16-Player Squad Cap Check
+    if (team.squadCount >= (team.squadMax || 16)) {
+      alert(`RULE 12 VIOLATION: ${team.name} (${team.code}) has completed its exact 16-player squad! No further bids permitted.`);
       return;
     }
 
@@ -486,7 +486,7 @@ export default function App() {
   };
 
   const handleResetData = () => {
-    if (window.confirm('Reset all IPL Auction data to initial SGC ₹80 Cr purse state?')) {
+    if (window.confirm('Reset all IPL Auction data to initial Eloquence ₹80 Cr purse state?')) {
       clearAuctionState();
       setTeams(INITIAL_TEAMS);
       setPlayers(INITIAL_PLAYERS);

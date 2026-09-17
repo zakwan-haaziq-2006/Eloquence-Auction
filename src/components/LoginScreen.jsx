@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Shield, Users, Lock, User, ArrowRight, AlertCircle, Sparkles, RotateCw } from 'lucide-react';
+import { Shield, Users, Lock, User, ArrowRight, AlertCircle, Sparkles } from 'lucide-react';
 import { ADMIN_CREDENTIALS, INITIAL_TEAMS } from '../data/auctionData';
 
 export default function LoginScreen({ onLoginSuccess, onRefresh, isRefreshing = false }) {
@@ -101,25 +101,6 @@ export default function LoginScreen({ onLoginSuccess, onRefresh, isRefreshing = 
         <h2 className="login-title">DOOMSDAY AUCTION PORTAL</h2>
         <p className="login-subtitle">Authenticate to access tactical command center</p>
 
-        {/* Live Sync Status & Refresh Button */}
-        <div className="login-sync-bar" style={{ width: '100%' }}>
-          <div className="login-sync-indicator">
-            <span className="sync-pulse-dot"></span>
-            <span style={{ fontFamily: 'var(--font-mono)' }}>Live Cloud Sync Active</span>
-          </div>
-          {onRefresh && (
-            <button
-              type="button"
-              className={`login-refresh-btn ${isRefreshing ? 'refreshing' : ''}`}
-              onClick={onRefresh}
-              title="Refresh Live Auction Data"
-            >
-              <RotateCw size={13} className={isRefreshing ? 'spin-anim' : ''} />
-              <span>{isRefreshing ? 'Syncing...' : 'Refresh'}</span>
-            </button>
-          )}
-        </div>
-
         {/* Role Selector Tabs */}
         <div className="login-role-tabs">
           <button
@@ -158,7 +139,7 @@ export default function LoginScreen({ onLoginSuccess, onRefresh, isRefreshing = 
               id="login-username"
               type="text"
               className="login-input"
-              placeholder={loginMode === 'admin' ? 'eloquence@admin' : 'csk'}
+              placeholder={loginMode === 'admin' ? '' : 'csk'}
               value={username}
               onChange={(e) => setUsername(e.target.value)}
               required
@@ -174,7 +155,7 @@ export default function LoginScreen({ onLoginSuccess, onRefresh, isRefreshing = 
               id="login-password"
               type="password"
               className="login-input"
-              placeholder={loginMode === 'admin' ? 'eloquence@auction' : 'csk@eloquence'}
+              placeholder={loginMode === 'admin' ? '' : 'csk@eloquence'}
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               required
@@ -187,28 +168,30 @@ export default function LoginScreen({ onLoginSuccess, onRefresh, isRefreshing = 
           </button>
         </form>
 
-        {/* Franchise Team Selectors */}
-        <div className="quick-credentials-section">
-          <div className="quick-cred-title">
-            <Sparkles size={13} /> Quick Select Franchise Team
+        {/* Franchise Team Selectors - Only shown for Bidder mode */}
+        {loginMode === 'bidder' && (
+          <div className="quick-credentials-section">
+            <div className="quick-cred-title">
+              <Sparkles size={13} /> Quick Select Franchise Team
+            </div>
+            <div className="quick-cred-buttons">
+              {INITIAL_TEAMS.slice(0, 5).map((team) => (
+                <button
+                  key={team.id}
+                  type="button"
+                  className="quick-cred-chip"
+                  style={{ borderColor: team.primaryColor, color: '#FFF' }}
+                  onClick={() => handleQuickFillTeam(team)}
+                >
+                  🏏 {team.code}
+                </button>
+              ))}
+            </div>
+            <p style={{ fontSize: '0.7rem', color: '#9eb8a8', marginTop: '0.2rem', fontFamily: 'var(--font-mono)' }}>
+              Tip: Click a team and enter password <code style={{ color: '#39ff88', background: 'rgba(57,255,136,0.1)', padding: '0.1rem 0.3rem', borderRadius: '4px' }}>[team]@eloquence</code>
+            </p>
           </div>
-          <div className="quick-cred-buttons">
-            {INITIAL_TEAMS.slice(0, 5).map((team) => (
-              <button
-                key={team.id}
-                type="button"
-                className="quick-cred-chip"
-                style={{ borderColor: team.primaryColor, color: '#FFF' }}
-                onClick={() => handleQuickFillTeam(team)}
-              >
-                🏏 {team.code}
-              </button>
-            ))}
-          </div>
-          <p style={{ fontSize: '0.7rem', color: '#9eb8a8', marginTop: '0.2rem', fontFamily: 'var(--font-mono)' }}>
-            Tip: Click a team and enter password <code style={{ color: '#39ff88', background: 'rgba(57,255,136,0.1)', padding: '0.1rem 0.3rem', borderRadius: '4px' }}>[team]@eloquence</code>
-          </p>
-        </div>
+        )}
       </div>
     </div>
   );

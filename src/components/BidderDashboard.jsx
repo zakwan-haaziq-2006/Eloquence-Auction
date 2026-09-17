@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import { 
   LogOut, Wallet, TrendingUp, CreditCard, Shield, Users, 
   Search, Award, UserCheck, AlertCircle, Radio, Sparkles, User,
@@ -45,8 +45,8 @@ export default function BidderDashboard({
 
   if (!team) {
     return (
-      <div className="bidder-dashboard-empty" style={{ padding: '3rem', textAlign: 'center', color: '#fff' }}>
-        <h2>Team Not Found</h2>
+      <div className="bidder-dashboard-container" style={{ padding: '2rem', textAlign: 'center', color: '#FFF' }}>
+        <h2>Franchise Not Found</h2>
         <button onClick={onLogout} className="btn-sold" style={{ marginTop: '1rem' }}>Return to Login</button>
       </div>
     );
@@ -57,6 +57,28 @@ export default function BidderDashboard({
   const purseRemaining = team.purseRemaining ?? 80.0;
   const purseSpent = +(totalPurse - purseRemaining).toFixed(2);
   const acquiredPlayers = team.acquiredPlayers || [];
+
+  // Dynamic role counts computed directly from acquiredPlayers (guaranteed accurate across all devices/sync)
+  const computedRoleCounts = useMemo(() => {
+    const counts = { Batsman: 0, Bowler: 0, 'All-Rounder': 0, Wicketkeeper: 0 };
+    acquiredPlayers.forEach((p) => {
+      const role = p.role || 'Batsman';
+      if (counts[role] !== undefined) {
+        counts[role] += 1;
+      } else if (role.toLowerCase().includes('bat')) {
+        counts.Batsman += 1;
+      } else if (role.toLowerCase().includes('bowl')) {
+        counts.Bowler += 1;
+      } else if (role.toLowerCase().includes('round')) {
+        counts['All-Rounder'] += 1;
+      } else if (role.toLowerCase().includes('keep')) {
+        counts.Wicketkeeper += 1;
+      } else {
+        counts[role] = (counts[role] || 0) + 1;
+      }
+    });
+    return counts;
+  }, [acquiredPlayers]);
 
   const isLeading = leadingTeam?.id === team.id;
 
@@ -111,41 +133,12 @@ export default function BidderDashboard({
             className={`bidder-refresh-btn ${isSpinning ? 'refreshing' : ''} ${showSyncSuccess ? 'synced' : ''}`}
             onClick={handleRefreshClick}
             title="Refresh Live Auction Stage from Admin Console"
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              gap: '0.45rem',
-              padding: '0.42rem 0.9rem',
-              borderRadius: '999px',
-              border: '1px solid rgba(57, 255, 136, 0.4)',
-              background: 'rgba(4, 18, 9, 0.75)',
-              color: '#39ff88',
-              fontFamily: 'var(--font-display)',
-              fontSize: '0.74rem',
-              fontWeight: 800,
-              cursor: 'pointer'
-            }}
           >
             <RotateCw size={14} className={isSpinning ? 'spin-anim' : ''} />
             <span>{isSpinning ? 'Syncing...' : showSyncSuccess ? '✓ Synced' : 'Sync Stage'}</span>
           </button>
 
-          <div 
-            className={`live-status-pill ${status.toLowerCase()}`}
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              gap: '0.45rem',
-              background: 'rgba(0, 168, 59, 0.15)',
-              border: '1px solid rgba(57, 255, 136, 0.35)',
-              color: '#39ff88',
-              padding: '0.38rem 0.85rem',
-              borderRadius: '999px',
-              fontFamily: 'var(--font-display)',
-              fontSize: '0.74rem',
-              fontWeight: 800
-            }}
-          >
+          <div className={`live-status-pill ${status.toLowerCase()}`}>
             <Radio size={13} className="pulse-icon" />
             <span>ARENA {showIntro ? 'STANDBY' : status}</span>
           </div>
@@ -154,20 +147,6 @@ export default function BidderDashboard({
             className="bidder-logout-btn" 
             onClick={onLogout} 
             title="Log Out"
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              gap: '0.4rem',
-              padding: '0.38rem 0.85rem',
-              borderRadius: '999px',
-              border: '1px solid rgba(239, 68, 68, 0.4)',
-              background: 'rgba(239, 68, 68, 0.12)',
-              color: '#f87171',
-              fontFamily: 'var(--font-display)',
-              fontSize: '0.74rem',
-              fontWeight: 800,
-              cursor: 'pointer'
-            }}
           >
             <LogOut size={14} />
             <span>Logout</span>
@@ -250,39 +229,7 @@ export default function BidderDashboard({
             </div>
 
             <div className="live-arena-grid">
-              {/* Left Column: Player Spotlight Card */}
-              <div className="arena-player-card">
-                <div className="arena-player-avatar-box">
-                  {currentPlayer.photoUrl || currentPlayer.image ? (
-                    <img 
-                      src={currentPlayer.photoUrl || currentPlayer.image} 
-                      alt={currentPlayer.name} 
-                      className="arena-player-img"
-                    />
-                  ) : (
-                    <User className="arena-player-fallback-svg" />
-                  )}
-                  <span className="arena-capped-badge">
-                    {currentPlayer.status || 'Capped'}
-                  </span>
-                </div>
-
-                <div className="arena-player-meta">
-                  <div className="arena-player-role-flag">
-                    <span className={`role-badge ${currentPlayer.role}`}>{currentPlayer.role}</span>
-                    <span className="arena-country" style={{ color: '#a3ffd6' }}>
-                      {currentPlayer.flag || '🇮🇳'} {currentPlayer.country || 'India'}
-                      {currentPlayer.isOverseas && <span title="Overseas Slot"> ✈️</span>}
-                    </span>
-                  </div>
-                  <h2 className="arena-player-name">{currentPlayer.name}</h2>
-                  <div className="arena-base-price" style={{ fontFamily: 'var(--font-mono)' }}>
-                    BASE PRICE: <strong style={{ color: '#d6c19a' }}>{formatPrice(currentPlayer.basePrice)}</strong>
-                  </div>
-                </div>
-              </div>
-
-              {/* Center Column: Current Bid Box */}
+              {/* Left Column: Current Bid Box & Recent Bids Stream */}
               <div className="arena-bid-center">
                 <div className="arena-bid-box">
                   <span className="arena-bid-title" style={{ fontFamily: 'var(--font-display)', color: '#a3ffd6' }}>CURRENT HIGHEST BID</span>
@@ -333,6 +280,38 @@ export default function BidderDashboard({
                     </div>
                   </div>
                 )}
+              </div>
+
+              {/* Center Column: Hero Player Spotlight Card */}
+              <div className="arena-player-card">
+                <div className="arena-player-avatar-box">
+                  {currentPlayer.photoUrl || currentPlayer.image ? (
+                    <img 
+                      src={currentPlayer.photoUrl || currentPlayer.image} 
+                      alt={currentPlayer.name} 
+                      className="arena-player-img"
+                    />
+                  ) : (
+                    <User className="arena-player-fallback-svg" />
+                  )}
+                  <span className="arena-capped-badge">
+                    {currentPlayer.status || 'Capped'}
+                  </span>
+                </div>
+
+                <div className="arena-player-meta">
+                  <div className="arena-player-role-flag">
+                    <span className={`role-badge ${currentPlayer.role}`}>{currentPlayer.role}</span>
+                    <span className="arena-country" style={{ color: '#a3ffd6' }}>
+                      {currentPlayer.flag || '🇮🇳'} {currentPlayer.country || 'India'}
+                      {currentPlayer.isOverseas && <span title="Overseas Slot"> ✈️</span>}
+                    </span>
+                  </div>
+                  <h2 className="arena-player-name">{currentPlayer.name}</h2>
+                  <div className="arena-base-price" style={{ fontFamily: 'var(--font-mono)' }}>
+                    BASE PRICE: <strong style={{ color: '#d6c19a' }}>{formatPrice(currentPlayer.basePrice)}</strong>
+                  </div>
+                </div>
               </div>
 
               {/* Right Column: Leading Team Showcase Card */}
@@ -404,7 +383,7 @@ export default function BidderDashboard({
                 {totalPurse.toFixed(2)}
                 <span className="unit-label">Cr</span>
               </div>
-              <span className="purse-card-subtext" style={{ color: '#9eb8a8', fontFamily: 'var(--font-mono)' }}>Official SGC Franchise Purse</span>
+              <span className="purse-card-subtext" style={{ color: '#9eb8a8', fontFamily: 'var(--font-mono)' }}>Official Eloquence Franchise Purse</span>
             </div>
           </div>
 
@@ -453,7 +432,7 @@ export default function BidderDashboard({
         >
           <div className="metric-chip" style={{ color: '#ffffff', fontFamily: 'var(--font-display)', fontSize: '0.82rem' }}>
             <Users size={16} style={{ color: '#39ff88' }} />
-            <span>Squad: <strong style={{ color: '#39ff88' }}>{team.squadCount || 0} / {team.squadMax || 18}</strong></span>
+            <span>Squad: <strong style={{ color: '#39ff88' }}>{team.squadCount || 0} / {team.squadMax || 16}</strong></span>
           </div>
 
           <div className="metric-chip" style={{ color: '#ffffff', fontFamily: 'var(--font-display)', fontSize: '0.82rem' }}>
@@ -463,7 +442,7 @@ export default function BidderDashboard({
 
           {/* Role Counts */}
           <div className="role-distribution-group">
-            {Object.entries(team.squadRoleCounts || {}).map(([role, count]) => (
+            {Object.entries(computedRoleCounts).map(([role, count]) => (
               <span 
                 key={role} 
                 className="role-pill"

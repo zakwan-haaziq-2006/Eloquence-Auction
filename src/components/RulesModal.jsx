@@ -21,7 +21,7 @@ export default function RulesModal({ onClose }) {
                 ELOQUENCE '26 — DOOMSDAY AUCTION RULES
               </h3>
               <span style={{ fontSize: '0.72rem', color: '#39ff88', fontWeight: 700, letterSpacing: '0.08em', fontFamily: 'var(--font-mono)' }}>
-                OFFICIAL GUIDELINES & SQUAD CONSTRAINTS (₹80 CR PURSE • EXACT 18 PLAYERS)
+                OFFICIAL GUIDELINES & SQUAD CONSTRAINTS (₹80 CR PURSE • EXACT 16 PLAYERS)
               </span>
             </div>
           </div>
@@ -39,7 +39,7 @@ export default function RulesModal({ onClose }) {
           </div>
           <div className="stat-box" style={{ background: 'rgba(2, 8, 4, 0.85)', padding: '0.6rem' }}>
             <span className="stat-label">EXACT SQUAD</span>
-            <div className="stat-val" style={{ color: '#FFFFFF', fontSize: '1.2rem' }}>18 Players</div>
+            <div className="stat-val" style={{ color: '#FFFFFF', fontSize: '1.2rem' }}>16 Players</div>
           </div>
           <div className="stat-box" style={{ background: 'rgba(2, 8, 4, 0.85)', padding: '0.6rem' }}>
             <span className="stat-label">MANDATORY ROLES</span>

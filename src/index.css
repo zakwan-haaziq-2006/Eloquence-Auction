@@ -1660,6 +1660,99 @@ html, body {
   font-family: var(--font-mono);
 }
 
+.bidder-header-right {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+}
+
+.bidder-refresh-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  height: 36px;
+  padding: 0 0.95rem;
+  border-radius: 999px;
+  border: 1px solid rgba(57, 255, 136, 0.4);
+  background: rgba(4, 18, 9, 0.75);
+  color: #39ff88;
+  font-family: var(--font-display);
+  font-size: 0.74rem;
+  font-weight: 800;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+  white-space: nowrap;
+}
+
+.bidder-refresh-btn:hover {
+  background: rgba(57, 255, 136, 0.2);
+  border-color: #39ff88;
+  color: #ffffff;
+  box-shadow: 0 0 14px rgba(57, 255, 136, 0.4);
+}
+
+.bidder-refresh-btn.synced {
+  border-color: #38bdf8;
+  color: #38bdf8;
+  background: rgba(56, 189, 248, 0.15);
+}
+
+.live-status-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  height: 36px;
+  padding: 0 0.9rem;
+  border-radius: 999px;
+  background: rgba(0, 168, 59, 0.15);
+  border: 1px solid rgba(57, 255, 136, 0.35);
+  color: #39ff88;
+  font-family: var(--font-display);
+  font-size: 0.74rem;
+  font-weight: 800;
+  white-space: nowrap;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+.live-status-pill.sold {
+  background: rgba(255, 215, 0, 0.15);
+  border-color: #ffd700;
+  color: #ffd700;
+}
+
+.live-status-pill.unsold {
+  background: rgba(239, 68, 68, 0.15);
+  border-color: #ef4444;
+  color: #ef4444;
+}
+
+.bidder-logout-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  height: 36px;
+  padding: 0 0.9rem;
+  border-radius: 999px;
+  border: 1px solid rgba(239, 68, 68, 0.4);
+  background: rgba(239, 68, 68, 0.12);
+  color: #f87171;
+  font-family: var(--font-display);
+  font-size: 0.74rem;
+  font-weight: 800;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+.bidder-logout-btn:hover {
+  background: rgba(239, 68, 68, 0.25);
+  border-color: #ef4444;
+  color: #ffffff;
+  box-shadow: 0 0 12px rgba(239, 68, 68, 0.4);
+}
+
 /* ==========================================================================
    BIDDER DASHBOARD & LIVE DOOMSDAY ARENA
    ========================================================================== */
@@ -1744,43 +1837,50 @@ html, body {
 
 .live-arena-grid {
   display: grid;
-  grid-template-columns: 1.35fr 1.15fr 1.15fr;
+  grid-template-columns: 1fr 1.35fr 1fr;
   gap: 1rem;
   align-items: stretch;
   flex-shrink: 0;
-  min-height: 120px;
+  min-height: 135px;
 }
 
-/* Left Column: Spotlight Player Card */
+/* Center Column: Spotlight Player Card */
 .arena-player-card {
   display: flex;
   align-items: center;
-  gap: 1rem;
-  background: rgba(2, 8, 4, 0.75);
-  border: 1.5px solid rgba(57, 255, 136, 0.25);
-  border-radius: 14px;
-  padding: 0.75rem 0.95rem;
-  min-height: 115px;
+  gap: 1.15rem;
+  background: rgba(2, 8, 4, 0.85);
+  border: 1.8px solid rgba(57, 255, 136, 0.35);
+  border-radius: 16px;
+  padding: 0.85rem 1.15rem;
+  min-height: 125px;
   flex-shrink: 0;
+  box-shadow: 0 6px 22px rgba(0, 0, 0, 0.7), inset 0 0 20px rgba(57, 255, 136, 0.06);
+  transition: all 0.25s ease;
+}
+
+.arena-player-card:hover {
+  border-color: #39ff88;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.9), 0 0 22px rgba(57, 255, 136, 0.25);
 }
 
 .arena-player-avatar-box {
   position: relative;
-  width: 86px;
-  height: 104px;
-  min-width: 86px;
-  max-width: 86px;
-  min-height: 104px;
-  max-height: 104px;
-  border-radius: 12px;
+  width: 108px;
+  height: 128px;
+  min-width: 108px;
+  max-width: 108px;
+  min-height: 128px;
+  max-height: 128px;
+  border-radius: 14px;
   overflow: hidden;
   background: #020603;
-  border: 1.5px solid rgba(57, 255, 136, 0.45);
+  border: 1.8px solid rgba(57, 255, 136, 0.55);
   flex-shrink: 0;
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.7), 0 0 10px rgba(57, 255, 136, 0.2);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.8), 0 0 16px rgba(57, 255, 136, 0.3);
 }
 
 .arena-player-img {
@@ -1792,33 +1892,33 @@ html, body {
 }
 
 .arena-player-fallback-svg {
-  width: 44px;
-  height: 44px;
+  width: 52px;
+  height: 52px;
   color: #39ff88;
   opacity: 0.75;
 }
 
 .arena-capped-badge {
   position: absolute;
-  top: 4px;
-  left: 4px;
-  font-size: 0.58rem;
+  top: 5px;
+  left: 5px;
+  font-size: 0.62rem;
   font-weight: 800;
   text-transform: uppercase;
   background: rgba(0, 0, 0, 0.88);
   color: #39ff88;
   border: 1px solid rgba(57, 255, 136, 0.5);
   border-radius: 4px;
-  padding: 0.12rem 0.38rem;
+  padding: 0.14rem 0.42rem;
   z-index: 2;
   font-family: var(--font-display);
-  letter-spacing: 0.05em;
+  letter-spacing: 0.06em;
 }
 
 .arena-player-meta {
   display: flex;
   flex-direction: column;
-  gap: 0.25rem;
+  gap: 0.3rem;
   min-width: 0;
   justify-content: center;
   flex: 1;
@@ -1835,7 +1935,7 @@ html, body {
 
 .arena-player-role-flag .role-badge {
   font-size: 0.68rem;
-  padding: 0.12rem 0.45rem;
+  padding: 0.14rem 0.5rem;
   border-radius: 4px;
   font-family: var(--font-display);
   font-weight: 800;
@@ -1845,19 +1945,19 @@ html, body {
 }
 
 .arena-country {
-  font-size: 0.75rem;
+  font-size: 0.78rem;
   font-family: var(--font-body);
   font-weight: 600;
 }
 
 .arena-player-name {
   font-family: var(--font-display);
-  font-size: 1.32rem;
+  font-size: 1.45rem;
   font-weight: 900;
   color: #ffffff;
   line-height: 1.15;
-  margin: 0.1rem 0;
-  text-shadow: 0 0 14px rgba(57, 255, 136, 0.4);
+  margin: 0.15rem 0;
+  text-shadow: 0 0 16px rgba(57, 255, 136, 0.45);
   white-space: normal;
   word-break: break-word;
 }
@@ -2804,19 +2904,23 @@ html, body {
   .bidder-header-right {
     display: flex;
     align-items: center;
-    justify-content: space-between;
-    gap: 0.35rem;
+    justify-content: flex-end;
+    gap: 0.45rem;
     width: 100%;
+    flex-wrap: wrap;
   }
 
   .bidder-refresh-btn, .live-status-pill, .bidder-logout-btn {
-    padding: 0.32rem 0.6rem !important;
-    font-size: 0.68rem !important;
+    height: 32px;
+    padding: 0 0.65rem !important;
+    font-size: 0.72rem !important;
+    gap: 0.35rem !important;
   }
 
   .bidder-content {
     padding: 0.65rem 0.55rem;
     gap: 0.75rem;
+    overflow-y: auto;
   }
 
   .bidder-live-arena {
@@ -2826,23 +2930,35 @@ html, body {
   }
 
   .live-arena-grid {
-    grid-template-columns: 1fr;
+    display: flex;
+    flex-direction: column;
     gap: 0.65rem;
   }
 
+  /* Player Card takes top spotlight on mobile */
   .arena-player-card {
-    padding: 0.65rem;
-    gap: 0.75rem;
+    order: 1;
+    padding: 0.75rem 0.85rem;
+    gap: 0.85rem;
+    min-height: auto;
+  }
+
+  .arena-bid-center {
+    order: 2;
+  }
+
+  .arena-leading-showcase {
+    order: 3;
   }
 
   .arena-player-avatar-box {
-    width: 68px;
-    height: 82px;
-    min-width: 68px;
-    max-width: 68px;
-    min-height: 82px;
-    max-height: 82px;
-    border-radius: 10px;
+    width: 88px;
+    height: 108px;
+    min-width: 88px;
+    max-width: 88px;
+    min-height: 108px;
+    max-height: 108px;
+    border-radius: 12px;
   }
 
   .arena-player-img {
@@ -2852,7 +2968,7 @@ html, body {
   }
 
   .arena-player-name {
-    font-size: 1.25rem;
+    font-size: 1.3rem;
   }
 
   .arena-bid-box {
@@ -2911,25 +3027,73 @@ html, body {
     margin-top: 0.35rem;
   }
 
+  .acquired-players-section {
+    flex: none;
+    height: auto;
+    min-height: auto;
+    overflow: visible;
+  }
+
   .section-header-row {
     flex-direction: column;
     align-items: stretch;
-    gap: 0.5rem;
+    gap: 0.6rem;
   }
 
   .controls-group {
-    flex-direction: column;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
     width: 100%;
-    gap: 0.4rem;
+    gap: 0.45rem;
   }
 
-  .search-input-wrapper, .role-select-filter {
-    width: 100%;
+  .search-input-wrapper {
+    flex: 1;
+    min-width: 0;
+    width: auto;
+  }
+
+  .search-input-wrapper input {
+    width: 100% !important;
+  }
+
+  .role-select-filter {
+    flex-shrink: 0;
+    width: auto;
+    min-width: 125px;
   }
 
   .acquired-players-grid {
     grid-template-columns: 1fr;
     gap: 0.65rem;
+    overflow-y: visible !important;
+    max-height: none !important;
+    height: auto;
+  }
+
+  .no-acquired-players-box {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 1.5rem 1rem !important;
+    border-radius: 14px;
+    gap: 0.45rem;
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  .no-acquired-players-box h3 {
+    font-size: 1rem;
+    margin: 0.2rem 0;
+  }
+
+  .no-acquired-players-box p {
+    font-size: 0.76rem;
+    margin: 0;
+    max-width: 90%;
   }
 
   /* Teams and Queue tabs on Mobile */
