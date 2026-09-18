@@ -69,7 +69,7 @@ html, body {
   width: 100%;
   height: 100%;
   overflow: hidden;
-  background: var(--deep-black) url('/eloquence_auction_bg.jpg') no-repeat center center / cover fixed;
+  background: var(--deep-black) url('./assets/eloquence_auction_bg.jpg') no-repeat center center / cover fixed;
   color: var(--silver);
   font-family: var(--font-body);
   -webkit-font-smoothing: antialiased;
@@ -84,13 +84,7 @@ html, body {
 
 /* Background Atmosphere Layer */
 .revibe-bg-watermark {
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  background: url('/eloquence_auction_bg.jpg') no-repeat center center / cover;
-  opacity: 0.45;
-  mix-blend-mode: screen;
-  z-index: 0;
+  display: none;
 }
 
 /* App Container with Cyber Grid & Animated Reactor Glow */
@@ -104,7 +98,7 @@ html, body {
   overflow: hidden;
   padding: 0.35rem 0.85rem;
   gap: 0.35rem;
-  background: linear-gradient(180deg, rgba(2, 8, 4, 0.45) 0%, rgba(2, 8, 4, 0.72) 100%), url('/eloquence_auction_bg.jpg') no-repeat center center / cover fixed;
+  background: linear-gradient(180deg, rgba(2, 8, 4, 0.2) 0%, rgba(2, 8, 4, 0.48) 100%), url('./assets/eloquence_auction_bg.jpg') no-repeat center center / cover fixed;
 }
 
 .admin-app::before {
@@ -1133,7 +1127,7 @@ html, body {
   position: fixed;
   inset: 0;
   z-index: 9999;
-  background: linear-gradient(180deg, rgba(2, 8, 4, 0.45) 0%, rgba(2, 8, 4, 0.75) 100%), url('/eloquence_auction_bg.jpg') no-repeat center center / cover fixed;
+  background: linear-gradient(180deg, rgba(2, 8, 4, 0.2) 0%, rgba(2, 8, 4, 0.48) 100%), url('./assets/eloquence_auction_bg.jpg') no-repeat center center / cover fixed;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1385,8 +1379,7 @@ html, body {
   display: flex;
   align-items: center;
   justify-content: center;
-  background: linear-gradient(180deg, rgba(2, 8, 4, 0.5) 0%, rgba(2, 8, 4, 0.75) 100%), url('/eloquence_auction_bg.jpg') no-repeat center center / cover;
-  backdrop-filter: blur(14px);
+  background: linear-gradient(180deg, rgba(2, 8, 4, 0.2) 0%, rgba(2, 8, 4, 0.48) 100%), url('./assets/eloquence_auction_bg.jpg') no-repeat center center / cover fixed;
   padding: 1.5rem 1rem;
   overflow-y: auto;
 }
@@ -1621,7 +1614,7 @@ html, body {
   height: 100vh;
   display: flex;
   flex-direction: column;
-  background: linear-gradient(180deg, rgba(2, 8, 4, 0.5) 0%, rgba(2, 8, 4, 0.78) 100%), url('/eloquence_auction_bg.jpg') center center / cover fixed;
+  background: linear-gradient(180deg, rgba(2, 8, 4, 0.2) 0%, rgba(2, 8, 4, 0.48) 100%), url('./assets/eloquence_auction_bg.jpg') no-repeat center center / cover fixed;
   overflow: hidden;
   position: relative;
   z-index: 1;
@@ -1805,19 +1798,41 @@ html, body {
   flex-wrap: wrap;
   gap: 0.6rem;
   border-bottom: 1px solid rgba(57, 255, 136, 0.18);
-  padding-bottom: 0.55rem;
+  padding-bottom: 0.45rem;
   flex-shrink: 0;
+}
+
+.arena-title-group {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  flex-wrap: wrap;
 }
 
 .arena-title {
   display: flex;
   align-items: center;
-  gap: 0.45rem;
+  gap: 0.4rem;
+}
+
+.arena-sparkle-icon {
+  color: #39ff88;
+  flex-shrink: 0;
+}
+
+.arena-title-text {
   font-family: var(--font-display);
   font-size: 0.85rem;
   font-weight: 800;
   color: #39ff88;
   letter-spacing: 0.08em;
+  white-space: nowrap;
+}
+
+.arena-badges-group {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
 }
 
 .arena-live-indicator {
@@ -1828,7 +1843,11 @@ html, body {
   font-weight: 800;
   padding: 0.18rem 0.55rem;
   border-radius: 999px;
+  background: rgba(0, 168, 59, 0.25);
+  color: #39ff88;
+  border: 1px solid rgba(57, 255, 136, 0.4);
   font-family: var(--font-display);
+  white-space: nowrap;
 }
 
 .arena-quick-refresh-btn {
@@ -1845,12 +1864,63 @@ html, body {
   font-weight: 800;
   cursor: pointer;
   transition: all 0.2s ease;
+  white-space: nowrap;
 }
 
 .arena-quick-refresh-btn:hover {
   background: rgba(57, 255, 136, 0.25);
   color: #ffffff;
   border-color: #39ff88;
+}
+
+.arena-alerts-group {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.arena-leader-alert {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  background: rgba(0, 168, 59, 0.25);
+  border: 1px solid #39ff88;
+  color: #39ff88;
+  font-size: 0.72rem;
+  font-weight: 800;
+  padding: 0.25rem 0.75rem;
+  border-radius: 999px;
+  box-shadow: 0 0 16px rgba(57, 255, 136, 0.3);
+  font-family: var(--font-display);
+  white-space: nowrap;
+}
+
+.arena-last-sold-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: 0.72rem;
+  color: #a3ffd6;
+  background: rgba(2, 8, 4, 0.8);
+  border: 1px solid rgba(57, 255, 136, 0.2);
+  padding: 0.25rem 0.65rem;
+  border-radius: 999px;
+  font-family: var(--font-mono);
+  white-space: nowrap;
+}
+
+/* Responsive label toggles */
+.btn-label-mobile,
+.pill-label-mobile,
+.leader-text-mobile {
+  display: none;
+}
+
+.btn-label-desktop,
+.pill-label-desktop,
+.leader-text-desktop {
+  display: inline;
 }
 
 .live-arena-grid {
@@ -2703,6 +2773,9 @@ html, body {
     height: auto;
     min-height: 100dvh;
     -webkit-overflow-scrolling: touch;
+    background-position: center top !important;
+    background-attachment: scroll !important;
+    background-size: cover !important;
   }
 
   .admin-app {
@@ -2712,6 +2785,21 @@ html, body {
     overflow-y: auto;
     padding: 0.45rem;
     gap: 0.45rem;
+    background-position: center top !important;
+    background-attachment: scroll !important;
+    background-size: cover !important;
+  }
+
+  .login-screen-overlay {
+    background-position: center top !important;
+    background-attachment: scroll !important;
+    background-size: cover !important;
+  }
+
+  .bidder-dashboard-container {
+    background-position: center top !important;
+    background-attachment: scroll !important;
+    background-size: cover !important;
   }
 
   /* Header Bar on Mobile */
@@ -2912,58 +3000,166 @@ html, body {
     overflow-y: auto;
   }
 
+  /* Compact slim single-row header on mobile so background is visible */
   .bidder-header {
-    flex-direction: column;
-    align-items: stretch;
-    gap: 0.6rem;
-    padding: 0.65rem 0.85rem;
+    flex-direction: row !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    padding: 0.35rem 0.65rem !important;
+    min-height: 42px !important;
+    max-height: 46px !important;
+    gap: 0.35rem !important;
+    background: rgba(4, 12, 7, 0.6) !important;
+    backdrop-filter: blur(8px) !important;
   }
 
   .bidder-header-left {
-    gap: 0.65rem;
+    display: flex !important;
+    align-items: center !important;
+    gap: 0.4rem !important;
+    min-width: 0 !important;
+    flex: 1 1 auto !important;
   }
 
   .bidder-team-badge {
-    width: 40px;
-    height: 40px;
-    font-size: 1.1rem;
-    border-radius: 10px;
+    width: 28px !important;
+    height: 28px !important;
+    font-size: 0.78rem !important;
+    border-radius: 6px !important;
+    flex-shrink: 0 !important;
+  }
+
+  .bidder-team-info {
+    min-width: 0 !important;
   }
 
   .bidder-team-name {
-    font-size: 1.15rem;
+    font-size: 0.82rem !important;
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    max-width: 125px !important;
+    line-height: 1.1 !important;
   }
 
   .bidder-role-tag {
-    font-size: 0.68rem;
+    display: none !important;
   }
 
   .bidder-header-right {
-    display: flex;
-    align-items: center;
-    justify-content: flex-end;
-    gap: 0.45rem;
-    width: 100%;
-    flex-wrap: wrap;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: flex-end !important;
+    gap: 0.25rem !important;
+    width: auto !important;
+    flex-shrink: 0 !important;
+    flex-wrap: nowrap !important;
   }
 
   .bidder-refresh-btn, .live-status-pill, .bidder-logout-btn {
-    height: 32px;
-    padding: 0 0.65rem !important;
-    font-size: 0.72rem !important;
-    gap: 0.35rem !important;
+    height: 26px !important;
+    padding: 0 0.45rem !important;
+    font-size: 0.62rem !important;
+    gap: 0.25rem !important;
+    border-radius: 6px !important;
+  }
+
+  .btn-label-desktop,
+  .pill-label-desktop,
+  .leader-text-desktop {
+    display: none !important;
+  }
+
+  .btn-label-mobile,
+  .pill-label-mobile,
+  .leader-text-mobile {
+    display: inline !important;
   }
 
   .bidder-content {
-    padding: 0.65rem 0.55rem;
-    gap: 0.75rem;
+    padding: 0.65rem 0.5rem;
+    gap: 0.65rem;
     overflow-y: auto;
   }
 
   .bidder-live-arena {
-    padding: 0.85rem 0.65rem;
+    padding: 0.6rem 0.6rem;
     border-radius: 14px;
-    gap: 0.65rem;
+    gap: 0.5rem;
+    background: linear-gradient(165deg, rgba(14, 34, 22, 0.8) 0%, rgba(4, 14, 8, 0.85) 100%) !important;
+    backdrop-filter: blur(8px) !important;
+  }
+
+  .live-arena-header {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 0.35rem !important;
+    padding-bottom: 0.35rem !important;
+  }
+
+  .arena-title-group {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    width: 100% !important;
+    gap: 0.3rem !important;
+  }
+
+  .arena-title {
+    display: flex !important;
+    align-items: center !important;
+    gap: 0.25rem !important;
+    min-width: 0 !important;
+  }
+
+  .arena-sparkle-icon {
+    width: 12px !important;
+    height: 12px !important;
+    flex-shrink: 0 !important;
+  }
+
+  .arena-title-text {
+    font-size: 0.68rem !important;
+    letter-spacing: 0.04em !important;
+    white-space: nowrap !important;
+  }
+
+  .arena-badges-group {
+    display: flex !important;
+    align-items: center !important;
+    gap: 0.25rem !important;
+    flex-shrink: 0 !important;
+  }
+
+  .arena-live-indicator {
+    height: 20px !important;
+    font-size: 0.58rem !important;
+    padding: 0 0.4rem !important;
+    gap: 0.2rem !important;
+  }
+
+  .arena-quick-refresh-btn {
+    height: 20px !important;
+    font-size: 0.58rem !important;
+    padding: 0 0.45rem !important;
+    gap: 0.2rem !important;
+  }
+
+  .arena-alerts-group {
+    display: flex !important;
+    align-items: center !important;
+    gap: 0.25rem !important;
+    flex-wrap: wrap !important;
+  }
+
+  .arena-leader-alert {
+    font-size: 0.58rem !important;
+    padding: 0.15rem 0.45rem !important;
+  }
+
+  .arena-last-sold-badge {
+    font-size: 0.58rem !important;
+    padding: 0.15rem 0.45rem !important;
   }
 
   .live-arena-grid {
@@ -3160,6 +3356,15 @@ html, body {
    SMALL MOBILE PHONES (<= 480px)
    -------------------------------------------------------------------------- */
 @media (max-width: 480px) {
+  html, body,
+  .admin-app,
+  .login-screen-overlay,
+  .bidder-dashboard-container {
+    background-position: center 3% !important;
+    background-attachment: scroll !important;
+    background-size: cover !important;
+  }
+
   .admin-app {
     padding: 0.35rem;
     gap: 0.35rem;

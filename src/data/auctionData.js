@@ -217,20 +217,46 @@ export const INITIAL_TEAMS = [
 ];
 
 export const SGC_AUCTION_RULES = [
-  { id: 1, title: 'Random Team Allocation', text: 'A maximum of 10 teams will be allowed to participate. One representative from each team will pick a chit to randomly determine their IPL franchise. Once allotted, the team name cannot be changed.' },
-  { id: 2, title: 'IPL Franchise Names', text: 'The participating teams will be assigned actual IPL franchise names: CSK, MI, RCB, KKR, SRH, RR, DC, PBKS, GT and LSG.' },
-  { id: 3, title: '₹ 80 Crore Virtual Purse', text: 'Each team will receive a virtual purse of ₹80 Crore for the entire auction.' },
-  { id: 4, title: '16 Mandatory Core Composition', text: 'Every team must build a mandatory squad of 16 players, consisting of 5 Batsmen, 5 Bowlers, 4 All-rounders and 2 Wicketkeepers (no flex slots).' },
-  { id: 5, title: 'Strict 16-Player Roster Cap', text: 'Once a team acquires its 16 mandatory players, its squad is locked and no further acquisitions are permitted.' },
-  { id: 6, title: 'Purse Overflow Disqualification', text: 'Any team found bidding beyond its available purse will be immediately disqualified from the auction.' },
-  { id: 7, title: 'Purse Management Responsibility', text: 'Teams are responsible for managing their purse and must ensure they have sufficient funds to complete their 15 mandatory core players.' },
-  { id: 8, title: 'Bidding Efficiency', text: 'For smoother bidding, it is recommended that active bidding be primarily between two teams at a time, wherever possible.' },
-  { id: 9, title: 'Unsold Player Pool', text: 'Players who receive no bids will be declared UNSOLD and may be brought back in a later round at the organizers\' discretion.' },
-  { id: 10, title: 'Code of Conduct', text: 'Any fake bidding, intentional disruption, collusion or misconduct may result in disqualification.' },
-  { id: 11, title: 'Auctioneer Supremacy', text: 'The auctioneer\'s decision will be final and binding on all matters related to the auction.' },
-  { id: 12, title: '16-Player Cap Eligibility', text: 'Once a team completes its 16-player squad cap, it will no longer be eligible to participate in further bidding.' },
-  { id: 13, title: 'No Transfers / Exchanges', text: 'Player transfers, exchanges or replacements after the auction will not be permitted unless approved by the organizers.' },
-  { id: 14, title: 'Winner Determination', text: 'The winner will be determined based on the final squad\'s performance according to the scoring system announced by the organizers.' }
+  { 
+    id: 1, 
+    title: 'Team Participation & Allocation', 
+    text: 'A maximum of 12 teams will participate, with each team being randomly assigned an IPL franchise name.' 
+  },
+  { 
+    id: 2, 
+    title: 'Virtual Purse Allocation', 
+    text: 'Each team will receive a virtual purse of ₹80 Crore for the entire auction.' 
+  },
+  { 
+    id: 3, 
+    title: 'Minimum Squad Size Requirement', 
+    text: 'Each team must build a minimum squad of 16 players to remain eligible for winner evaluation.' 
+  },
+  { 
+    id: 4, 
+    title: 'Playing XI Composition Constraints', 
+    text: 'The Playing XI must consist of at least 4 batsmen, 4 bowlers, 1 wicketkeeper, and 2 all-rounders.' 
+  },
+  { 
+    id: 5, 
+    title: 'Overseas & Impact Player Regulations', 
+    text: 'A maximum of 4 overseas players is permitted in the Playing XI, with 1 Impact Player allowed.' 
+  },
+  { 
+    id: 6, 
+    title: 'Fair Play & Disqualification Penalties', 
+    text: 'Exceeding the allocated purse, fake bidding, collusion, or any form of malpractice will result in disqualification.' 
+  },
+  { 
+    id: 7, 
+    title: 'Winner Evaluation & Scoring', 
+    text: 'The winner will be determined based on the performance of the Playing XI according to the announced scoring criteria, along with the applicable evaluation rules.' 
+  },
+  { 
+    id: 8, 
+    title: 'Official Authority & Final Binding Decisions', 
+    text: 'The decision of the auctioneer and judges will be final and binding in all matters related to the auction.' 
+  }
 ];
 
 export const INITIAL_PLAYERS = [

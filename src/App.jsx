@@ -15,6 +15,7 @@ import BidderDashboard from './components/BidderDashboard';
 import AddTeamModal from './components/AddTeamModal';
 import { INITIAL_TEAMS, INITIAL_PLAYERS } from './data/auctionData';
 import { sounds } from './utils/soundEffects';
+import bgImage from './assets/eloquence_auction_bg.jpg';
 import { 
   saveAuctionState, 
   loadAuctionState, 
@@ -693,7 +694,10 @@ export default function App() {
 
   // 3. Admin Auction Management Console
   return (
-    <div className="admin-app">
+    <div 
+      className="admin-app"
+      style={{ backgroundImage: `linear-gradient(180deg, rgba(2, 8, 4, 0.2) 0%, rgba(2, 8, 4, 0.48) 100%), url(${bgImage})` }}
+    >
       <div className="revibe-bg-watermark"></div>
       
       {/* Intro Animation & 10-Second Countdown Screen */}

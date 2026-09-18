@@ -4,6 +4,7 @@ import {
   Search, Award, UserCheck, AlertCircle, Radio, Sparkles, User,
   CheckCircle2, Clock, Activity, Flame, RotateCw
 } from 'lucide-react';
+import bgImage from '../assets/eloquence_auction_bg.jpg';
 
 export default function BidderDashboard({ 
   team, 
@@ -116,7 +117,11 @@ export default function BidderDashboard({
   const recentLogs = bidLogs.slice(-3).reverse();
 
   return (
-    <div className="bidder-dashboard-container">
+    <div 
+      className="bidder-dashboard-container"
+      style={{ backgroundImage: `linear-gradient(180deg, rgba(2, 8, 4, 0.2) 0%, rgba(2, 8, 4, 0.48) 100%), url(${bgImage})` }}
+    >
+      <div className="revibe-bg-watermark"></div>
       {/* Dynamic Franchise Header Bar */}
       <header className="bidder-header" style={{ borderTop: `4px solid ${team.primaryColor}` }}>
         <div className="bidder-header-left">
@@ -147,13 +152,15 @@ export default function BidderDashboard({
             onClick={handleRefreshClick}
             title="Refresh Live Auction Stage from Admin Console"
           >
-            <RotateCw size={14} className={isSpinning ? 'spin-anim' : ''} />
-            <span>{isSpinning ? 'Syncing...' : showSyncSuccess ? '✓ Synced' : 'Sync Stage'}</span>
+            <RotateCw size={13} className={isSpinning ? 'spin-anim' : ''} />
+            <span className="btn-label-desktop">{isSpinning ? 'Syncing...' : showSyncSuccess ? '✓ Synced' : 'Sync Stage'}</span>
+            <span className="btn-label-mobile">{isSpinning ? '...' : 'Sync'}</span>
           </button>
 
           <div className={`live-status-pill ${status.toLowerCase()}`}>
-            <Radio size={13} className="pulse-icon" />
-            <span>ARENA {showIntro ? 'STANDBY' : status}</span>
+            <Radio size={12} className="pulse-icon" />
+            <span className="pill-label-desktop">ARENA {showIntro ? 'STANDBY' : status}</span>
+            <span className="pill-label-mobile">{status}</span>
           </div>
 
           <button 
@@ -161,8 +168,8 @@ export default function BidderDashboard({
             onClick={onLogout} 
             title="Log Out"
           >
-            <LogOut size={14} />
-            <span>Logout</span>
+            <LogOut size={13} />
+            <span className="btn-label-desktop">Logout</span>
           </button>
         </div>
       </header>
@@ -172,66 +179,40 @@ export default function BidderDashboard({
         {currentPlayer ? (
           <section className="bidder-live-arena">
             <div className="live-arena-header">
-              <div className="arena-title">
-                <Sparkles size={16} style={{ color: '#39ff88' }} />
-                <span style={{ fontFamily: 'var(--font-display)', letterSpacing: '0.1em' }}>LIVE DOOMSDAY ARENA</span>
-                <span 
-                  className={`arena-live-indicator ${status.toLowerCase()}`}
-                  style={{
-                    display: 'inline-flex',
-                    alignItems: 'center',
-                    gap: '0.35rem',
-                    fontSize: '0.68rem',
-                    fontWeight: 800,
-                    padding: '0.2rem 0.6rem',
-                    borderRadius: '999px',
-                    background: status === 'LIVE' ? 'rgba(0, 168, 59, 0.25)' : 'rgba(255,255,255,0.1)',
-                    color: status === 'LIVE' ? '#39ff88' : '#fff',
-                    border: `1px solid ${status === 'LIVE' ? '#39ff88' : 'rgba(255,255,255,0.2)'}`,
-                    fontFamily: 'var(--font-display)'
-                  }}
-                >
-                  <span className="pulsing-circle"></span>
-                  {status === 'LIVE' ? 'LIVE NOW' : status}
-                </span>
+              <div className="arena-title-group">
+                <div className="arena-title">
+                  <Sparkles size={14} className="arena-sparkle-icon" />
+                  <span className="arena-title-text">LIVE DOOMSDAY ARENA</span>
+                </div>
+                <div className="arena-badges-group">
+                  <span className={`arena-live-indicator ${status.toLowerCase()}`}>
+                    <span className="pulsing-circle"></span>
+                    {status === 'LIVE' ? 'LIVE NOW' : status}
+                  </span>
 
-                <button 
-                  type="button" 
-                  className="arena-quick-refresh-btn" 
-                  onClick={handleRefreshClick}
-                  title="Pull latest live auction data"
-                >
-                  <RotateCw size={11} className={isSpinning ? 'spin-anim' : ''} />
-                  <span>{isSpinning ? 'Syncing...' : 'Sync'}</span>
-                </button>
+                  <button 
+                    type="button" 
+                    className="arena-quick-refresh-btn" 
+                    onClick={handleRefreshClick}
+                    title="Pull latest live auction data"
+                  >
+                    <RotateCw size={10} className={isSpinning ? 'spin-anim' : ''} />
+                    <span>{isSpinning ? 'Syncing...' : 'Sync'}</span>
+                  </button>
+                </div>
               </div>
 
-              <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', flexWrap: 'wrap' }}>
+              <div className="arena-alerts-group">
                 {isLeading && (
-                  <div 
-                    className="arena-leader-alert"
-                    style={{
-                      display: 'flex',
-                      alignItems: 'center',
-                      gap: '0.4rem',
-                      background: 'rgba(0, 168, 59, 0.25)',
-                      border: '1px solid #39ff88',
-                      color: '#39ff88',
-                      fontSize: '0.74rem',
-                      fontWeight: 800,
-                      padding: '0.3rem 0.85rem',
-                      borderRadius: '999px',
-                      boxShadow: '0 0 16px rgba(57, 255, 136, 0.3)',
-                      fontFamily: 'var(--font-display)'
-                    }}
-                  >
-                    <Flame size={15} />
-                    <span>YOUR FRANCHISE CURRENTLY HOLDS TOP BID!</span>
+                  <div className="arena-leader-alert">
+                    <Flame size={12} />
+                    <span className="leader-text-desktop">YOUR FRANCHISE CURRENTLY HOLDS TOP BID!</span>
+                    <span className="leader-text-mobile">TOP BIDDER!</span>
                   </div>
                 )}
                 {lastSoldPlayer && (
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '0.35rem', fontSize: '0.72rem', color: '#a3ffd6', background: 'rgba(2, 8, 4, 0.8)', border: '1px solid rgba(57, 255, 136, 0.2)', padding: '0.25rem 0.65rem', borderRadius: '999px', fontFamily: 'var(--font-mono)' }}>
-                    <span>LAST SALE:</span>
+                  <div className="arena-last-sold-badge">
+                    <span>LAST:</span>
                     <strong style={{ color: '#FFF' }}>{lastSoldPlayer.name}</strong>
                     <span>➔</span>
                     <span style={{ color: lastSoldPlayer.team?.primaryColor || '#39ff88', fontWeight: 800 }}>{lastSoldPlayer.team?.code}</span>

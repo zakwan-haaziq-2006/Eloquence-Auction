@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Shield, Users, Lock, User, ArrowRight, AlertCircle, Sparkles } from 'lucide-react';
 import { ADMIN_CREDENTIALS, INITIAL_TEAMS } from '../data/auctionData';
+import bgImage from '../assets/eloquence_auction_bg.jpg';
 
 export default function LoginScreen({ teams = INITIAL_TEAMS, onLoginSuccess, onRefresh, isRefreshing = false }) {
   const [loginMode, setLoginMode] = useState('bidder'); // 'admin' | 'bidder'
@@ -71,7 +72,10 @@ export default function LoginScreen({ teams = INITIAL_TEAMS, onLoginSuccess, onR
   };
 
   return (
-    <div className="login-screen-overlay">
+    <div 
+      className="login-screen-overlay"
+      style={{ backgroundImage: `linear-gradient(180deg, rgba(2, 8, 4, 0.2) 0%, rgba(2, 8, 4, 0.48) 100%), url(${bgImage})` }}
+    >
       <div className="revibe-bg-watermark"></div>
 
       <div className="login-card-container">

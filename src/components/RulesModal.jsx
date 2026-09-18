@@ -18,10 +18,10 @@ export default function RulesModal({ onClose }) {
             </div>
             <div>
               <h3 className="modal-title" style={{ fontSize: '1.15rem', margin: 0, color: '#ffffff' }}>
-                ELOQUENCE '26 — DOOMSDAY AUCTION RULES
+                ELOQUENCE '26 — OFFICIAL RULES & GUIDELINES
               </h3>
               <span style={{ fontSize: '0.72rem', color: '#39ff88', fontWeight: 700, letterSpacing: '0.08em', fontFamily: 'var(--font-mono)' }}>
-                OFFICIAL GUIDELINES & SQUAD CONSTRAINTS (₹80 CR PURSE • EXACT 16 PLAYERS)
+                CRICKET AUCTION REGULATIONS • ₹80 CR PURSE • MIN 16 PLAYERS • 12 TEAMS MAX
               </span>
             </div>
           </div>
@@ -32,22 +32,26 @@ export default function RulesModal({ onClose }) {
         </div>
 
         {/* Rules Highlights Banner */}
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(160px, 1fr))', gap: '0.6rem', marginBottom: '1rem' }}>
-          <div className="stat-box" style={{ background: 'rgba(2, 8, 4, 0.85)', padding: '0.6rem' }}>
-            <span className="stat-label">TOTAL PURSE</span>
-            <div className="stat-val" style={{ color: '#39ff88', fontSize: '1.2rem' }}>₹ 80.00 Cr</div>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(130px, 1fr))', gap: '0.55rem', marginBottom: '1rem' }}>
+          <div className="stat-box" style={{ background: 'rgba(2, 8, 4, 0.85)', padding: '0.55rem 0.65rem' }}>
+            <span className="stat-label">VIRTUAL PURSE</span>
+            <div className="stat-val" style={{ color: '#39ff88', fontSize: '1.15rem' }}>₹ 80.00 Cr</div>
           </div>
-          <div className="stat-box" style={{ background: 'rgba(2, 8, 4, 0.85)', padding: '0.6rem' }}>
-            <span className="stat-label">EXACT SQUAD</span>
-            <div className="stat-val" style={{ color: '#FFFFFF', fontSize: '1.2rem' }}>16 Players</div>
+          <div className="stat-box" style={{ background: 'rgba(2, 8, 4, 0.85)', padding: '0.55rem 0.65rem' }}>
+            <span className="stat-label">MIN SQUAD CAP</span>
+            <div className="stat-val" style={{ color: '#FFFFFF', fontSize: '1.15rem' }}>Min 16 Players</div>
           </div>
-          <div className="stat-box" style={{ background: 'rgba(2, 8, 4, 0.85)', padding: '0.6rem' }}>
-            <span className="stat-label">MANDATORY ROLES</span>
-            <div className="stat-val" style={{ color: '#ffd700', fontSize: '0.85rem', marginTop: '0.2rem' }}>5 Bat • 5 Bowl • 4 AR • 2 WK</div>
+          <div className="stat-box" style={{ background: 'rgba(2, 8, 4, 0.85)', padding: '0.55rem 0.65rem' }}>
+            <span className="stat-label">PLAYING XI CORE</span>
+            <div className="stat-val" style={{ color: '#ffd700', fontSize: '0.8rem', marginTop: '0.2rem' }}>4 Bat • 4 Bowl • 2 AR • 1 WK</div>
+          </div>
+          <div className="stat-box" style={{ background: 'rgba(2, 8, 4, 0.85)', padding: '0.55rem 0.65rem' }}>
+            <span className="stat-label">OVERSEAS & IMPACT</span>
+            <div className="stat-val" style={{ color: '#38bdf8', fontSize: '0.8rem', marginTop: '0.2rem' }}>Max 4 Overseas • 1 Impact</div>
           </div>
         </div>
 
-        {/* 14 Official Rules Scroll List */}
+        {/* 8 Official Rules Scroll List */}
         <div style={{ flex: 1, overflowY: 'auto', paddingRight: '0.4rem', display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
           {SGC_AUCTION_RULES.map((rule) => (
             <div 

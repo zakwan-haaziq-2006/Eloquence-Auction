@@ -110,7 +110,7 @@ export default function IntroScreen({ onStartAuction, onClose }) {
 
           <p className="intro-minimal-subtext">
             Where ideas collide, skills survive, and legends emerge.<br/>
-            <span style={{ color: '#ffffff', fontWeight: 700 }}>10 Franchises • ₹80 Crore Purse • 160+ Star Cricketers</span>
+            <span style={{ color: '#ffffff', fontWeight: 700 }}>Up to 12 Franchises • ₹80 Crore Purse • Minimum 16 Squad Cap</span>
           </p>
 
           <button className="intro-start-btn" onClick={handleStartClick} style={{ marginTop: '1.2rem' }}>
