@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Volume2, VolumeX, Maximize, Minimize, HelpCircle, RefreshCw, Gavel, Users, Shield, Menu, X, BookOpen, LogOut, Play, PlusCircle } from 'lucide-react';
+import { Volume2, VolumeX, Maximize, Minimize, HelpCircle, RefreshCw, Gavel, Users, Shield, Menu, X, BookOpen, LogOut, Play, PlusCircle, ChevronDown, BarChart2 } from 'lucide-react';
 import { sounds } from '../utils/soundEffects';
+import { AUCTION_SETS } from '../data/auctionData';
 
 export default function Header({ 
   currentSet, 
@@ -13,12 +14,18 @@ export default function Header({
   onOpenIntro,
   onOpenAddTeam,
   onResetData,
-  onLogout
+  onLogout,
+  onOpenSetTransition,
+  onOpenSetOverview,
+  players = [],
+  completedPlayersMap = {}
 }) {
   const [menuOpen, setMenuOpen] = useState(false);
+  const [setDropdownOpen, setSetDropdownOpen] = useState(false);
   const [isFullscreen, setIsFullscreen] = useState(false);
   const menuButtonRef = useRef(null);
   const menuDropdownRef = useRef(null);
+  const setDropdownRef = useRef(null);
 
   // Sync fullscreen state
   useEffect(() => {
@@ -31,9 +38,10 @@ export default function Header({
 
   // Instant outside click detection using mousedown
   useEffect(() => {
-    if (!menuOpen) return;
+    if (!menuOpen && !setDropdownOpen) return;
     const handleOutsidePointer = (e) => {
       if (
+        menuOpen &&
         menuDropdownRef.current && 
         !menuDropdownRef.current.contains(e.target) &&
         menuButtonRef.current &&
@@ -41,9 +49,19 @@ export default function Header({
       ) {
         setMenuOpen(false);
       }
+      if (
+        setDropdownOpen &&
+        setDropdownRef.current &&
+        !setDropdownRef.current.contains(e.target)
+      ) {
+        setSetDropdownOpen(false);
+      }
     };
     const handleEscape = (e) => {
-      if (e.key === 'Escape') setMenuOpen(false);
+      if (e.key === 'Escape') {
+        setMenuOpen(false);
+        setSetDropdownOpen(false);
+      }
     };
     document.addEventListener('mousedown', handleOutsidePointer);
     document.addEventListener('keydown', handleEscape);
@@ -51,7 +69,7 @@ export default function Header({
       document.removeEventListener('mousedown', handleOutsidePointer);
       document.removeEventListener('keydown', handleEscape);
     };
-  }, [menuOpen]);
+  }, [menuOpen, setDropdownOpen]);
 
   const toggleSound = () => {
     const nextState = !soundEnabled;
@@ -144,9 +162,132 @@ export default function Header({
         )}
       </div>
 
-      {/* Set indicator tag in center */}
-      <div className="header-set-tag">
-        {currentSet || 'SET 1 — MARQUEE PLAYERS'}
+      {/* Set Management Hub in center: Active Set Switcher + Overview Analysis Button */}
+      <div style={{ display: 'flex', alignItems: 'center', gap: '0.45rem', position: 'relative' }} ref={setDropdownRef}>
+        <div
+          onClick={() => setSetDropdownOpen(prev => !prev)}
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            gap: '0.45rem',
+            background: 'linear-gradient(135deg, rgba(4, 18, 10, 0.92) 0%, rgba(2, 8, 4, 0.98) 100%)',
+            border: '1.5px solid #39ff88',
+            borderRadius: '999px',
+            padding: '0.35rem 0.85rem',
+            boxShadow: '0 0 16px rgba(57, 255, 136, 0.35)',
+            cursor: 'pointer',
+            transition: 'all 0.2s ease',
+            userSelect: 'none'
+          }}
+          title="Click to Switch or Load any of the 12 Sets"
+        >
+          <span style={{ width: 8, height: 8, borderRadius: '50%', background: '#39ff88', boxShadow: '0 0 8px #39ff88', display: 'inline-block' }} />
+          <span style={{ fontFamily: 'var(--font-display)', fontSize: '0.78rem', fontWeight: 900, color: '#ffffff', letterSpacing: '0.06em', whiteSpace: 'nowrap' }}>
+            {currentSet || 'SET 1 — MARQUEE PLAYERS'}
+          </span>
+          <ChevronDown size={14} style={{ color: '#39ff88', transform: setDropdownOpen ? 'rotate(180deg)' : 'none', transition: 'transform 0.2s ease' }} />
+        </div>
+
+        {/* Dedicated "VIEW ANALYSIS" Button right next to Set Tag */}
+        {onOpenSetOverview && (
+          <button
+            onClick={onOpenSetOverview}
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: '0.35rem',
+              background: 'linear-gradient(135deg, rgba(0, 168, 59, 0.25) 0%, rgba(4, 14, 8, 0.85) 100%)',
+              border: '1px solid rgba(57, 255, 136, 0.45)',
+              borderRadius: '999px',
+              padding: '0.35rem 0.75rem',
+              color: '#39ff88',
+              fontFamily: 'var(--font-display)',
+              fontSize: '0.72rem',
+              fontWeight: 800,
+              cursor: 'pointer',
+              letterSpacing: '0.06em',
+              boxShadow: '0 2px 10px rgba(0,0,0,0.5)',
+              transition: 'all 0.2s ease',
+              whiteSpace: 'nowrap'
+            }}
+            title="View Franchise Purse Analysis & Verify Squads"
+          >
+            <BarChart2 size={13} />
+            <span>ANALYSIS</span>
+          </button>
+        )}
+
+        {/* Dropdown Menu listing all 12 Sets */}
+        {setDropdownOpen && (
+          <div
+            style={{
+              position: 'absolute',
+              top: '120%',
+              left: '50%',
+              transform: 'translateX(-50%)',
+              width: '320px',
+              maxHeight: '380px',
+              overflowY: 'auto',
+              background: 'linear-gradient(170deg, rgba(8, 24, 15, 0.98) 0%, rgba(2, 10, 6, 0.99) 100%)',
+              backdropFilter: 'blur(20px)',
+              WebkitBackdropFilter: 'blur(20px)',
+              border: '1.5px solid rgba(57, 255, 136, 0.45)',
+              borderRadius: '16px',
+              boxShadow: '0 15px 45px rgba(0, 0, 0, 0.95), 0 0 25px rgba(57, 255, 136, 0.3)',
+              padding: '0.5rem',
+              zIndex: 10001,
+              display: 'flex',
+              flexDirection: 'column',
+              gap: '0.3rem'
+            }}
+          >
+            <div style={{ padding: '0.4rem 0.6rem', borderBottom: '1px solid rgba(57, 255, 136, 0.2)', fontSize: '0.68rem', fontFamily: 'var(--font-mono)', color: '#39ff88', letterSpacing: '0.1em' }}>
+              SELECT SET TO LOAD & VERIFY:
+            </div>
+
+            {AUCTION_SETS.map((s) => {
+              const isActive = s.name === currentSet;
+              const setPlayers = players.filter(p => p.set === s.name);
+              const completedCount = setPlayers.filter(p => completedPlayersMap[p.id]).length;
+
+              return (
+                <div
+                  key={s.id}
+                  onClick={() => {
+                    setSetDropdownOpen(false);
+                    if (onOpenSetTransition) {
+                      onOpenSetTransition(s.name);
+                    }
+                  }}
+                  style={{
+                    padding: '0.5rem 0.65rem',
+                    borderRadius: '10px',
+                    background: isActive ? 'linear-gradient(135deg, rgba(0, 168, 59, 0.35) 0%, rgba(6, 18, 11, 0.8) 100%)' : 'rgba(2, 8, 4, 0.6)',
+                    border: isActive ? '1px solid #39ff88' : '1px solid rgba(57, 255, 136, 0.15)',
+                    cursor: 'pointer',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'space-between',
+                    transition: 'all 0.15s ease'
+                  }}
+                >
+                  <div>
+                    <div style={{ fontFamily: 'var(--font-display)', fontSize: '0.82rem', fontWeight: 800, color: isActive ? '#39ff88' : '#ffffff' }}>
+                      {s.name}
+                    </div>
+                    <div style={{ fontSize: '0.64rem', fontFamily: 'var(--font-mono)', color: '#9eb8a8', marginTop: '0.1rem' }}>
+                      {s.count} Players {setPlayers.length > 0 ? `• ${completedCount}/${setPlayers.length} Done` : ''}
+                    </div>
+                  </div>
+
+                  <span style={{ fontSize: '0.68rem', color: '#39ff88', fontWeight: 800, fontFamily: 'var(--font-display)' }}>
+                    LOAD →
+                  </span>
+                </div>
+              );
+            })}
+          </div>
+        )}
       </div>
 
       {/* Right Controls + Expandable Toggle Bar Button */}

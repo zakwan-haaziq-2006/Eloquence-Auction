@@ -36,6 +36,7 @@ export default function App() {
       localStorage.removeItem('revibe_auction_state_v1');
       localStorage.removeItem('revibe_auction_state_v2');
       localStorage.removeItem('revibe_auction_state_v3');
+      localStorage.removeItem('revibe_auction_state_v3_clean');
     } catch (err) {
       // ignore
     }
@@ -402,11 +403,13 @@ export default function App() {
     setRedoHistory([]);
   }, [currentPlayerIndex, players, showIntro, showCategoryTransition]);
 
-  // Proceed to Next Category handler
-  const handleProceedToNextCategory = () => {
-    if (categoryTransitionInfo) {
-      const nextIdx = categoryTransitionInfo.nextIdx;
-      const nextPlayer = players[nextIdx];
+  // Proceed to Next Category / Set handler
+  const handleProceedToNextCategory = (targetIdx) => {
+    const nextIdx = typeof targetIdx === 'number' 
+      ? targetIdx 
+      : categoryTransitionInfo?.nextIdx ?? 0;
+    const nextPlayer = players[nextIdx];
+    if (nextPlayer) {
       setCurrentPlayerIndex(nextIdx);
       setCurrentBid(nextPlayer.basePrice);
       setLeadingTeam(null);
@@ -416,6 +419,37 @@ export default function App() {
     }
     setShowCategoryTransition(false);
     setCategoryTransitionInfo(null);
+  };
+
+  // Open Set Intro / Verification modal for any chosen set
+  const handleOpenSetTransition = (targetSetName) => {
+    const setIdx = players.findIndex((p) => p.set === targetSetName);
+    if (setIdx === -1) return;
+
+    const currentSet = players[currentPlayerIndex]?.set || targetSetName;
+    const targetSetPlayers = players.filter((p) => p.set === targetSetName);
+
+    setCategoryTransitionInfo({
+      completedCategory: currentSet !== targetSetName ? currentSet : null,
+      nextCategory: targetSetName,
+      nextPlayerCount: targetSetPlayers.length,
+      nextIdx: setIdx
+    });
+    setShowCategoryTransition(true);
+  };
+
+  // Open Set Overview & Analysis directly
+  const handleOpenSetOverview = () => {
+    const currentSet = players[currentPlayerIndex]?.set || 'SET 1 — MARQUEE PLAYERS';
+    const setPlayers = players.filter((p) => p.set === currentSet);
+
+    setCategoryTransitionInfo({
+      completedCategory: null,
+      nextCategory: currentSet,
+      nextPlayerCount: setPlayers.length,
+      nextIdx: currentPlayerIndex
+    });
+    setShowCategoryTransition(true);
   };
 
   // Start Auction handler from Intro
@@ -708,15 +742,23 @@ export default function App() {
         />
       )}
 
-      {/* Category Completion Transition Modal */}
+      {/* Category / Set Completion Transition & Verification Modal */}
       {showCategoryTransition && (
         <CategoryTransitionModal
           completedCategory={categoryTransitionInfo?.completedCategory}
           nextCategory={categoryTransitionInfo?.nextCategory}
           nextPlayerCount={categoryTransitionInfo?.nextPlayerCount}
+          nextIdx={categoryTransitionInfo?.nextIdx}
+          players={players}
           teams={teams}
+          completedPlayersMap={completedPlayersMap}
           onInspectTeam={(team) => setInspectedTeam(team)}
           onProceed={handleProceedToNextCategory}
+          onClose={() => {
+            setShowCategoryTransition(false);
+            setCategoryTransitionInfo(null);
+          }}
+          onSelectSet={(targetSet) => handleOpenSetTransition(targetSet)}
         />
       )}
 
@@ -735,6 +777,10 @@ export default function App() {
         onOpenAddTeam={() => setShowAddTeamModal(true)}
         onResetData={handleResetData}
         onLogout={handleLogout}
+        onOpenSetTransition={handleOpenSetTransition}
+        onOpenSetOverview={handleOpenSetOverview}
+        players={players}
+        completedPlayersMap={completedPlayersMap}
       />
 
       {/* Main Tabbed Views */}
@@ -781,6 +827,7 @@ export default function App() {
             currentPlayerId={currentPlayer?.id}
             onSelectPlayer={handleSelectPlayerFromQueue}
             completedPlayersMap={completedPlayersMap}
+            onLoadSet={handleOpenSetTransition}
           />
         </main>
       )}

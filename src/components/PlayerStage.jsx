@@ -50,6 +50,9 @@ export default function PlayerStage({ player, status, leadingTeam, currentBid })
         <div className="marquee-card-inner">
           {/* Player Avatar / Photo Card */}
           <div className="player-avatar-wrapper">
+            {/* Ambient Spotlight Halo */}
+            <div className="player-avatar-halo" />
+
             {/* Capped / Uncapped Tag */}
             <span className="player-capped-badge">
               {player.status || 'Capped'}
@@ -65,6 +68,8 @@ export default function PlayerStage({ player, status, leadingTeam, currentBid })
                 src={player.photoUrl || player.image} 
                 alt={player.name} 
                 className="player-avatar-img"
+                draggable="false"
+                loading="eager"
               />
             ) : (
               <User className="player-avatar-svg" />
@@ -76,7 +81,7 @@ export default function PlayerStage({ player, status, leadingTeam, currentBid })
 
           {/* Role & Country Strip */}
           <div className="player-role-country-strip">
-            <span className={`role-tag ${player.role}`}>{player.role}</span>
+            <span className={`role-tag ${player.role}`}>{player.subRole || player.role}</span>
             <span style={{ opacity: 0.5 }}>|</span>
             <span>{player.country}</span>
             {player.isOverseas && <span title="Overseas Slot">✈️</span>}

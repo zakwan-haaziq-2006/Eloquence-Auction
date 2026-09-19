@@ -3,7 +3,7 @@
 
 import { INITIAL_TEAMS, INITIAL_PLAYERS } from '../data/auctionData.js';
 
-const STORAGE_KEY = 'revibe_auction_state_v3_clean';
+const STORAGE_KEY = 'revibe_auction_state_v4_pdf_sets';
 const CHANNEL_NAME = 'revibe_auction_channel';
 
 // Dynamic API endpoint (local dev uses localhost /api/sync, production uses https://revibe-auction.vercel.app/api/sync)
@@ -333,6 +333,7 @@ export function clearAuctionState() {
   try {
     if (typeof window !== 'undefined' && 'localStorage' in window) {
       localStorage.removeItem(STORAGE_KEY);
+      localStorage.removeItem('revibe_auction_state_v3_clean');
       localStorage.removeItem('revibe_auction_state_v1');
       localStorage.removeItem('revibe_auction_state_v2');
       localStorage.removeItem('revibe_auction_state_v3');

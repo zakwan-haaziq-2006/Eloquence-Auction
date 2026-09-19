@@ -5,13 +5,19 @@ export default function UpcomingQueue({
   players, 
   currentPlayerId, 
   onSelectPlayer, 
-  completedPlayersMap 
+  completedPlayersMap,
+  onLoadSet
 }) {
   const [roleFilter, setRoleFilter] = useState('ALL');
+  const [setFilter, setSetFilter] = useState('ALL');
 
-  const filteredPlayers = roleFilter === 'ALL'
-    ? players
-    : players.filter((p) => p.role === roleFilter);
+  const availableSets = Array.from(new Set(players.map((p) => p.set).filter(Boolean)));
+
+  const filteredPlayers = players.filter((p) => {
+    const matchesRole = roleFilter === 'ALL' || p.role === roleFilter;
+    const matchesSet = setFilter === 'ALL' || p.set === setFilter;
+    return matchesRole && matchesSet;
+  });
 
   const soldCount = Object.values(completedPlayersMap).filter(s => s === 'SOLD').length;
   const unsoldCount = Object.values(completedPlayersMap).filter(s => s === 'UNSOLD').length;
@@ -42,37 +48,90 @@ export default function UpcomingQueue({
           </div>
           <div>
             <h3 style={{ fontFamily: 'var(--font-display)', fontSize: '1.1rem', margin: 0, color: '#ffffff' }}>
-              ELOQUENCE '26 AUCTION ROSTER & QUEUE
+              AUCTION ROSTER & QUEUE ({filteredPlayers.length} / {players.length})
             </h3>
             <span style={{ fontSize: '0.74rem', color: '#9eb8a8', fontFamily: 'var(--font-mono)' }}>
-              Total: {players.length} Players • Remaining: {remainingCount} • Sold: {soldCount} • Unsold: {unsoldCount}
+              Total: {players.length} • Remaining: {remainingCount} • Sold: {soldCount} • Unsold: {unsoldCount}
             </span>
           </div>
         </div>
 
-        {/* Role Filter Tabs */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: '0.35rem', background: 'rgba(2, 8, 4, 0.8)', padding: '0.25rem', borderRadius: '12px', border: '1px solid rgba(57, 255, 136, 0.2)', flexWrap: 'wrap' }}>
-          {['ALL', 'Batsman', 'Wicketkeeper', 'All-Rounder', 'Bowler'].map((role) => (
+        {/* Filter Controls: Set Select + Role Filter Tabs */}
+        <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', flexWrap: 'wrap' }}>
+          {/* Set Selector */}
+          <select
+            value={setFilter}
+            onChange={(e) => setSetFilter(e.target.value)}
+            style={{
+              background: 'rgba(2, 8, 4, 0.9)',
+              border: '1px solid rgba(57, 255, 136, 0.35)',
+              borderRadius: '8px',
+              color: '#39ff88',
+              fontFamily: 'var(--font-display)',
+              fontSize: '0.74rem',
+              fontWeight: 700,
+              padding: '0.35rem 0.6rem',
+              outline: 'none',
+              cursor: 'pointer',
+              boxShadow: '0 0 8px rgba(57, 255, 136, 0.2)'
+            }}
+          >
+            <option value="ALL" style={{ background: '#0a1a11', color: '#ffffff' }}>ALL SETS (1–11)</option>
+            {availableSets.map((setName) => (
+              <option key={setName} value={setName} style={{ background: '#0a1a11', color: '#ffffff' }}>
+                {setName}
+              </option>
+            ))}
+          </select>
+
+          {setFilter !== 'ALL' && onLoadSet && (
             <button
-              key={role}
-              onClick={() => setRoleFilter(role)}
+              onClick={() => onLoadSet(setFilter)}
               style={{
-                padding: '0.3rem 0.75rem',
-                borderRadius: '8px',
-                border: roleFilter === role ? '1px solid #39ff88' : '1px solid transparent',
+                background: 'linear-gradient(135deg, #00a83b, #063b1c)',
+                border: '1px solid #39ff88',
+                color: '#ffffff',
+                fontFamily: 'var(--font-display)',
                 fontSize: '0.74rem',
                 fontWeight: 800,
-                fontFamily: 'var(--font-display)',
+                padding: '0.35rem 0.8rem',
+                borderRadius: '8px',
                 cursor: 'pointer',
-                background: roleFilter === role ? 'linear-gradient(135deg, #00a83b, #063b1c)' : 'transparent',
-                color: roleFilter === role ? '#FFFFFF' : '#c8c8c8',
-                boxShadow: roleFilter === role ? '0 0 10px rgba(57, 255, 136, 0.4)' : 'none',
-                transition: 'all 0.15s ease'
+                boxShadow: '0 0 10px rgba(57, 255, 136, 0.4)',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '0.35rem'
               }}
+              title={`Load ${setFilter} onto live stage with Intro & Verification`}
             >
-              {role === 'Wicketkeeper' ? 'WK' : role === 'All-Rounder' ? 'AR' : role}
+              <span>LOAD THIS SET →</span>
             </button>
-          ))}
+          )}
+
+          {/* Role Filter Tabs */}
+          <div style={{ display: 'flex', alignItems: 'center', gap: '0.35rem', background: 'rgba(2, 8, 4, 0.8)', padding: '0.25rem', borderRadius: '12px', border: '1px solid rgba(57, 255, 136, 0.2)', flexWrap: 'wrap' }}>
+            {['ALL', 'Batsman', 'Wicketkeeper', 'All-Rounder', 'Bowler'].map((role) => (
+              <button
+                key={role}
+                onClick={() => setRoleFilter(role)}
+                style={{
+                  padding: '0.3rem 0.75rem',
+                  borderRadius: '8px',
+                  border: roleFilter === role ? '1px solid #39ff88' : '1px solid transparent',
+                  fontSize: '0.74rem',
+                  fontWeight: 800,
+                  fontFamily: 'var(--font-display)',
+                  cursor: 'pointer',
+                  background: roleFilter === role ? 'linear-gradient(135deg, #00a83b, #063b1c)' : 'transparent',
+                  color: roleFilter === role ? '#FFFFFF' : '#c8c8c8',
+                  boxShadow: roleFilter === role ? '0 0 10px rgba(57, 255, 136, 0.4)' : 'none',
+                  transition: 'all 0.15s ease'
+                }}
+              >
+                {role === 'Wicketkeeper' ? 'WK' : role === 'All-Rounder' ? 'AR' : role}
+              </button>
+            ))}
+          </div>
         </div>
       </div>
 
@@ -166,7 +225,7 @@ export default function UpcomingQueue({
                     {player.name}
                   </h4>
                   <div style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', marginTop: '0.25rem' }}>
-                    <span className={`role-tag ${player.role}`}>{player.role}</span>
+                    <span className={`role-tag ${player.role}`}>{player.subRole || player.role}</span>
                     <span style={{ fontSize: '0.72rem', color: '#9eb8a8', fontFamily: 'var(--font-mono)' }}>• {player.country} {player.flag}</span>
                   </div>
                 </div>
