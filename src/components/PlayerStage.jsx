@@ -58,6 +58,23 @@ export default function PlayerStage({ player, status, leadingTeam, currentBid })
               {player.status || 'Capped'}
             </span>
 
+            {/* Unsold Re-Entry Badge for Set 12 */}
+            {player.isReentry && (
+              <span 
+                className="player-capped-badge" 
+                style={{ 
+                  left: 'auto', 
+                  right: '0.85rem', 
+                  background: 'linear-gradient(135deg, rgba(239, 68, 68, 0.4) 0%, rgba(153, 27, 27, 0.85) 100%)', 
+                  border: '1.2px solid #ef4444', 
+                  color: '#ffc2c2',
+                  boxShadow: '0 0 10px rgba(239, 68, 68, 0.45)'
+                }}
+              >
+                UNSOLD RE-ENTRY
+              </span>
+            )}
+
             {/* Country Badge */}
             <span className="player-country-badge" title={player.country}>
               {player.flag ? `${player.flag} ` : ''}{player.country || 'INDIA'}

@@ -47,7 +47,7 @@ export default function App() {
 
   const getInitialPlayers = () => {
     if (!initialSyncState?.players) return INITIAL_PLAYERS;
-    return INITIAL_PLAYERS.map((canonical) => {
+    const basePlayers = INITIAL_PLAYERS.map((canonical) => {
       const existing = initialSyncState.players.find((p) => p.id === canonical.id);
       return existing 
         ? { 
@@ -64,6 +64,9 @@ export default function App() {
           } 
         : { ...canonical, soldPrice: null, soldTo: null, isPassed: false };
     });
+
+    const reentryPlayers = initialSyncState.players.filter((p) => p.isReentry || p.setNumber === 12);
+    return [...basePlayers, ...reentryPlayers];
   };
 
   const [teams, setTeams] = useState(initialSyncState?.teams || INITIAL_TEAMS);
@@ -104,7 +107,7 @@ export default function App() {
     isReceivingRemoteSync.current = true;
     if (newState.teams) setTeams(newState.teams);
     if (newState.players) {
-      const mergedPlayers = INITIAL_PLAYERS.map((canonical) => {
+      const basePlayers = INITIAL_PLAYERS.map((canonical) => {
         const existing = newState.players.find((p) => p.id === canonical.id);
         return existing 
           ? { 
@@ -121,7 +124,9 @@ export default function App() {
             } 
           : { ...canonical, soldPrice: null, soldTo: null, isPassed: false };
       });
-      setPlayers(mergedPlayers);
+
+      const reentryPlayers = newState.players.filter((p) => p.isReentry || p.setNumber === 12);
+      setPlayers([...basePlayers, ...reentryPlayers]);
     }
     if (typeof newState.currentPlayerIndex === 'number') setCurrentPlayerIndex(newState.currentPlayerIndex);
     if (typeof newState.currentBid === 'number') setCurrentBid(newState.currentBid);
@@ -319,13 +324,32 @@ export default function App() {
 
     setBidHistory((prev) => [
       ...prev,
-      { leadingTeam, currentBid, status: 'LIVE', teamsState: teams, completedMap: completedPlayersMap }
+      { leadingTeam, currentBid, status: 'LIVE', teamsState: teams, completedMap: completedPlayersMap, playersState: players }
     ]);
     setRedoHistory([]);
 
     setStatus('SOLD');
-    setCompletedPlayersMap((prev) => ({ ...prev, [currentPlayer.id]: 'SOLD' }));
+    setCompletedPlayersMap((prev) => ({ 
+      ...prev, 
+      [currentPlayer.id]: 'SOLD',
+      ...(currentPlayer.originalId ? { [currentPlayer.originalId]: 'SOLD' } : {})
+    }));
     setLastSoldPlayer({ name: currentPlayer.name, team: leadingTeam, price: currentBid });
+
+    // Update player object sold info
+    setPlayers((prevPlayers) =>
+      prevPlayers.map((p) => {
+        if (p.id === currentPlayer.id || (currentPlayer.originalId && p.id === currentPlayer.originalId)) {
+          return {
+            ...p,
+            soldPrice: currentBid,
+            soldTo: leadingTeam.name,
+            isPassed: false
+          };
+        }
+        return p;
+      })
+    );
 
     setCelebrationActive(true);
     confetti({
@@ -387,19 +411,50 @@ export default function App() {
     setTimeout(() => {
       setCelebrationActive(false);
     }, 1000);
-  }, [leadingTeam, status, showIntro, showCategoryTransition, currentPlayer, currentBid, teams, completedPlayersMap]);
+  }, [leadingTeam, status, showIntro, showCategoryTransition, currentPlayer, currentBid, teams, completedPlayersMap, players]);
 
   // Handle UNSOLD button click
   const handleUnsold = useCallback(() => {
     if (status !== 'LIVE' || showIntro || showCategoryTransition) return;
+
+    let updatedPlayers = players;
+    const reentryId = `${currentPlayer.id}_reentry`;
+    const isAlreadyInSet12 = players.some(
+      (p) => p.id === reentryId || (p.originalId === currentPlayer.id && p.setNumber === 12)
+    );
+
+    // If player is from Sets 1-11 and not already queued into Set 12, add to Set 12
+    if (currentPlayer.setNumber !== 12 && !isAlreadyInSet12) {
+      const reentryPlayer = {
+        ...currentPlayer,
+        id: reentryId,
+        originalId: currentPlayer.id,
+        isReentry: true,
+        set: 'SET 12 — RESERVE / UNSOLD RE-ENTRY POOL',
+        setNumber: 12,
+        soldPrice: null,
+        soldTo: null,
+        isPassed: false
+      };
+      updatedPlayers = [...players, reentryPlayer];
+      setPlayers(updatedPlayers);
+    }
+
     setBidHistory((prev) => [
       ...prev,
-      { leadingTeam, currentBid, status: 'LIVE', teamsState: teams, completedMap: completedPlayersMap }
+      { 
+        leadingTeam, 
+        currentBid, 
+        status: 'LIVE', 
+        teamsState: teams, 
+        completedMap: completedPlayersMap,
+        playersState: players
+      }
     ]);
     setRedoHistory([]);
     setStatus('UNSOLD');
     setCompletedPlayersMap((prev) => ({ ...prev, [currentPlayer.id]: 'UNSOLD' }));
-  }, [status, showIntro, showCategoryTransition, currentPlayer, leadingTeam, currentBid, teams, completedPlayersMap]);
+  }, [status, showIntro, showCategoryTransition, currentPlayer, leadingTeam, currentBid, teams, completedPlayersMap, players]);
 
   // Handle NEXT PLAYER (Arrow Right / N Key)
   const handleNextPlayer = useCallback(() => {
@@ -465,7 +520,12 @@ export default function App() {
   // Open Set Intro / Verification modal for any chosen set
   const handleOpenSetTransition = (targetSetName) => {
     const setIdx = players.findIndex((p) => p.set === targetSetName);
-    if (setIdx === -1) return;
+    if (setIdx === -1) {
+      if (targetSetName.includes('SET 12') || targetSetName.includes('RESERVE')) {
+        alert('No players have gone unsold yet! Any players marked as UNSOLD during Sets 1 to 11 will automatically enter this reserve pool.');
+      }
+      return;
+    }
 
     const currentSet = players[currentPlayerIndex]?.set || targetSetName;
     const targetSetPlayers = players.filter((p) => p.set === targetSetName);
@@ -511,7 +571,7 @@ export default function App() {
     if (status !== 'LIVE' || showIntro || showCategoryTransition) return;
     setBidHistory((prev) => [
       ...prev,
-      { leadingTeam, currentBid, status, teamsState: teams, completedMap: completedPlayersMap }
+      { leadingTeam, currentBid, status, teamsState: teams, completedMap: completedPlayersMap, playersState: players }
     ]);
     setRedoHistory([]);
     setCurrentBid((prev) => +(prev + amount).toFixed(2));
@@ -530,7 +590,8 @@ export default function App() {
         currentBid,
         status,
         teamsState: teams,
-        completedMap: completedPlayersMap
+        completedMap: completedPlayersMap,
+        playersState: players
       }
     ]);
 
@@ -539,10 +600,11 @@ export default function App() {
     if (lastState.status) setStatus(lastState.status);
     if (lastState.teamsState) setTeams(lastState.teamsState);
     if (lastState.completedMap) setCompletedPlayersMap(lastState.completedMap);
+    if (lastState.playersState) setPlayers(lastState.playersState);
 
     setBidHistory((prev) => prev.slice(0, -1));
     sounds.playBidSound();
-  }, [bidHistory, leadingTeam, currentBid, status, teams, completedPlayersMap, showIntro, showCategoryTransition]);
+  }, [bidHistory, leadingTeam, currentBid, status, teams, completedPlayersMap, players, showIntro, showCategoryTransition]);
 
   // Redo Undone Action / Bid
   const handleRedoBid = useCallback(() => {
@@ -556,7 +618,8 @@ export default function App() {
         currentBid,
         status,
         teamsState: teams,
-        completedMap: completedPlayersMap
+        completedMap: completedPlayersMap,
+        playersState: players
       }
     ]);
 
@@ -565,10 +628,11 @@ export default function App() {
     if (nextState.status) setStatus(nextState.status);
     if (nextState.teamsState) setTeams(nextState.teamsState);
     if (nextState.completedMap) setCompletedPlayersMap(nextState.completedMap);
+    if (nextState.playersState) setPlayers(nextState.playersState);
 
     setRedoHistory((prev) => prev.slice(0, -1));
     sounds.playBidSound();
-  }, [redoHistory, leadingTeam, currentBid, status, teams, completedPlayersMap, showIntro, showCategoryTransition]);
+  }, [redoHistory, leadingTeam, currentBid, status, teams, completedPlayersMap, players, showIntro, showCategoryTransition]);
 
   const handleSelectPlayerFromQueue = (player) => {
     const idx = players.findIndex((p) => p.id === player.id);

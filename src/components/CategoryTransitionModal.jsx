@@ -731,14 +731,24 @@ export default function CategoryTransitionModal({
 
           {/* Players Grid */}
           <div style={{ flex: 1, overflowY: 'auto', padding: '1.25rem 1.4rem' }}>
-            <div 
-              style={{
-                display: 'grid',
-                gridTemplateColumns: 'repeat(auto-fill, minmax(260px, 1fr))',
-                gap: '0.8rem'
-              }}
-            >
-              {previewSetPlayers.map((player, idx) => {
+            {previewSetPlayers.length === 0 ? (
+              <div style={{ padding: '3.5rem 1.5rem', textAlign: 'center', color: '#9eb8a8' }}>
+                <div style={{ fontSize: '1.25rem', color: '#39ff88', fontFamily: 'var(--font-display)', fontWeight: 800, marginBottom: '0.6rem' }}>
+                  NO PLAYERS IN THIS POOL YET
+                </div>
+                <div style={{ fontSize: '0.9rem', maxWidth: '520px', margin: '0 auto', lineHeight: 1.6, color: '#c8ffea' }}>
+                  Any player marked as <span style={{ color: '#ff6b6b', fontWeight: 800 }}>UNSOLD</span> during Sets 1 to 11 is automatically added into this final reserve set for the accelerated round!
+                </div>
+              </div>
+            ) : (
+              <div 
+                style={{ 
+                  display: 'grid', 
+                  gridTemplateColumns: 'repeat(auto-fill, minmax(240px, 1fr))', 
+                  gap: '0.75rem' 
+                }}
+              >
+                {previewSetPlayers.map((player, idx) => {
                 const completedState = completedPlayersMap[player.id];
                 const acqInfo = allAcquired.find((a) => a.id === player.id);
 
@@ -818,6 +828,7 @@ export default function CategoryTransitionModal({
                 );
               })}
             </div>
+            )}
           </div>
 
           {/* Modal Footer */}

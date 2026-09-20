@@ -276,7 +276,10 @@ export default function Header({
                       {s.name}
                     </div>
                     <div style={{ fontSize: '0.64rem', fontFamily: 'var(--font-mono)', color: '#9eb8a8', marginTop: '0.1rem' }}>
-                      {s.count} Players {setPlayers.length > 0 ? `• ${completedCount}/${setPlayers.length} Done` : ''}
+                      {s.id === 12
+                        ? (setPlayers.length > 0 ? `${setPlayers.length} Unsold Players • ${completedCount}/${setPlayers.length} Done` : '0 Unsold Players (Reserve Pool)')
+                        : `${s.count} Players ${setPlayers.length > 0 ? `• ${completedCount}/${setPlayers.length} Done` : ''}`
+                      }
                     </div>
                   </div>
 
