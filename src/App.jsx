@@ -45,8 +45,29 @@ export default function App() {
   // Load initial state from persistent storage or fall back to SGC default data
   const initialSyncState = loadAuctionState();
 
+  const getInitialPlayers = () => {
+    if (!initialSyncState?.players) return INITIAL_PLAYERS;
+    return INITIAL_PLAYERS.map((canonical) => {
+      const existing = initialSyncState.players.find((p) => p.id === canonical.id);
+      return existing 
+        ? { 
+            ...existing, 
+            name: canonical.name,
+            basePrice: canonical.basePrice,
+            role: canonical.role,
+            subRole: canonical.subRole,
+            country: canonical.country,
+            flag: canonical.flag,
+            isOverseas: canonical.isOverseas,
+            set: canonical.set,
+            setNumber: canonical.setNumber
+          } 
+        : { ...canonical, soldPrice: null, soldTo: null, isPassed: false };
+    });
+  };
+
   const [teams, setTeams] = useState(initialSyncState?.teams || INITIAL_TEAMS);
-  const [players, setPlayers] = useState(initialSyncState?.players || INITIAL_PLAYERS);
+  const [players, setPlayers] = useState(getInitialPlayers);
   const [currentPlayerIndex, setCurrentPlayerIndex] = useState(initialSyncState?.currentPlayerIndex ?? 0);
   const [activeTab, setActiveTab] = useState('bidding'); // 'bidding' | 'teams' | 'queue'
   
@@ -82,7 +103,26 @@ export default function App() {
     if (!newState) return;
     isReceivingRemoteSync.current = true;
     if (newState.teams) setTeams(newState.teams);
-    if (newState.players) setPlayers(newState.players);
+    if (newState.players) {
+      const mergedPlayers = INITIAL_PLAYERS.map((canonical) => {
+        const existing = newState.players.find((p) => p.id === canonical.id);
+        return existing 
+          ? { 
+              ...existing, 
+              name: canonical.name,
+              basePrice: canonical.basePrice,
+              role: canonical.role,
+              subRole: canonical.subRole,
+              country: canonical.country,
+              flag: canonical.flag,
+              isOverseas: canonical.isOverseas,
+              set: canonical.set,
+              setNumber: canonical.setNumber
+            } 
+          : { ...canonical, soldPrice: null, soldTo: null, isPassed: false };
+      });
+      setPlayers(mergedPlayers);
+    }
     if (typeof newState.currentPlayerIndex === 'number') setCurrentPlayerIndex(newState.currentPlayerIndex);
     if (typeof newState.currentBid === 'number') setCurrentBid(newState.currentBid);
     setLeadingTeam(newState.leadingTeam || null);
@@ -417,6 +457,7 @@ export default function App() {
       setBidHistory([]);
       setRedoHistory([]);
     }
+    setActiveTab('bidding');
     setShowCategoryTransition(false);
     setCategoryTransitionInfo(null);
   };
@@ -435,6 +476,7 @@ export default function App() {
       nextPlayerCount: targetSetPlayers.length,
       nextIdx: setIdx
     });
+    setActiveTab('bidding');
     setShowCategoryTransition(true);
   };
 
@@ -456,11 +498,12 @@ export default function App() {
   const handleStartAuction = () => {
     setShowIntro(false);
     setCurrentPlayerIndex(0);
-    setCurrentBid(players[0].basePrice);
+    setCurrentBid(players[0]?.basePrice || 2.00);
     setLeadingTeam(null);
     setStatus('LIVE');
     setBidHistory([]);
     setRedoHistory([]);
+    handleOpenSetTransition(players[0]?.set || 'SET 1 — MARQUEE PLAYERS');
   };
 
   // Manual Increments
