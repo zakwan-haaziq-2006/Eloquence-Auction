@@ -38,7 +38,7 @@ export default function LoginScreen({ teams = INITIAL_TEAMS, onLoginSuccess, onR
       ) {
         onLoginSuccess({ role: 'admin', user: 'Auction Admin' });
       } else {
-        setErrorMsg('Invalid Admin credentials! Default: eloquence@admin / eloquence@auction (or revibe@admin / revibe@auction)');
+        setErrorMsg('Invalid Admin credentials!');
       }
     } else {
       // Bidder login: find team by username or code or id
@@ -51,8 +51,8 @@ export default function LoginScreen({ teams = INITIAL_TEAMS, onLoginSuccess, onR
 
       if (matchedTeam) {
         if (
-          password === matchedTeam.password || 
-          password === `${matchedTeam.username}@eloquence` || 
+          password === matchedTeam.password ||
+          password === `${matchedTeam.username}@eloquence` ||
           password === `${matchedTeam.username}@revibe` ||
           password === `${matchedTeam.code.toLowerCase()}@eloquence`
         ) {
@@ -72,7 +72,7 @@ export default function LoginScreen({ teams = INITIAL_TEAMS, onLoginSuccess, onR
   };
 
   return (
-    <div 
+    <div
       className="login-screen-overlay"
       style={{ backgroundImage: `linear-gradient(180deg, rgba(2, 8, 4, 0.2) 0%, rgba(2, 8, 4, 0.48) 100%), url(${bgImage})` }}
     >
@@ -81,11 +81,11 @@ export default function LoginScreen({ teams = INITIAL_TEAMS, onLoginSuccess, onR
       <div className="login-card-container">
         {/* Brand Header with Doctor Doom Motif */}
         <div className="login-brand-header">
-          <div 
-            style={{ 
-              width: 44, 
-              height: 44, 
-              borderRadius: '50%', 
+          <div
+            style={{
+              width: 44,
+              height: 44,
+              borderRadius: '50%',
               background: 'radial-gradient(circle, rgba(57, 255, 136, 0.3) 0%, rgba(0, 168, 59, 0.1) 70%, transparent 100%)',
               border: '1.5px solid #39ff88',
               display: 'flex',
@@ -95,9 +95,9 @@ export default function LoginScreen({ teams = INITIAL_TEAMS, onLoginSuccess, onR
               overflow: 'hidden'
             }}
           >
-            <img 
-              src="/sticker_bidding_doctordoom.png" 
-              alt="Doctor Doom Emblem" 
+            <img
+              src="/sticker_bidding_doctordoom.png"
+              alt="Doctor Doom Emblem"
               style={{ width: '85%', height: '85%', objectFit: 'contain' }}
               onError={(e) => { e.target.style.display = 'none'; }}
             />
@@ -191,8 +191,8 @@ export default function LoginScreen({ teams = INITIAL_TEAMS, onLoginSuccess, onR
                   key={team.id}
                   type="button"
                   className="quick-cred-chip"
-                  style={{ 
-                    borderColor: team.primaryColor || '#39ff88', 
+                  style={{
+                    borderColor: team.primaryColor || '#39ff88',
                     color: '#FFF',
                     background: 'rgba(8, 28, 18, 0.75)',
                     padding: '0.35rem 0.65rem',
@@ -205,10 +205,10 @@ export default function LoginScreen({ teams = INITIAL_TEAMS, onLoginSuccess, onR
                   onClick={() => handleQuickFillTeam(team)}
                   title={`Login as ${team.name}`}
                 >
-                  <span style={{ 
-                    width: 8, 
-                    height: 8, 
-                    borderRadius: '50%', 
+                  <span style={{
+                    width: 8,
+                    height: 8,
+                    borderRadius: '50%',
                     background: team.primaryColor || '#39ff88',
                     display: 'inline-block'
                   }} />

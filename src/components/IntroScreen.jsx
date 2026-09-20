@@ -71,7 +71,7 @@ export default function IntroScreen({ onStartAuction, onClose }) {
         <div className="intro-fullscreen-content">
           {/* Doctor Doom Character Sticker Badge */}
           <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '0.2rem' }}>
-            <div 
+            <div
               style={{
                 width: '90px',
                 height: '90px',
@@ -85,9 +85,9 @@ export default function IntroScreen({ onStartAuction, onClose }) {
                 padding: '6px'
               }}
             >
-              <img 
-                src="/sticker_bidding_doctordoom.png" 
-                alt="Doctor Doom - Doomsday Auction" 
+              <img
+                src="/sticker_bidding_doctordoom.png"
+                alt="Doctor Doom - Doomsday Auction"
                 style={{ width: '100%', height: '100%', objectFit: 'contain', filter: 'drop-shadow(0 0 10px rgba(57, 255, 136, 0.6))' }}
                 onError={(e) => { e.target.style.display = 'none'; }}
               />
@@ -109,7 +109,7 @@ export default function IntroScreen({ onStartAuction, onClose }) {
           </h1>
 
           <p className="intro-minimal-subtext">
-            Where ideas collide, skills survive, and legends emerge.<br/>
+            Where ideas collide, skills survive, and legends emerge.<br />
             <span style={{ color: '#ffffff', fontWeight: 700 }}>Up to 12 Franchises • ₹80 Crore Purse • Minimum 16 Squad Cap</span>
           </p>
 
@@ -133,10 +133,10 @@ export default function IntroScreen({ onStartAuction, onClose }) {
           <div className="countdown-timer-circle">
             <svg className="countdown-svg" viewBox="0 0 100 100">
               <circle className="circle-bg" cx="50" cy="50" r="44"></circle>
-              <circle 
-                className="circle-progress" 
-                cx="50" 
-                cy="50" 
+              <circle
+                className="circle-progress"
+                cx="50"
+                cy="50"
                 r="44"
                 style={{ strokeDashoffset: `${(44 * 2 * Math.PI) * (1 - countdown / 10)}px` }}
               ></circle>

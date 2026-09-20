@@ -3,13 +3,13 @@ import { Volume2, VolumeX, Maximize, Minimize, HelpCircle, RefreshCw, Gavel, Use
 import { sounds } from '../utils/soundEffects';
 import { AUCTION_SETS } from '../data/auctionData';
 
-export default function Header({ 
-  currentSet, 
-  soundEnabled, 
-  setSoundEnabled, 
+export default function Header({
+  currentSet,
+  soundEnabled,
+  setSoundEnabled,
   activeTab,
   setActiveTab,
-  onOpenHelp, 
+  onOpenHelp,
   onOpenRules,
   onOpenIntro,
   onOpenAddTeam,
@@ -42,7 +42,7 @@ export default function Header({
     const handleOutsidePointer = (e) => {
       if (
         menuOpen &&
-        menuDropdownRef.current && 
+        menuDropdownRef.current &&
         !menuDropdownRef.current.contains(e.target) &&
         menuButtonRef.current &&
         !menuButtonRef.current.contains(e.target)
@@ -102,12 +102,12 @@ export default function Header({
       {/* Brand & Admin Indicator */}
       <div style={{ flex: 1, display: 'flex', alignItems: 'center', gap: '0.65rem' }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', cursor: 'pointer' }} onClick={() => handleTabSelect('bidding')}>
-          <div 
-            style={{ 
-              width: 32, 
-              height: 32, 
-              borderRadius: '8px', 
-              background: 'linear-gradient(135deg, #00a83b 0%, #063b1c 100%)', 
+          <div
+            style={{
+              width: 32,
+              height: 32,
+              borderRadius: '8px',
+              background: 'linear-gradient(135deg, #00a83b 0%, #063b1c 100%)',
               border: '1.5px solid #39ff88',
               display: 'flex',
               alignItems: 'center',
@@ -116,9 +116,9 @@ export default function Header({
               overflow: 'hidden'
             }}
           >
-            <img 
-              src="/sticker_bidding_doctordoom.png" 
-              alt="Eloquence 26" 
+            <img
+              src="/sticker_bidding_doctordoom.png"
+              alt="Eloquence 26"
               style={{ width: '90%', height: '90%', objectFit: 'contain' }}
               onError={(e) => { e.target.style.display = 'none'; }}
             />
@@ -324,24 +324,24 @@ export default function Header({
           </button>
         )}
 
-        <button 
-          className="icon-btn header-sound-btn" 
-          onClick={toggleSound} 
+        <button
+          className="icon-btn header-sound-btn"
+          onClick={toggleSound}
           title={soundEnabled ? "Mute Audio FX" : "Enable Audio FX"}
         >
           {soundEnabled ? <Volume2 size={16} /> : <VolumeX size={16} />}
         </button>
 
-        <button 
-          className="icon-btn header-fullscreen-btn" 
-          onClick={toggleFullscreen} 
+        <button
+          className="icon-btn header-fullscreen-btn"
+          onClick={toggleFullscreen}
           title={isFullscreen ? "Exit Fullscreen (Minimize)" : "Enter Fullscreen Mode"}
         >
           {isFullscreen ? <Minimize size={16} /> : <Maximize size={16} />}
         </button>
 
         {/* Right Side Expandable Toggle Menu Button */}
-        <button 
+        <button
           ref={menuButtonRef}
           type="button"
           className="icon-btn header-menu-toggle-btn"
@@ -366,7 +366,7 @@ export default function Header({
 
         {/* Floating Expandable Dropdown Drawer (Fast Instant Render) */}
         {menuOpen && (
-          <div 
+          <div
             ref={menuDropdownRef}
             onClick={(e) => e.stopPropagation()}
             style={{

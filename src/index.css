@@ -65,7 +65,8 @@
   padding: 0;
 }
 
-html, body {
+html,
+body {
   width: 100%;
   height: 100%;
   overflow: hidden;
@@ -105,13 +106,13 @@ html, body {
   content: '';
   position: absolute;
   inset: 0;
-  background-image: 
+  background-image:
     linear-gradient(rgba(57, 255, 136, 0.025) 1px, transparent 1px),
     linear-gradient(90deg, rgba(57, 255, 136, 0.025) 1px, transparent 1px);
   background-size: 55px 55px;
   background-position: center center;
-  mask-image: radial-gradient(ellipse at center, rgba(0,0,0,0.85) 30%, transparent 85%);
-  -webkit-mask-image: radial-gradient(ellipse at center, rgba(0,0,0,0.85) 30%, transparent 85%);
+  mask-image: radial-gradient(ellipse at center, rgba(0, 0, 0, 0.85) 30%, transparent 85%);
+  -webkit-mask-image: radial-gradient(ellipse at center, rgba(0, 0, 0, 0.85) 30%, transparent 85%);
   pointer-events: none;
   z-index: 0;
 }
@@ -131,8 +132,15 @@ html, body {
 }
 
 @keyframes ambientGlowPulse {
-  0% { transform: translate(-50%, -50%) scale(0.92); opacity: 0.6; }
-  100% { transform: translate(-50%, -50%) scale(1.06); opacity: 0.95; }
+  0% {
+    transform: translate(-50%, -50%) scale(0.92);
+    opacity: 0.6;
+  }
+
+  100% {
+    transform: translate(-50%, -50%) scale(1.06);
+    opacity: 0.95;
+  }
 }
 
 /* Cyber Scrollbar styles */
@@ -140,14 +148,17 @@ html, body {
   width: 5px;
   height: 5px;
 }
+
 ::-webkit-scrollbar-track {
   background: rgba(2, 8, 4, 0.5);
   border-radius: 4px;
 }
+
 ::-webkit-scrollbar-thumb {
   background: rgba(57, 255, 136, 0.35);
   border-radius: 4px;
 }
+
 ::-webkit-scrollbar-thumb:hover {
   background: var(--bright-green);
   box-shadow: 0 0 10px rgba(57, 255, 136, 0.8);
@@ -373,7 +384,7 @@ html, body {
   color: #ffffff;
   border: 1.5px solid #39ff88;
   animation: banner-pop 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-  box-shadow: 0 0 30px rgba(57, 255, 136, 0.65), 0 8px 24px rgba(0,0,0,0.8);
+  box-shadow: 0 0 30px rgba(57, 255, 136, 0.65), 0 8px 24px rgba(0, 0, 0, 0.8);
 }
 
 .status-banner.UNSOLD {
@@ -385,8 +396,15 @@ html, body {
 }
 
 @keyframes banner-pop {
-  0% { transform: scale(0.92); opacity: 0; }
-  100% { transform: scale(1); opacity: 1; }
+  0% {
+    transform: scale(0.92);
+    opacity: 0;
+  }
+
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
 }
 
 .status-dot {
@@ -394,17 +412,20 @@ html, body {
   height: 9px;
   border-radius: 50%;
 }
-.status-dot.live { 
-  background: var(--bright-green); 
-  box-shadow: 0 0 10px var(--bright-green); 
-  animation: pulse-dot 1.2s infinite; 
+
+.status-dot.live {
+  background: var(--bright-green);
+  box-shadow: 0 0 10px var(--bright-green);
+  animation: pulse-dot 1.2s infinite;
 }
-.status-dot.sold { 
-  background: #ffffff; 
-  box-shadow: 0 0 10px #ffffff; 
+
+.status-dot.sold {
+  background: #ffffff;
+  box-shadow: 0 0 10px #ffffff;
 }
-.status-dot.unsold { 
-  background: #ffffff; 
+
+.status-dot.unsold {
+  background: #ffffff;
 }
 
 /* Marquee Player Card Frame */
@@ -454,11 +475,11 @@ html, body {
   align-items: center;
   justify-content: center;
   margin: 0 auto;
-  box-shadow: 
-    0 0 35px rgba(57, 255, 136, 0.65), 
-    0 0 85px rgba(57, 255, 136, 0.35), 
-    0 0 140px rgba(57, 255, 136, 0.2), 
-    0 22px 60px rgba(0, 0, 0, 0.95), 
+  box-shadow:
+    0 0 35px rgba(57, 255, 136, 0.65),
+    0 0 85px rgba(57, 255, 136, 0.35),
+    0 0 140px rgba(57, 255, 136, 0.2),
+    0 22px 60px rgba(0, 0, 0, 0.95),
     inset 0 0 40px rgba(57, 255, 136, 0.25);
   position: relative;
   overflow: hidden;
@@ -498,10 +519,10 @@ html, body {
 
 .player-avatar-wrapper:hover {
   border-color: #39ff88;
-  box-shadow: 
-    0 0 55px rgba(57, 255, 136, 0.8), 
-    0 0 110px rgba(57, 255, 136, 0.45), 
-    0 25px 65px rgba(0, 0, 0, 0.98), 
+  box-shadow:
+    0 0 55px rgba(57, 255, 136, 0.8),
+    0 0 110px rgba(57, 255, 136, 0.45),
+    0 25px 65px rgba(0, 0, 0, 0.98),
     inset 0 0 50px rgba(57, 255, 136, 0.35);
 }
 
@@ -539,6 +560,7 @@ html, body {
     opacity: 0.75;
     transform: translate(-50%, -50%) scale(0.92);
   }
+
   100% {
     opacity: 1;
     transform: translate(-50%, -50%) scale(1.08);
@@ -548,19 +570,20 @@ html, body {
 @keyframes card-highlight-glow {
   0% {
     border-color: rgba(57, 255, 136, 0.7);
-    box-shadow: 
-      0 0 30px rgba(57, 255, 136, 0.45), 
+    box-shadow:
+      0 0 30px rgba(57, 255, 136, 0.45),
       0 0 70px rgba(57, 255, 136, 0.22),
-      0 18px 45px rgba(0, 0, 0, 0.9), 
+      0 18px 45px rgba(0, 0, 0, 0.9),
       inset 0 0 30px rgba(57, 255, 136, 0.18);
   }
+
   100% {
     border-color: #39ff88;
-    box-shadow: 
-      0 0 45px rgba(57, 255, 136, 0.75), 
-      0 0 100px rgba(57, 255, 136, 0.38), 
-      0 0 150px rgba(57, 255, 136, 0.2), 
-      0 24px 65px rgba(0, 0, 0, 0.95), 
+    box-shadow:
+      0 0 45px rgba(57, 255, 136, 0.75),
+      0 0 100px rgba(57, 255, 136, 0.38),
+      0 0 150px rgba(57, 255, 136, 0.2),
+      0 24px 65px rgba(0, 0, 0, 0.95),
       inset 0 0 45px rgba(57, 255, 136, 0.3);
   }
 }
@@ -1130,13 +1153,25 @@ html, body {
 }
 
 @keyframes modalOverlayIn {
-  0% { opacity: 0; }
-  100% { opacity: 1; }
+  0% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+  }
 }
 
 @keyframes modalSlideIn {
-  0% { opacity: 0; transform: translateY(24px) scale(0.96); }
-  100% { opacity: 1; transform: translateY(0) scale(1); }
+  0% {
+    opacity: 0;
+    transform: translateY(24px) scale(0.96);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
 }
 
 .modal-header {
@@ -1189,15 +1224,34 @@ html, body {
 }
 
 @keyframes pulse-flash {
-  0% { opacity: 0; }
-  50% { opacity: 1; }
-  100% { opacity: 0; }
+  0% {
+    opacity: 0;
+  }
+
+  50% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0;
+  }
 }
 
 @keyframes pulse-dot {
-  0% { transform: scale(0.9); opacity: 0.8; }
-  50% { transform: scale(1.3); opacity: 1; }
-  100% { transform: scale(0.9); opacity: 0.8; }
+  0% {
+    transform: scale(0.9);
+    opacity: 0.8;
+  }
+
+  50% {
+    transform: scale(1.3);
+    opacity: 1;
+  }
+
+  100% {
+    transform: scale(0.9);
+    opacity: 0.8;
+  }
 }
 
 /* ==========================================================================
@@ -1221,7 +1275,7 @@ html, body {
   content: '';
   position: absolute;
   inset: 0;
-  background-image: 
+  background-image:
     linear-gradient(rgba(57, 255, 136, 0.035) 1px, transparent 1px),
     linear-gradient(90deg, rgba(57, 255, 136, 0.035) 1px, transparent 1px);
   background-size: 55px 55px;
@@ -1255,8 +1309,15 @@ html, body {
 }
 
 @keyframes intro-slide-up {
-  0% { opacity: 0; transform: translateY(24px) scale(0.96); }
-  100% { opacity: 1; transform: translateY(0) scale(1); }
+  0% {
+    opacity: 0;
+    transform: translateY(24px) scale(0.96);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
 }
 
 .intro-badge,
@@ -1395,9 +1456,20 @@ html, body {
 }
 
 @keyframes countdown-bounce {
-  0% { transform: scale(0.9); opacity: 0.85; }
-  50% { transform: scale(1.08); opacity: 1; }
-  100% { transform: scale(0.9); opacity: 0.85; }
+  0% {
+    transform: scale(0.9);
+    opacity: 0.85;
+  }
+
+  50% {
+    transform: scale(1.08);
+    opacity: 1;
+  }
+
+  100% {
+    transform: scale(0.9);
+    opacity: 0.85;
+  }
 }
 
 .countdown-footer-text {
@@ -1469,7 +1541,7 @@ html, body {
   content: '';
   position: absolute;
   inset: 0;
-  background-image: 
+  background-image:
     linear-gradient(rgba(57, 255, 136, 0.035) 1px, transparent 1px),
     linear-gradient(90deg, rgba(57, 255, 136, 0.035) 1px, transparent 1px);
   background-size: 55px 55px;
@@ -2709,14 +2781,17 @@ html, body {
     padding: 0.35rem 0.75rem;
     gap: 0.5rem;
   }
+
   .increment-btn {
     padding: 0.32rem 0.55rem;
     font-size: 0.76rem;
   }
+
   .btn-sold {
     padding: 0.38rem 1.35rem;
     font-size: 1.2rem;
   }
+
   .btn-unsold {
     padding: 0.38rem 1.15rem;
     font-size: 1.15rem;
@@ -2728,10 +2803,12 @@ html, body {
     font-size: 0.7rem !important;
     padding: 0.25rem 0.65rem !important;
   }
+
   .purse-cards-grid {
     grid-template-columns: repeat(3, 1fr);
     gap: 0.65rem;
   }
+
   .live-arena-grid {
     grid-template-columns: 1.35fr 1.15fr 1.15fr;
     gap: 0.85rem;
@@ -2743,31 +2820,38 @@ html, body {
   .bidder-header {
     padding: 0.5rem 1.25rem;
   }
+
   .bidder-team-badge {
     width: 38px;
     height: 38px;
     font-size: 1.05rem;
   }
+
   .bidder-team-name {
     font-size: 1.15rem;
   }
+
   .bidder-content {
     padding: 0.6rem 1rem;
     gap: 0.55rem;
   }
+
   .bidder-live-arena {
     padding: 0.65rem 0.95rem;
     gap: 0.5rem;
   }
+
   .live-arena-grid {
     min-height: 105px;
     gap: 0.75rem;
   }
+
   .arena-player-card {
     padding: 0.5rem 0.8rem;
     min-height: 105px;
     gap: 0.75rem;
   }
+
   .arena-player-avatar-box {
     width: 110px;
     height: 130px;
@@ -2776,56 +2860,69 @@ html, body {
     min-height: 130px;
     max-height: 130px;
   }
+
   .arena-player-name {
     font-size: 1.18rem;
   }
+
   .arena-bid-center {
     min-height: 105px;
     gap: 0.35rem;
   }
+
   .arena-bid-box {
     padding: 0.45rem 0.75rem;
   }
+
   .arena-bid-amount {
     font-size: 1.65rem;
   }
+
   .arena-leading-showcase {
     min-height: 105px;
     padding: 0.45rem 0.75rem;
   }
+
   .purse-card {
     padding: 0.55rem 0.85rem;
     gap: 0.75rem;
   }
+
   .purse-card-icon {
     width: 36px;
     height: 36px;
   }
+
   .purse-card-value {
     font-size: 1.45rem;
   }
+
   .squad-metrics-bar {
     padding: 0.45rem 0.85rem;
     gap: 0.65rem;
   }
-  
+
   /* Auctioneer Console on Laptop Screens */
   .marquee-player-card {
     max-width: min(94vw, 500px);
   }
+
   .player-avatar-wrapper {
     height: clamp(350px, calc(100vh - 260px), 500px);
     max-width: min(94vw, 500px);
   }
+
   .player-name-display {
     font-size: clamp(1.5rem, 2.4vw, 2.1rem);
   }
+
   .stage-bidding-console {
     max-width: min(94vw, 500px);
     margin-top: 0.15rem;
     margin-bottom: 0.2rem;
     gap: 0.5rem;
   }
+
   .bid-amount-value {
     font-size: clamp(1.6rem, 2.4vw, 2.2rem);
   }
@@ -2835,17 +2932,20 @@ html, body {
   .header-set-tag {
     display: none !important;
   }
+
   .action-bar-container {
     flex-wrap: wrap;
     justify-content: center;
     padding: 0.5rem;
     gap: 0.5rem;
   }
+
   .bidding-increments {
     width: 100%;
     justify-content: center;
     flex-wrap: wrap;
   }
+
   .primary-actions {
     width: 100%;
     justify-content: center;
@@ -2856,16 +2956,22 @@ html, body {
    TABLET & MOBILE BASE BREAKPOINT (<= 768px)
    -------------------------------------------------------------------------- */
 @media (max-width: 768px) {
+
   /* Prevent iOS automatic zoom on text field focus */
-  input, select, textarea {
+  input,
+  select,
+  textarea {
     font-size: 16px !important;
   }
 
-  button, a, [role="button"] {
+  button,
+  a,
+  [role="button"] {
     touch-action: manipulation;
   }
 
-  html, body {
+  html,
+  body {
     overflow-y: auto !important;
     height: auto;
     min-height: 100dvh;
@@ -2988,7 +3094,8 @@ html, body {
     margin: 0.15rem auto;
   }
 
-  .bid-box-card, .leading-team-card {
+  .bid-box-card,
+  .leading-team-card {
     padding: 0.35rem 0.55rem;
     border-radius: 10px;
   }
@@ -3038,7 +3145,8 @@ html, body {
     width: 100%;
   }
 
-  .increment-btn, .action-undo-btn {
+  .increment-btn,
+  .action-undo-btn {
     padding: 0.42rem 0.2rem;
     font-size: 0.76rem;
     min-height: 38px;
@@ -3155,7 +3263,9 @@ html, body {
     flex-wrap: nowrap !important;
   }
 
-  .bidder-refresh-btn, .live-status-pill, .bidder-logout-btn {
+  .bidder-refresh-btn,
+  .live-status-pill,
+  .bidder-logout-btn {
     height: 26px !important;
     padding: 0 0.45rem !important;
     font-size: 0.62rem !important;
@@ -3455,7 +3565,9 @@ html, body {
    SMALL MOBILE PHONES (<= 480px)
    -------------------------------------------------------------------------- */
 @media (max-width: 480px) {
-  html, body,
+
+  html,
+  body,
   .admin-app,
   .login-screen-overlay,
   .bidder-dashboard-container {
@@ -3555,7 +3667,8 @@ html, body {
     font-size: 1.6rem;
   }
 
-  .intro-start-btn, .proceed-category-btn {
+  .intro-start-btn,
+  .proceed-category-btn {
     padding: 0.75rem 1.6rem;
     font-size: 0.95rem;
     width: 100%;
@@ -3592,7 +3705,8 @@ html, body {
     margin-bottom: 0.15rem;
   }
 
-  .bid-box-card, .leading-team-card {
+  .bid-box-card,
+  .leading-team-card {
     padding: 0.32rem 0.65rem;
   }
 

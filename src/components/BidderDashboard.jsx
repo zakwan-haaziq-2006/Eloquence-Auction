@@ -1,18 +1,18 @@
 import React, { useState, useMemo } from 'react';
-import { 
-  LogOut, Wallet, TrendingUp, CreditCard, Shield, Users, 
+import {
+  LogOut, Wallet, TrendingUp, CreditCard, Shield, Users,
   Search, Award, UserCheck, AlertCircle, Radio, Sparkles, User,
   CheckCircle2, Clock, Activity, Flame, RotateCw
 } from 'lucide-react';
 import bgImage from '../assets/eloquence_auction_bg.jpg';
 
-export default function BidderDashboard({ 
-  team, 
+export default function BidderDashboard({
+  team,
   teams = [],
-  currentPlayer, 
-  currentBid, 
-  leadingTeam, 
-  status = 'LIVE', 
+  currentPlayer,
+  currentBid,
+  leadingTeam,
+  status = 'LIVE',
   bidLogs = [],
   lastSoldPlayer = null,
   showIntro = false,
@@ -62,7 +62,7 @@ export default function BidderDashboard({
   // Dynamic role counts computed directly from acquiredPlayers + squadRoleCounts fallback
   const computedRoleCounts = useMemo(() => {
     const counts = { Batsman: 0, Bowler: 0, 'All-Rounder': 0, Wicketkeeper: 0 };
-    
+
     // 1. First count from acquiredPlayers list
     if (Array.isArray(acquiredPlayers) && acquiredPlayers.length > 0) {
       acquiredPlayers.forEach((p) => {
@@ -117,7 +117,7 @@ export default function BidderDashboard({
   const recentLogs = bidLogs.slice(-3).reverse();
 
   return (
-    <div 
+    <div
       className="bidder-dashboard-container"
       style={{ backgroundImage: `linear-gradient(180deg, rgba(2, 8, 4, 0.2) 0%, rgba(2, 8, 4, 0.48) 100%), url(${bgImage})` }}
     >
@@ -125,10 +125,10 @@ export default function BidderDashboard({
       {/* Dynamic Franchise Header Bar */}
       <header className="bidder-header" style={{ borderTop: `4px solid ${team.primaryColor}` }}>
         <div className="bidder-header-left">
-          <div 
+          <div
             className="bidder-team-badge"
-            style={{ 
-              backgroundColor: team.primaryColor, 
+            style={{
+              backgroundColor: team.primaryColor,
               color: team.textColor || '#FFF',
               boxShadow: `0 0 18px ${team.primaryColor}88`
             }}
@@ -146,8 +146,8 @@ export default function BidderDashboard({
 
         <div className="bidder-header-right">
           {/* Prominent Live Refresh Button */}
-          <button 
-            type="button" 
+          <button
+            type="button"
             className={`bidder-refresh-btn ${isSpinning ? 'refreshing' : ''} ${showSyncSuccess ? 'synced' : ''}`}
             onClick={handleRefreshClick}
             title="Refresh Live Auction Stage from Admin Console"
@@ -163,9 +163,9 @@ export default function BidderDashboard({
             <span className="pill-label-mobile">{status}</span>
           </div>
 
-          <button 
-            className="bidder-logout-btn" 
-            onClick={onLogout} 
+          <button
+            className="bidder-logout-btn"
+            onClick={onLogout}
             title="Log Out"
           >
             <LogOut size={13} />
@@ -190,9 +190,9 @@ export default function BidderDashboard({
                     {status === 'LIVE' ? 'LIVE NOW' : status}
                   </span>
 
-                  <button 
-                    type="button" 
-                    className="arena-quick-refresh-btn" 
+                  <button
+                    type="button"
+                    className="arena-quick-refresh-btn"
                     onClick={handleRefreshClick}
                     title="Pull latest live auction data"
                   >
@@ -259,9 +259,9 @@ export default function BidderDashboard({
                     <div className="logs-items">
                       {recentLogs.map((log, index) => (
                         <div key={index} className="log-chip">
-                          <span 
-                            className="log-team-tag" 
-                            style={{ 
+                          <span
+                            className="log-team-tag"
+                            style={{
                               backgroundColor: log.team?.primaryColor || '#444',
                               color: log.team?.textColor || '#FFF'
                             }}
@@ -280,9 +280,9 @@ export default function BidderDashboard({
               <div className="arena-player-card">
                 <div className="arena-player-avatar-box">
                   {currentPlayer.photoUrl || currentPlayer.image ? (
-                    <img 
-                      src={currentPlayer.photoUrl || currentPlayer.image} 
-                      alt={currentPlayer.name} 
+                    <img
+                      src={currentPlayer.photoUrl || currentPlayer.image}
+                      alt={currentPlayer.name}
                       className="arena-player-img"
                     />
                   ) : (
@@ -316,9 +316,9 @@ export default function BidderDashboard({
 
                 {leadingTeam ? (
                   <div className="leading-team-profile">
-                    <div 
+                    <div
                       className="leading-team-avatar"
-                      style={{ 
+                      style={{
                         backgroundColor: leadingTeam.primaryColor,
                         color: leadingTeam.textColor || '#FFF',
                         boxShadow: `0 0 20px ${leadingTeam.primaryColor}88`
@@ -327,7 +327,7 @@ export default function BidderDashboard({
                       {leadingTeam.code}
                     </div>
                     <h3 className="leading-team-fullname">{leadingTeam.name}</h3>
-                    <div 
+                    <div
                       className={`leading-tag ${isLeading ? 'own-team' : 'rival-team'}`}
                       style={!isLeading ? { borderColor: leadingTeam.primaryColor, color: '#FFF' } : {}}
                     >
@@ -350,9 +350,9 @@ export default function BidderDashboard({
               <Sparkles size={32} style={{ color: '#39ff88' }} />
               <h3>Auction Floor Connected</h3>
               <p>Waiting for the Auctioneer to spotlight the next player on stage.</p>
-              <button 
-                type="button" 
-                className="btn-sold" 
+              <button
+                type="button"
+                className="btn-sold"
                 onClick={handleRefreshClick}
                 style={{ margin: '1rem auto 0 auto', fontSize: '0.9rem', padding: '0.5rem 1.5rem' }}
               >
@@ -415,7 +415,7 @@ export default function BidderDashboard({
         </section>
 
         {/* SECONDARY STATS & SQUAD COMPOSITION BAR */}
-        <section 
+        <section
           className="squad-metrics-bar"
           style={{
             background: 'linear-gradient(165deg, rgba(14, 34, 22, 0.9) 0%, rgba(4, 14, 8, 0.95) 100%)',
@@ -450,8 +450,8 @@ export default function BidderDashboard({
               const count = computedRoleCounts[key] || 0;
               const isMet = count >= target;
               return (
-                <span 
-                  key={key} 
+                <span
+                  key={key}
                   className={`role-pill ${isMet ? 'role-met' : ''}`}
                   style={{
                     background: isMet ? 'rgba(0, 168, 59, 0.25)' : 'rgba(2, 8, 4, 0.8)',
@@ -485,7 +485,7 @@ export default function BidderDashboard({
 
             {/* Filter & Search Controls */}
             <div className="controls-group">
-              <div 
+              <div
                 className="search-input-wrapper"
                 style={{
                   background: 'rgba(2, 8, 4, 0.8)',
@@ -549,7 +549,7 @@ export default function BidderDashboard({
               ))}
             </div>
           ) : (
-            <div 
+            <div
               className="no-acquired-players-box"
               style={{
                 background: 'linear-gradient(165deg, rgba(14, 34, 22, 0.85) 0%, rgba(4, 14, 8, 0.95) 100%)',
