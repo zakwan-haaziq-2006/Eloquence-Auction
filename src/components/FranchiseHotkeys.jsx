@@ -17,7 +17,7 @@ export default function FranchiseHotkeys({
     <div className="franchise-hotkey-panel">
       <div className="panel-header-title">
         <span>OFFICIAL FRANCHISE BIDDING HOTKEYS</span>
-        <span>PRESS LETTER KEYS (C=CSK, R=RCB, M=MI, K=KKR, S=SRH, G=GT, L=LSG, D=DC, P=PBKS, J=RR) OR CLICK</span>
+        <span>PRESS LETTER KEYS (C=CSK, R=RCB, M=MI, K=KKR, S=SRH, G=GT, L=LSG, D=DEL, P=PBKS, J=RR, Q=RPS, H=DC) OR CLICK</span>
       </div>
 
       <div className="teams-grid">
@@ -42,7 +42,7 @@ export default function FranchiseHotkeys({
                 className="team-code-pill"
                 style={{
                   color: team.primaryColor,
-                  textShadow: team.id === 'csk' ? 'none' : `0 0 10px ${team.primaryColor}40`
+                  textShadow: (team.id === 'csk' || team.id === 'dc') ? 'none' : `0 0 10px ${team.primaryColor}40`
                 }}
               >
                 {team.code}

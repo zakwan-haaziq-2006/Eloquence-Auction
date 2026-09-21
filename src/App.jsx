@@ -69,7 +69,23 @@ export default function App() {
     return [...basePlayers, ...reentryPlayers];
   };
 
-  const [teams, setTeams] = useState(initialSyncState?.teams || INITIAL_TEAMS);
+  const getInitialTeams = () => {
+    if (!initialSyncState?.teams || !Array.isArray(initialSyncState.teams) || initialSyncState.teams.length === 0) {
+      return INITIAL_TEAMS;
+    }
+    // Migrate legacy Delhi Capitals id if present
+    const migrated = initialSyncState.teams.map((t) => {
+      if (t.id === 'dc' && t.name && t.name.toLowerCase().includes('delhi')) {
+        return { ...t, id: 'del', code: 'DEL', username: 'del' };
+      }
+      return t;
+    });
+    const existingIds = new Set(migrated.map((t) => t.id));
+    const missing = INITIAL_TEAMS.filter((t) => !existingIds.has(t.id));
+    return missing.length > 0 ? [...migrated, ...missing] : migrated;
+  };
+
+  const [teams, setTeams] = useState(getInitialTeams);
   const [players, setPlayers] = useState(getInitialPlayers);
   const [currentPlayerIndex, setCurrentPlayerIndex] = useState(initialSyncState?.currentPlayerIndex ?? 0);
   const [activeTab, setActiveTab] = useState('bidding'); // 'bidding' | 'teams' | 'queue'
@@ -105,7 +121,17 @@ export default function App() {
   const applyRemoteState = useCallback((newState) => {
     if (!newState) return;
     isReceivingRemoteSync.current = true;
-    if (newState.teams) setTeams(newState.teams);
+    if (newState.teams) {
+      const migrated = newState.teams.map((t) => {
+        if (t.id === 'dc' && t.name && t.name.toLowerCase().includes('delhi')) {
+          return { ...t, id: 'del', code: 'DEL', username: 'del' };
+        }
+        return t;
+      });
+      const existingIds = new Set(migrated.map((t) => t.id));
+      const missing = INITIAL_TEAMS.filter((t) => !existingIds.has(t.id));
+      setTeams(missing.length > 0 ? [...migrated, ...missing] : migrated);
+    }
     if (newState.players) {
       const basePlayers = INITIAL_PLAYERS.map((canonical) => {
         const existing = newState.players.find((p) => p.id === canonical.id);
@@ -762,9 +788,11 @@ export default function App() {
 
       // Check dynamic team hotkeys first (supports custom added teams!)
       const matchedTeam = teams.find(
-        (t) => (t.hotkey && t.hotkey.toUpperCase() === key) ||
-               (t.code && t.code.toUpperCase() === key) ||
-               (t.id && t.id.toUpperCase() === key)
+        (t) => (t.hotkey && String(t.hotkey).toUpperCase() === key) ||
+               (t.letterKey && String(t.letterKey).toUpperCase() === key) ||
+               (t.code && String(t.code).toUpperCase() === key) ||
+               (t.id && String(t.id).toUpperCase() === key) ||
+               (t.aliases && Array.isArray(t.aliases) && t.aliases.some((a) => a.toUpperCase() === key))
       );
       if (matchedTeam) {
         e.preventDefault();
@@ -782,8 +810,10 @@ export default function App() {
         'S': 'srh', '6': 'srh',
         'G': 'gt',  '7': 'gt',
         'L': 'lsg', '8': 'lsg',
-        'D': 'dc',  '9': 'dc',
-        'P': 'pbks','0': 'pbks'
+        'D': 'del', '9': 'del',
+        'P': 'pbks','0': 'pbks',
+        'U': 'rps', 'Q': 'rps', '-': 'rps',
+        'H': 'dc',  'E': 'dc',  '=': 'dc'
       };
 
       if (teamHotkeyMap[key]) {

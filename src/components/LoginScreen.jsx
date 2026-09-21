@@ -41,21 +41,27 @@ export default function LoginScreen({ teams = INITIAL_TEAMS, onLoginSuccess, onR
         setErrorMsg('Invalid Admin credentials!');
       }
     } else {
-      // Bidder login: find team by username or code or id
+      // Bidder login: find team by username, code, id, or aliases
       const matchedTeam = activeTeams.find(
         (t) =>
           (t.username && t.username.toLowerCase() === cleanUser) ||
           (t.id && t.id.toLowerCase() === cleanUser) ||
-          (t.code && t.code.toLowerCase() === cleanUser)
+          (t.code && t.code.toLowerCase() === cleanUser) ||
+          (t.aliases && Array.isArray(t.aliases) && t.aliases.some((a) => a.toLowerCase() === cleanUser))
       );
 
       if (matchedTeam) {
-        if (
+        const isPasswordValid =
           password === matchedTeam.password ||
           password === `${matchedTeam.username}@eloquence` ||
           password === `${matchedTeam.username}@revibe` ||
-          password === `${matchedTeam.code.toLowerCase()}@eloquence`
-        ) {
+          password === `${matchedTeam.code.toLowerCase()}@eloquence` ||
+          password === `${matchedTeam.code.toLowerCase()}@revibe` ||
+          (matchedTeam.aliases && Array.isArray(matchedTeam.aliases) && matchedTeam.aliases.some(
+            (a) => password === `${a.toLowerCase()}@eloquence` || password === `${a.toLowerCase()}@revibe`
+          ));
+
+        if (isPasswordValid) {
           onLoginSuccess({
             role: 'bidder',
             teamId: matchedTeam.id,
@@ -66,7 +72,7 @@ export default function LoginScreen({ teams = INITIAL_TEAMS, onLoginSuccess, onR
           setErrorMsg(`Incorrect password for ${matchedTeam.name}! Try '${matchedTeam.username || matchedTeam.code.toLowerCase()}@eloquence'`);
         }
       } else {
-        setErrorMsg('Team username not found! Use team code or username.');
+        setErrorMsg('Team username not found! Use team code (e.g. rps, dc, csk) or username.');
       }
     }
   };
@@ -144,13 +150,13 @@ export default function LoginScreen({ teams = INITIAL_TEAMS, onLoginSuccess, onR
           <div className="form-group">
             <label htmlFor="login-username">
               <User size={14} />
-              <span>{loginMode === 'admin' ? 'Admin Username' : 'Franchise Code (e.g. csk, mi, kkr)'}</span>
+              <span>{loginMode === 'admin' ? 'Admin Username' : 'Franchise Code (e.g. rps, dc, csk, mi)'}</span>
             </label>
             <input
               id="login-username"
               type="text"
               className="login-input"
-              placeholder={loginMode === 'admin' ? '' : 'csk'}
+              placeholder={loginMode === 'admin' ? '' : 'rps / dc / csk'}
               value={username}
               onChange={(e) => setUsername(e.target.value)}
               required

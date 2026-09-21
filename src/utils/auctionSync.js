@@ -92,7 +92,19 @@ export function decompressAuctionState(compact, baseTeams = INITIAL_TEAMS, baseP
 
   // If already full state (e.g. from same-machine tab)
   if (compact.teams && compact.players) {
-    return compact;
+    const canonicalBase = baseTeams || INITIAL_TEAMS;
+    const migrated = compact.teams.map((t) => {
+      if (t.id === 'dc' && t.name && t.name.toLowerCase().includes('delhi')) {
+        return { ...t, id: 'del', code: 'DEL', username: 'del' };
+      }
+      return t;
+    });
+    const existingIds = new Set(migrated.map((t) => t.id));
+    const missing = canonicalBase.filter((t) => !existingIds.has(t.id));
+    return {
+      ...compact,
+      teams: missing.length > 0 ? [...migrated, ...missing] : migrated
+    };
   }
 
   const teams = (baseTeams || INITIAL_TEAMS).map((t) => {
