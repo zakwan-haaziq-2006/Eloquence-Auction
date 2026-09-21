@@ -52,7 +52,7 @@ export default function RulesModal({ onClose }) {
         </div>
 
         {/* 8 Official Rules Scroll List */}
-        <div style={{ flex: 1, overflowY: 'auto', paddingRight: '0.4rem', display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
+        <div style={{ flex: 1, minHeight: 0, overflowY: 'auto', overscrollBehavior: 'contain', paddingRight: '0.4rem', display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
           {SGC_AUCTION_RULES.map((rule) => (
             <div 
               key={rule.id}

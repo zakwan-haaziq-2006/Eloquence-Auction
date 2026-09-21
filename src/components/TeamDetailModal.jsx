@@ -1,8 +1,10 @@
-import React, { useState } from 'react';
-import { X } from 'lucide-react';
+import React, { useState, useRef } from 'react';
+import { X, ChevronUp, ChevronDown } from 'lucide-react';
 
 export default function TeamDetailModal({ team, onClose }) {
   const [roleFilter, setRoleFilter] = useState('ALL');
+  const scrollBodyRef = useRef(null);
+  const tableContainerRef = useRef(null);
 
   if (!team) return null;
 
@@ -15,12 +17,36 @@ export default function TeamDetailModal({ team, onClose }) {
     ? team.acquiredPlayers
     : team.acquiredPlayers.filter(p => p.role === roleFilter);
 
+  const handleScrollUp = () => {
+    if (tableContainerRef.current) {
+      tableContainerRef.current.scrollBy({ top: -140, behavior: 'smooth' });
+    } else if (scrollBodyRef.current) {
+      scrollBodyRef.current.scrollBy({ top: -140, behavior: 'smooth' });
+    }
+  };
+
+  const handleScrollDown = () => {
+    if (tableContainerRef.current) {
+      tableContainerRef.current.scrollBy({ top: 140, behavior: 'smooth' });
+    } else if (scrollBodyRef.current) {
+      scrollBodyRef.current.scrollBy({ top: 140, behavior: 'smooth' });
+    }
+  };
+
   return (
     <div className="modal-overlay" onClick={onClose}>
       <div 
-        className="modal-card" 
+        className="modal-card team-detail-modal-card" 
         onClick={(e) => e.stopPropagation()} 
-        style={{ maxWidth: '680px', maxHeight: '88vh', display: 'flex', flexDirection: 'column', padding: '1.5rem', borderRadius: '24px', overflow: 'hidden' }}
+        style={{ 
+          maxWidth: '720px', 
+          maxHeight: '88vh', 
+          display: 'flex', 
+          flexDirection: 'column', 
+          padding: '1.5rem', 
+          borderRadius: '24px', 
+          overflow: 'hidden' 
+        }}
       >
         {/* Header Ribbon */}
         <div className="modal-header" style={{ borderBottom: `2px solid ${team.primaryColor}`, paddingBottom: '0.85rem', flexShrink: 0 }}>
@@ -63,7 +89,21 @@ export default function TeamDetailModal({ team, onClose }) {
         </div>
 
         {/* Scrollable Modal Content Body */}
-        <div style={{ flex: 1, overflowY: 'auto', display: 'flex', flexDirection: 'column', gap: '0.85rem', paddingRight: '0.35rem', marginTop: '0.5rem' }}>
+        <div 
+          ref={scrollBodyRef}
+          className="modal-scrollable-body"
+          style={{ 
+            flex: 1, 
+            minHeight: 0, 
+            overflowY: 'auto', 
+            display: 'flex', 
+            flexDirection: 'column', 
+            gap: '0.85rem', 
+            paddingRight: '0.45rem', 
+            marginTop: '0.5rem',
+            overscrollBehavior: 'contain'
+          }}
+        >
           {/* Macro Stats Grid */}
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(130px, 1fr))', gap: '0.6rem' }}>
             <div className="stat-box" style={{ background: 'rgba(2, 8, 4, 0.85)', padding: '0.6rem 0.5rem' }}>
@@ -146,46 +186,107 @@ export default function TeamDetailModal({ team, onClose }) {
             </div>
           </div>
 
-          {/* Filter Pills & Acquired Players Roster */}
+          {/* Filter Pills & Acquired Players Roster with Quick Scroll Buttons */}
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '0.5rem', marginTop: '0.2rem' }}>
             <h4 style={{ fontFamily: 'var(--font-display)', fontSize: '0.8rem', letterSpacing: '0.08em', margin: 0, color: '#ffffff' }}>
               ACQUIRED PLAYERS ROSTER ({filteredPlayers.length})
             </h4>
 
-            {/* Role Filter Selector */}
-            <div style={{ display: 'flex', gap: '0.3rem', flexWrap: 'wrap' }}>
-              {['ALL', 'Batsman', 'Wicketkeeper', 'All-Rounder', 'Bowler'].map((role) => (
+            {/* Role Filter Selector & Scroll Buttons */}
+            <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', flexWrap: 'wrap' }}>
+              <div style={{ display: 'flex', gap: '0.3rem', flexWrap: 'wrap' }}>
+                {['ALL', 'Batsman', 'Wicketkeeper', 'All-Rounder', 'Bowler'].map((role) => (
+                  <button
+                    key={role}
+                    onClick={() => setRoleFilter(role)}
+                    style={{
+                      padding: '0.25rem 0.6rem',
+                      borderRadius: '999px',
+                      border: roleFilter === role ? '1px solid #39ff88' : '1px solid rgba(57, 255, 136, 0.25)',
+                      fontSize: '0.68rem',
+                      fontWeight: 700,
+                      fontFamily: 'var(--font-display)',
+                      cursor: 'pointer',
+                      background: roleFilter === role ? 'linear-gradient(135deg, #00a83b, #063b1c)' : 'rgba(255, 255, 255, 0.05)',
+                      color: roleFilter === role ? '#FFFFFF' : '#c8c8c8',
+                      boxShadow: roleFilter === role ? '0 0 12px rgba(57, 255, 136, 0.4)' : 'none'
+                    }}
+                  >
+                    {role === 'Wicketkeeper' ? 'WK' : role === 'All-Rounder' ? 'AR' : role}
+                  </button>
+                ))}
+              </div>
+
+              {/* Quick Scroll Buttons */}
+              <div style={{ display: 'flex', alignItems: 'center', gap: '0.25rem', borderLeft: '1px solid rgba(57, 255, 136, 0.25)', paddingLeft: '0.45rem' }}>
                 <button
-                  key={role}
-                  onClick={() => setRoleFilter(role)}
+                  type="button"
+                  onClick={handleScrollUp}
+                  className="roster-scroll-btn"
+                  title="Scroll roster up"
                   style={{
-                    padding: '0.25rem 0.6rem',
-                    borderRadius: '999px',
-                    border: roleFilter === role ? '1px solid #39ff88' : '1px solid rgba(57, 255, 136, 0.25)',
-                    fontSize: '0.68rem',
-                    fontWeight: 700,
-                    fontFamily: 'var(--font-display)',
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    width: '26px',
+                    height: '26px',
+                    borderRadius: '8px',
+                    border: '1px solid rgba(57, 255, 136, 0.35)',
+                    background: 'rgba(2, 12, 6, 0.85)',
+                    color: '#39ff88',
                     cursor: 'pointer',
-                    background: roleFilter === role ? 'linear-gradient(135deg, #00a83b, #063b1c)' : 'rgba(255, 255, 255, 0.05)',
-                    color: roleFilter === role ? '#FFFFFF' : '#c8c8c8',
-                    boxShadow: roleFilter === role ? '0 0 12px rgba(57, 255, 136, 0.4)' : 'none'
+                    transition: 'all 0.2s ease'
                   }}
                 >
-                  {role === 'Wicketkeeper' ? 'WK' : role === 'All-Rounder' ? 'AR' : role}
+                  <ChevronUp size={15} />
                 </button>
-              ))}
+                <button
+                  type="button"
+                  onClick={handleScrollDown}
+                  className="roster-scroll-btn"
+                  title="Scroll roster down"
+                  style={{
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    width: '26px',
+                    height: '26px',
+                    borderRadius: '8px',
+                    border: '1px solid rgba(57, 255, 136, 0.35)',
+                    background: 'rgba(2, 12, 6, 0.85)',
+                    color: '#39ff88',
+                    cursor: 'pointer',
+                    transition: 'all 0.2s ease'
+                  }}
+                >
+                  <ChevronDown size={15} />
+                </button>
+              </div>
             </div>
           </div>
 
-          {/* Players Roster Table */}
-          <div style={{ borderRadius: '12px', border: '1px solid rgba(57, 255, 136, 0.2)', overflow: 'hidden' }}>
+          {/* Players Roster Table with Dedicated Scroll & Sticky Headers */}
+          <div 
+            ref={tableContainerRef}
+            className="roster-table-scroll-container"
+            style={{ 
+              borderRadius: '12px', 
+              border: '1px solid rgba(57, 255, 136, 0.25)', 
+              maxHeight: '340px', 
+              overflowY: 'auto',
+              overflowX: 'auto',
+              position: 'relative',
+              background: 'rgba(2, 8, 4, 0.65)',
+              overscrollBehavior: 'contain'
+            }}
+          >
             <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '0.82rem' }}>
-              <thead>
-                <tr style={{ background: 'rgba(2, 8, 4, 0.9)', color: '#39ff88', textAlign: 'left', fontFamily: 'var(--font-display)', fontSize: '0.72rem' }}>
-                  <th style={{ padding: '0.55rem 0.85rem' }}>PLAYER</th>
-                  <th style={{ padding: '0.55rem 0.85rem' }}>ROLE</th>
-                  <th style={{ padding: '0.55rem 0.85rem', textAlign: 'right' }}>PRICE</th>
-                  <th style={{ padding: '0.55rem 0.85rem', textAlign: 'right' }}>% PURSE</th>
+              <thead style={{ position: 'sticky', top: 0, zIndex: 10 }}>
+                <tr style={{ background: 'rgba(2, 14, 7, 0.98)', color: '#39ff88', textAlign: 'left', fontFamily: 'var(--font-display)', fontSize: '0.72rem', borderBottom: '1.5px solid rgba(57, 255, 136, 0.3)', backdropFilter: 'blur(8px)' }}>
+                  <th style={{ padding: '0.65rem 0.85rem' }}>PLAYER</th>
+                  <th style={{ padding: '0.65rem 0.85rem' }}>ROLE</th>
+                  <th style={{ padding: '0.65rem 0.85rem', textAlign: 'right' }}>PRICE</th>
+                  <th style={{ padding: '0.65rem 0.85rem', textAlign: 'right' }}>% PURSE</th>
                 </tr>
               </thead>
               <tbody>
