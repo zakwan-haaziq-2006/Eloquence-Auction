@@ -85,17 +85,17 @@ export default function BidderDashboard({
 
   if (!team) {
     return (
-      <div 
-        className="bidder-dashboard-container" 
-        style={{ 
+      <div
+        className="bidder-dashboard-container"
+        style={{
           backgroundImage: `linear-gradient(180deg, rgba(2, 8, 4, 0.2) 0%, rgba(2, 8, 4, 0.48) 100%), url(${bgImage})`,
           backgroundSize: 'cover',
           backgroundPosition: 'center center',
           backgroundRepeat: 'no-repeat',
           backgroundAttachment: 'fixed',
-          padding: '2rem', 
-          textAlign: 'center', 
-          color: '#FFF' 
+          padding: '2rem',
+          textAlign: 'center',
+          color: '#FFF'
         }}
       >
         <h2>Franchise Not Found</h2>
@@ -161,7 +161,7 @@ export default function BidderDashboard({
             <div className="bidder-role-tag">
               <Shield size={12} className="bidder-role-icon" />
               <span className="bidder-tag-full">ELOQUENCE '26 • TACTICAL BIDDER CONSOLE</span>
-              <span className="bidder-tag-compact">ELOQUENCE '26 • BIDDER CONSOLE</span>
+              <span className="bidder-tag-compact">ELOQUENCE '26 </span>
             </div>
           </div>
         </div>
@@ -561,7 +561,7 @@ export default function BidderDashboard({
                     </div>
 
                     {/* Player Image Avatar Frame */}
-                    <div 
+                    <div
                       style={{
                         width: '44px',
                         height: '44px',
@@ -577,8 +577,8 @@ export default function BidderDashboard({
                       }}
                     >
                       {playerPhoto ? (
-                        <img 
-                          src={playerPhoto} 
+                        <img
+                          src={playerPhoto}
                           alt={player.name}
                           style={{ width: '100%', height: '100%', objectFit: 'cover' }}
                           onError={(e) => {
@@ -587,13 +587,13 @@ export default function BidderDashboard({
                           }}
                         />
                       ) : null}
-                      <span 
-                        style={{ 
+                      <span
+                        style={{
                           display: playerPhoto ? 'none' : 'flex',
-                          fontSize: '0.85rem', 
-                          fontWeight: 800, 
-                          color: '#39ff88', 
-                          fontFamily: 'var(--font-display)' 
+                          fontSize: '0.85rem',
+                          fontWeight: 800,
+                          color: '#39ff88',
+                          fontFamily: 'var(--font-display)'
                         }}
                       >
                         {initials}
