@@ -97,37 +97,27 @@ export default function Header({
     setMenuOpen(false);
   };
 
+  const currentSetObj = AUCTION_SETS.find(s => s.name === currentSet);
+  const shortSetName = currentSetObj ? currentSetObj.shortName : (currentSet?.split('—')?.[0]?.trim() || currentSet || 'SET 1');
+  const miniSetName = currentSet?.match(/SET\s*\d+/i)?.[0] || 'SET 1';
+
   return (
-    <header className="header-bar" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', zIndex: 1000, position: 'relative' }}>
+    <header className="header-bar">
       {/* Brand & Admin Indicator */}
-      <div style={{ flex: 1, display: 'flex', alignItems: 'center', gap: '0.65rem' }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', cursor: 'pointer' }} onClick={() => handleTabSelect('bidding')}>
-          <div
-            style={{
-              width: 32,
-              height: 32,
-              borderRadius: '8px',
-              background: 'linear-gradient(135deg, #00a83b 0%, #063b1c 100%)',
-              border: '1.5px solid #39ff88',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              boxShadow: '0 0 12px rgba(57, 255, 136, 0.45)',
-              overflow: 'hidden'
-            }}
-          >
+      <div className="header-brand-section">
+        <div className="header-brand-clickable" onClick={() => handleTabSelect('bidding')}>
+          <div className="header-brand-avatar">
             <img
               src="/sticker_bidding_doctordoom.png"
               alt="Eloquence 26"
-              style={{ width: '90%', height: '90%', objectFit: 'contain' }}
               onError={(e) => { e.target.style.display = 'none'; }}
             />
           </div>
-          <div style={{ display: 'flex', flexDirection: 'column', lineHeight: 1 }}>
-            <span style={{ fontFamily: 'var(--font-display)', fontSize: '0.92rem', fontWeight: 900, color: '#FFFFFF', letterSpacing: '0.08em', textShadow: '0 0 10px rgba(57, 255, 136, 0.4)' }}>
+          <div className="header-brand-text">
+            <span className="header-brand-title">
               ELOQUENCE <span style={{ color: '#39ff88' }}>'26</span>
             </span>
-            <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.58rem', color: '#a3ffd6', letterSpacing: '0.15em', textTransform: 'uppercase', marginTop: '2px' }}>
+            <span className="header-brand-subtitle">
               DOOMSDAY AUCTION
             </span>
           </div>
@@ -137,23 +127,6 @@ export default function Header({
           <button
             className="header-logout-btn"
             onClick={onLogout}
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              gap: '0.35rem',
-              padding: '0.35rem 0.65rem',
-              borderRadius: '999px',
-              border: '1px solid rgba(239, 68, 68, 0.4)',
-              background: 'rgba(239, 68, 68, 0.1)',
-              color: '#f87171',
-              fontFamily: 'var(--font-display)',
-              fontSize: '0.7rem',
-              fontWeight: 800,
-              cursor: 'pointer',
-              boxShadow: '0 2px 8px rgba(0,0,0,0.4)',
-              transition: 'all 0.2s ease',
-              marginLeft: '0.5rem'
-            }}
             title="Log out of Admin console"
           >
             <LogOut size={12} />
@@ -163,53 +136,24 @@ export default function Header({
       </div>
 
       {/* Set Management Hub in center: Active Set Switcher + Overview Analysis Button */}
-      <div style={{ display: 'flex', alignItems: 'center', gap: '0.45rem', position: 'relative' }} ref={setDropdownRef}>
+      <div className="header-set-hub" ref={setDropdownRef}>
         <div
+          className="header-set-pill"
           onClick={() => setSetDropdownOpen(prev => !prev)}
-          style={{
-            display: 'flex',
-            alignItems: 'center',
-            gap: '0.45rem',
-            background: 'linear-gradient(135deg, rgba(4, 18, 10, 0.92) 0%, rgba(2, 8, 4, 0.98) 100%)',
-            border: '1.5px solid #39ff88',
-            borderRadius: '999px',
-            padding: '0.35rem 0.85rem',
-            boxShadow: '0 0 16px rgba(57, 255, 136, 0.35)',
-            cursor: 'pointer',
-            transition: 'all 0.2s ease',
-            userSelect: 'none'
-          }}
           title="Click to Switch or Load any of the 12 Sets"
         >
-          <span style={{ width: 8, height: 8, borderRadius: '50%', background: '#39ff88', boxShadow: '0 0 8px #39ff88', display: 'inline-block' }} />
-          <span style={{ fontFamily: 'var(--font-display)', fontSize: '0.78rem', fontWeight: 900, color: '#ffffff', letterSpacing: '0.06em', whiteSpace: 'nowrap' }}>
-            {currentSet || 'SET 1 — MARQUEE PLAYERS'}
-          </span>
-          <ChevronDown size={14} style={{ color: '#39ff88', transform: setDropdownOpen ? 'rotate(180deg)' : 'none', transition: 'transform 0.2s ease' }} />
+          <span className="header-set-dot" />
+          <span className="set-name-full">{currentSet || 'SET 1 — MARQUEE PLAYERS'}</span>
+          <span className="set-name-compact">{shortSetName}</span>
+          <span className="set-name-mini">{miniSetName}</span>
+          <ChevronDown size={14} className="header-set-chevron" style={{ transform: setDropdownOpen ? 'rotate(180deg)' : 'none' }} />
         </div>
 
         {/* Dedicated "VIEW ANALYSIS" Button right next to Set Tag */}
         {onOpenSetOverview && (
           <button
+            className="header-analysis-btn"
             onClick={onOpenSetOverview}
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              gap: '0.35rem',
-              background: 'linear-gradient(135deg, rgba(0, 168, 59, 0.25) 0%, rgba(4, 14, 8, 0.85) 100%)',
-              border: '1px solid rgba(57, 255, 136, 0.45)',
-              borderRadius: '999px',
-              padding: '0.35rem 0.75rem',
-              color: '#39ff88',
-              fontFamily: 'var(--font-display)',
-              fontSize: '0.72rem',
-              fontWeight: 800,
-              cursor: 'pointer',
-              letterSpacing: '0.06em',
-              boxShadow: '0 2px 10px rgba(0,0,0,0.5)',
-              transition: 'all 0.2s ease',
-              whiteSpace: 'nowrap'
-            }}
             title="View Franchise Purse Analysis & Verify Squads"
           >
             <BarChart2 size={13} />
@@ -219,29 +163,8 @@ export default function Header({
 
         {/* Dropdown Menu listing all 12 Sets */}
         {setDropdownOpen && (
-          <div
-            style={{
-              position: 'absolute',
-              top: '120%',
-              left: '50%',
-              transform: 'translateX(-50%)',
-              width: '320px',
-              maxHeight: '380px',
-              overflowY: 'auto',
-              background: 'linear-gradient(170deg, rgba(8, 24, 15, 0.98) 0%, rgba(2, 10, 6, 0.99) 100%)',
-              backdropFilter: 'blur(20px)',
-              WebkitBackdropFilter: 'blur(20px)',
-              border: '1.5px solid rgba(57, 255, 136, 0.45)',
-              borderRadius: '16px',
-              boxShadow: '0 15px 45px rgba(0, 0, 0, 0.95), 0 0 25px rgba(57, 255, 136, 0.3)',
-              padding: '0.5rem',
-              zIndex: 10001,
-              display: 'flex',
-              flexDirection: 'column',
-              gap: '0.3rem'
-            }}
-          >
-            <div style={{ padding: '0.4rem 0.6rem', borderBottom: '1px solid rgba(57, 255, 136, 0.2)', fontSize: '0.68rem', fontFamily: 'var(--font-mono)', color: '#39ff88', letterSpacing: '0.1em' }}>
+          <div className="header-set-dropdown">
+            <div className="header-set-dropdown-title">
               SELECT SET TO LOAD & VERIFY:
             </div>
 
@@ -369,6 +292,7 @@ export default function Header({
           <div
             ref={menuDropdownRef}
             onClick={(e) => e.stopPropagation()}
+            className="header-menu-drawer"
             style={{
               position: 'absolute',
               top: '46px',
@@ -382,11 +306,68 @@ export default function Header({
               flexDirection: 'column',
               gap: '0.4rem',
               zIndex: 9999,
-              minWidth: '235px',
+              minWidth: '240px',
+              maxWidth: '90vw',
               willChange: 'transform, opacity',
               transform: 'translateZ(0)'
             }}
           >
+            {/* Quick Set Switcher banner in mobile drawer */}
+            <div
+              className="menu-drawer-set-banner"
+              onClick={() => {
+                setMenuOpen(false);
+                setSetDropdownOpen(true);
+              }}
+              style={{
+                padding: '0.55rem 0.75rem',
+                borderRadius: '10px',
+                background: 'linear-gradient(135deg, rgba(0, 168, 59, 0.25) 0%, rgba(4, 18, 10, 0.85) 100%)',
+                border: '1px solid #39ff88',
+                cursor: 'pointer',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'space-between',
+                gap: '0.5rem'
+              }}
+            >
+              <div>
+                <div style={{ fontSize: '0.6rem', fontFamily: 'var(--font-mono)', color: '#a3ffd6', letterSpacing: '0.08em' }}>ACTIVE AUCTION SET</div>
+                <div style={{ fontSize: '0.78rem', fontFamily: 'var(--font-display)', fontWeight: 800, color: '#fff' }}>{shortSetName}</div>
+              </div>
+              <span style={{ fontSize: '0.68rem', color: '#39ff88', fontWeight: 800, fontFamily: 'var(--font-display)' }}>SWITCH ▾</span>
+            </div>
+
+            {onOpenSetOverview && (
+              <button
+                onClick={() => {
+                  setMenuOpen(false);
+                  onOpenSetOverview();
+                }}
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '0.65rem',
+                  padding: '0.6rem 0.95rem',
+                  borderRadius: '10px',
+                  border: '1px solid rgba(57, 255, 136, 0.35)',
+                  background: 'linear-gradient(135deg, rgba(0, 168, 59, 0.2) 0%, rgba(6, 43, 24, 0.6) 100%)',
+                  color: '#39ff88',
+                  fontFamily: 'var(--font-display)',
+                  fontSize: '0.78rem',
+                  fontWeight: 800,
+                  letterSpacing: '0.06em',
+                  cursor: 'pointer',
+                  textAlign: 'left'
+                }}
+              >
+                <BarChart2 size={15} />
+                <span>PURSE & SQUAD ANALYSIS</span>
+              </button>
+            )}
+
+            <div style={{ height: '1px', background: 'rgba(57, 255, 136, 0.15)', margin: '0.1rem 0' }} />
+
             <button
               onClick={() => handleTabSelect('bidding')}
               style={{

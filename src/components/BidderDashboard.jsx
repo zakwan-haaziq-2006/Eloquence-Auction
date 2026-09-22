@@ -159,8 +159,9 @@ export default function BidderDashboard({
           <div className="bidder-team-info">
             <h1 className="bidder-team-name">{team.name}</h1>
             <div className="bidder-role-tag">
-              <Shield size={13} />
-              <span>ELOQUENCE '26 • TACTICAL BIDDER CONSOLE</span>
+              <Shield size={12} className="bidder-role-icon" />
+              <span className="bidder-tag-full">ELOQUENCE '26 • TACTICAL BIDDER CONSOLE</span>
+              <span className="bidder-tag-compact">ELOQUENCE '26 • BIDDER CONSOLE</span>
             </div>
           </div>
         </div>
