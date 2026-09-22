@@ -319,8 +319,10 @@ export default function App() {
       return;
     }
 
-    const increment = calculateNextIncrement(currentBid);
-    const nextBidAmount = +(currentBid + increment).toFixed(2);
+    // The first bid opens at base price alone; subsequent bids add dynamic IPL increments
+    const nextBidAmount = !leadingTeam
+      ? +(currentPlayer?.basePrice || currentBid).toFixed(2)
+      : +(currentBid + calculateNextIncrement(currentBid)).toFixed(2);
 
     // Rule 6: Available Purse Check
     if (team.purseRemaining < nextBidAmount) {
@@ -342,7 +344,7 @@ export default function App() {
     setLeadingTeam(team);
     setCurrentBid(nextBidAmount);
     sounds.playBidSound();
-  }, [status, showIntro, showCategoryTransition, leadingTeam, currentBid, teams, completedPlayersMap]);
+  }, [status, showIntro, showCategoryTransition, leadingTeam, currentBid, currentPlayer, teams, completedPlayersMap]);
 
   // Handle SOLD button click
   const handleSold = useCallback(() => {
