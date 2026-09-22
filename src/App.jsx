@@ -425,7 +425,8 @@ export default function App() {
                 role: currentPlayer.role,
                 isOverseas: currentPlayer.isOverseas,
                 country: currentPlayer.country || 'India',
-                image: currentPlayer.image || currentPlayer.photoUrl
+                image: currentPlayer.image || currentPlayer.photoUrl,
+                photoUrl: currentPlayer.photoUrl || currentPlayer.image
               }
             ]
           };
@@ -867,7 +868,13 @@ export default function App() {
   return (
     <div 
       className="admin-app"
-      style={{ backgroundImage: `linear-gradient(180deg, rgba(2, 8, 4, 0.2) 0%, rgba(2, 8, 4, 0.48) 100%), url(${bgImage})` }}
+      style={{
+        backgroundImage: `linear-gradient(180deg, rgba(2, 8, 4, 0.2) 0%, rgba(2, 8, 4, 0.48) 100%), url(${bgImage})`,
+        backgroundSize: 'cover',
+        backgroundPosition: 'center center',
+        backgroundRepeat: 'no-repeat',
+        backgroundAttachment: 'fixed'
+      }}
     >
       <div className="revibe-bg-watermark"></div>
       

@@ -80,7 +80,13 @@ export default function LoginScreen({ teams = INITIAL_TEAMS, onLoginSuccess, onR
   return (
     <div
       className="login-screen-overlay"
-      style={{ backgroundImage: `linear-gradient(180deg, rgba(2, 8, 4, 0.2) 0%, rgba(2, 8, 4, 0.48) 100%), url(${bgImage})` }}
+      style={{
+        backgroundImage: `linear-gradient(180deg, rgba(2, 8, 4, 0.2) 0%, rgba(2, 8, 4, 0.48) 100%), url(${bgImage})`,
+        backgroundSize: 'cover',
+        backgroundPosition: 'center center',
+        backgroundRepeat: 'no-repeat',
+        backgroundAttachment: 'fixed'
+      }}
     >
       <div className="revibe-bg-watermark"></div>
 

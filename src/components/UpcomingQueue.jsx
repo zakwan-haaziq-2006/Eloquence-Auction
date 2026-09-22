@@ -214,10 +214,25 @@ export default function UpcomingQueue({
                       src={player.photoUrl || player.image} 
                       alt={player.name} 
                       style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                      onError={(e) => {
+                        e.target.style.display = 'none';
+                        const fb = e.target.parentElement.querySelector('.queue-avatar-fallback');
+                        if (fb) fb.style.display = 'flex';
+                      }}
                     />
-                  ) : (
+                  ) : null}
+                  <div 
+                    className="queue-avatar-fallback" 
+                    style={{ 
+                      display: (player.photoUrl || player.image) ? 'none' : 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      width: '100%',
+                      height: '100%'
+                    }}
+                  >
                     <Users size={26} style={{ color: '#39ff88' }} />
-                  )}
+                  </div>
                 </div>
 
                 <div>

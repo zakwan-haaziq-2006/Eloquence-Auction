@@ -1,5 +1,6 @@
 import React, { useState, useRef } from 'react';
 import { X, ChevronUp, ChevronDown } from 'lucide-react';
+import { INITIAL_PLAYERS } from '../data/auctionData';
 
 export default function TeamDetailModal({ team, onClose }) {
   const [roleFilter, setRoleFilter] = useState('ALL');
@@ -292,6 +293,9 @@ export default function TeamDetailModal({ team, onClose }) {
               <tbody>
                 {filteredPlayers.map((player, idx) => {
                   const playerPurseShare = ((player.price / team.purseTotal) * 100).toFixed(1);
+                  const matchedFull = INITIAL_PLAYERS.find(p => p.id === player.id || p.name?.toLowerCase() === player.name?.toLowerCase());
+                  const playerPhoto = player.photoUrl || player.image || matchedFull?.photoUrl;
+                  const initials = player.name.split(' ').map(n => n[0]).filter(Boolean).slice(0, 2).join('').toUpperCase();
 
                   return (
                     <tr 
@@ -301,14 +305,63 @@ export default function TeamDetailModal({ team, onClose }) {
                         background: idx % 2 === 0 ? 'rgba(8, 24, 15, 0.5)' : 'rgba(4, 14, 8, 0.7)' 
                       }}
                     >
-                      <td style={{ padding: '0.5rem 0.85rem', fontWeight: 700, color: '#ffffff' }}>{player.name}</td>
-                      <td style={{ padding: '0.5rem 0.85rem' }}>
+                      <td style={{ padding: '0.45rem 0.85rem' }}>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+                          <div 
+                            style={{
+                              width: '36px',
+                              height: '36px',
+                              borderRadius: '8px',
+                              border: '1.5px solid rgba(57, 255, 136, 0.35)',
+                              overflow: 'hidden',
+                              background: 'rgba(2, 10, 5, 0.95)',
+                              flexShrink: 0,
+                              display: 'flex',
+                              alignItems: 'center',
+                              justifyContent: 'center',
+                              boxShadow: '0 0 8px rgba(57, 255, 136, 0.2)'
+                            }}
+                          >
+                            {playerPhoto ? (
+                              <img 
+                                src={playerPhoto} 
+                                alt={player.name}
+                                style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                                onError={(e) => {
+                                  e.target.style.display = 'none';
+                                  if (e.target.nextSibling) e.target.nextSibling.style.display = 'flex';
+                                }}
+                              />
+                            ) : null}
+                            <span 
+                              style={{ 
+                                display: playerPhoto ? 'none' : 'flex',
+                                fontSize: '0.75rem', 
+                                fontWeight: 800, 
+                                color: '#39ff88', 
+                                fontFamily: 'var(--font-display)' 
+                              }}
+                            >
+                              {initials}
+                            </span>
+                          </div>
+                          <div>
+                            <span style={{ fontWeight: 700, color: '#ffffff', display: 'block', fontSize: '0.86rem', letterSpacing: '0.02em' }}>
+                              {player.name}
+                            </span>
+                            <span style={{ fontSize: '0.66rem', color: '#9eb8a8', fontFamily: 'var(--font-mono)' }}>
+                              {player.country || matchedFull?.country || 'India'} {player.isOverseas || matchedFull?.isOverseas ? '✈️' : ''}
+                            </span>
+                          </div>
+                        </div>
+                      </td>
+                      <td style={{ padding: '0.45rem 0.85rem' }}>
                         <span className={`role-tag ${player.role}`}>{player.role}</span>
                       </td>
-                      <td style={{ padding: '0.5rem 0.85rem', textAlign: 'right', fontWeight: 800, color: '#39ff88', fontFamily: 'var(--font-display)' }}>
+                      <td style={{ padding: '0.45rem 0.85rem', textAlign: 'right', fontWeight: 800, color: '#39ff88', fontFamily: 'var(--font-display)' }}>
                         ₹ {player.price.toFixed(2)} Cr
                       </td>
-                      <td style={{ padding: '0.5rem 0.85rem', textAlign: 'right', color: '#9eb8a8', fontSize: '0.75rem', fontFamily: 'var(--font-mono)' }}>
+                      <td style={{ padding: '0.45rem 0.85rem', textAlign: 'right', color: '#9eb8a8', fontSize: '0.75rem', fontFamily: 'var(--font-mono)' }}>
                         {playerPurseShare}%
                       </td>
                     </tr>

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Play, Trophy } from 'lucide-react';
 import { sounds } from '../utils/soundEffects';
+import bgImage from '../assets/eloquence_auction_bg.jpg';
 
 export default function IntroScreen({ onStartAuction, onClose }) {
   const [countdown, setCountdown] = useState(null); // null = intro screen, number = countdown state
@@ -32,7 +33,16 @@ export default function IntroScreen({ onStartAuction, onClose }) {
   }, [countdown, onStartAuction]);
 
   return (
-    <div className="intro-screen-overlay">
+    <div 
+      className="intro-screen-overlay"
+      style={{
+        backgroundImage: `linear-gradient(180deg, rgba(2, 8, 4, 0.2) 0%, rgba(2, 8, 4, 0.48) 100%), url(${bgImage})`,
+        backgroundSize: 'cover',
+        backgroundPosition: 'center center',
+        backgroundRepeat: 'no-repeat',
+        backgroundAttachment: 'fixed'
+      }}
+    >
       <div className="revibe-bg-watermark"></div>
 
       {onClose && (

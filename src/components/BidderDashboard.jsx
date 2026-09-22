@@ -5,6 +5,7 @@ import {
   CheckCircle2, Clock, Activity, Flame, RotateCw
 } from 'lucide-react';
 import bgImage from '../assets/eloquence_auction_bg.jpg';
+import { INITIAL_PLAYERS } from '../data/auctionData';
 
 export default function BidderDashboard({
   team,
@@ -46,7 +47,19 @@ export default function BidderDashboard({
 
   if (!team) {
     return (
-      <div className="bidder-dashboard-container" style={{ padding: '2rem', textAlign: 'center', color: '#FFF' }}>
+      <div 
+        className="bidder-dashboard-container" 
+        style={{ 
+          backgroundImage: `linear-gradient(180deg, rgba(2, 8, 4, 0.2) 0%, rgba(2, 8, 4, 0.48) 100%), url(${bgImage})`,
+          backgroundSize: 'cover',
+          backgroundPosition: 'center center',
+          backgroundRepeat: 'no-repeat',
+          backgroundAttachment: 'fixed',
+          padding: '2rem', 
+          textAlign: 'center', 
+          color: '#FFF' 
+        }}
+      >
         <h2>Franchise Not Found</h2>
         <button onClick={onLogout} className="btn-sold" style={{ marginTop: '1rem' }}>Return to Login</button>
       </div>
@@ -119,7 +132,13 @@ export default function BidderDashboard({
   return (
     <div
       className="bidder-dashboard-container"
-      style={{ backgroundImage: `linear-gradient(180deg, rgba(2, 8, 4, 0.2) 0%, rgba(2, 8, 4, 0.48) 100%), url(${bgImage})` }}
+      style={{
+        backgroundImage: `linear-gradient(180deg, rgba(2, 8, 4, 0.2) 0%, rgba(2, 8, 4, 0.48) 100%), url(${bgImage})`,
+        backgroundSize: 'cover',
+        backgroundPosition: 'center center',
+        backgroundRepeat: 'no-repeat',
+        backgroundAttachment: 'fixed'
+      }}
     >
       <div className="revibe-bg-watermark"></div>
       {/* Dynamic Franchise Header Bar */}
@@ -527,26 +546,73 @@ export default function BidderDashboard({
           {/* Player List Grid */}
           {filteredPlayers.length > 0 ? (
             <div className="acquired-players-grid">
-              {filteredPlayers.map((player, idx) => (
-                <div key={player.id || idx} className="acquired-player-card">
-                  <div className="player-card-badge" style={{ backgroundColor: team.primaryColor, color: team.textColor || '#FFF', boxShadow: `0 0 10px ${team.primaryColor}88` }}>
-                    {idx + 1}
-                  </div>
-                  <div className="player-card-main">
-                    <h3 className="player-name">{player.name}</h3>
-                    <div className="player-meta-tags">
-                      <span className="meta-tag role-tag" style={{ background: 'rgba(57,255,136,0.1)', color: '#39ff88' }}>{player.role}</span>
-                      {(player.isOverseas || (player.country && player.country !== 'India')) && (
-                        <span className="meta-tag overseas-tag" style={{ background: 'rgba(56, 189, 248, 0.15)', color: '#38bdf8' }}>✈️ {player.country || 'Overseas'}</span>
-                      )}
+              {filteredPlayers.map((player, idx) => {
+                const matchedFull = INITIAL_PLAYERS.find(p => p.id === player.id || p.name?.toLowerCase() === player.name?.toLowerCase());
+                const playerPhoto = player.photoUrl || player.image || matchedFull?.photoUrl;
+                const initials = player.name.split(' ').map(n => n[0]).filter(Boolean).slice(0, 2).join('').toUpperCase();
+
+                return (
+                  <div key={player.id || idx} className="acquired-player-card" style={{ display: 'flex', alignItems: 'center', gap: '0.85rem' }}>
+                    <div className="player-card-badge" style={{ backgroundColor: team.primaryColor, color: team.textColor || '#FFF', boxShadow: `0 0 10px ${team.primaryColor}88` }}>
+                      {idx + 1}
+                    </div>
+
+                    {/* Player Image Avatar Frame */}
+                    <div 
+                      style={{
+                        width: '44px',
+                        height: '44px',
+                        borderRadius: '10px',
+                        overflow: 'hidden',
+                        border: '1.5px solid rgba(57, 255, 136, 0.35)',
+                        background: 'rgba(2, 10, 5, 0.95)',
+                        flexShrink: 0,
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        boxShadow: '0 0 10px rgba(57, 255, 136, 0.2)'
+                      }}
+                    >
+                      {playerPhoto ? (
+                        <img 
+                          src={playerPhoto} 
+                          alt={player.name}
+                          style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                          onError={(e) => {
+                            e.target.style.display = 'none';
+                            if (e.target.nextSibling) e.target.nextSibling.style.display = 'flex';
+                          }}
+                        />
+                      ) : null}
+                      <span 
+                        style={{ 
+                          display: playerPhoto ? 'none' : 'flex',
+                          fontSize: '0.85rem', 
+                          fontWeight: 800, 
+                          color: '#39ff88', 
+                          fontFamily: 'var(--font-display)' 
+                        }}
+                      >
+                        {initials}
+                      </span>
+                    </div>
+
+                    <div className="player-card-main">
+                      <h3 className="player-name">{player.name}</h3>
+                      <div className="player-meta-tags">
+                        <span className="meta-tag role-tag" style={{ background: 'rgba(57,255,136,0.1)', color: '#39ff88' }}>{player.role}</span>
+                        {(player.isOverseas || (player.country && player.country !== 'India')) && (
+                          <span className="meta-tag overseas-tag" style={{ background: 'rgba(56, 189, 248, 0.15)', color: '#38bdf8' }}>✈️ {player.country || 'Overseas'}</span>
+                        )}
+                      </div>
+                    </div>
+                    <div className="player-card-price">
+                      <span className="price-label">Price</span>
+                      <span className="price-value">₹ {(player.price || player.bidAmount || 0).toFixed(2)} Cr</span>
                     </div>
                   </div>
-                  <div className="player-card-price">
-                    <span className="price-label">Price</span>
-                    <span className="price-value">₹ {(player.price || player.bidAmount || 0).toFixed(2)} Cr</span>
-                  </div>
-                </div>
-              ))}
+                );
+              })}
             </div>
           ) : (
             <div

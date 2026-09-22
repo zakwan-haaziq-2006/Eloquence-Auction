@@ -87,10 +87,17 @@ export default function PlayerStage({ player, status, leadingTeam, currentBid })
                 className="player-avatar-img"
                 draggable="false"
                 loading="eager"
+                onError={(e) => {
+                  e.target.style.display = 'none';
+                  const fb = e.target.parentElement.querySelector('.player-avatar-svg-fallback');
+                  if (fb) fb.style.display = 'block';
+                }}
               />
-            ) : (
-              <User className="player-avatar-svg" />
-            )}
+            ) : null}
+            <User 
+              className="player-avatar-svg player-avatar-svg-fallback" 
+              style={{ display: (player.photoUrl || player.image) ? 'none' : 'block' }} 
+            />
           </div>
 
           {/* Player Name */}
