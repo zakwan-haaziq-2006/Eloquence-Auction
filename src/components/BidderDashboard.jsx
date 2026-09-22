@@ -45,36 +45,12 @@ export default function BidderDashboard({
     }
   };
 
-  if (!team) {
-    return (
-      <div 
-        className="bidder-dashboard-container" 
-        style={{ 
-          backgroundImage: `linear-gradient(180deg, rgba(2, 8, 4, 0.2) 0%, rgba(2, 8, 4, 0.48) 100%), url(${bgImage})`,
-          backgroundSize: 'cover',
-          backgroundPosition: 'center center',
-          backgroundRepeat: 'no-repeat',
-          backgroundAttachment: 'fixed',
-          padding: '2rem', 
-          textAlign: 'center', 
-          color: '#FFF' 
-        }}
-      >
-        <h2>Franchise Not Found</h2>
-        <button onClick={onLogout} className="btn-sold" style={{ marginTop: '1rem' }}>Return to Login</button>
-      </div>
-    );
-  }
-
-  // Purse metrics calculations
-  const totalPurse = team.purseTotal || 80.0;
-  const purseRemaining = team.purseRemaining ?? 80.0;
-  const purseSpent = +(totalPurse - purseRemaining).toFixed(2);
-  const acquiredPlayers = team.acquiredPlayers || [];
+  const acquiredPlayers = team?.acquiredPlayers || [];
 
   // Dynamic role counts computed directly from acquiredPlayers + squadRoleCounts fallback
   const computedRoleCounts = useMemo(() => {
     const counts = { Batsman: 0, Bowler: 0, 'All-Rounder': 0, Wicketkeeper: 0 };
+    if (!team) return counts;
 
     // 1. First count from acquiredPlayers list
     if (Array.isArray(acquiredPlayers) && acquiredPlayers.length > 0) {
@@ -105,7 +81,33 @@ export default function BidderDashboard({
     }
 
     return counts;
-  }, [acquiredPlayers, team.squadRoleCounts]);
+  }, [acquiredPlayers, team?.squadRoleCounts]);
+
+  if (!team) {
+    return (
+      <div 
+        className="bidder-dashboard-container" 
+        style={{ 
+          backgroundImage: `linear-gradient(180deg, rgba(2, 8, 4, 0.2) 0%, rgba(2, 8, 4, 0.48) 100%), url(${bgImage})`,
+          backgroundSize: 'cover',
+          backgroundPosition: 'center center',
+          backgroundRepeat: 'no-repeat',
+          backgroundAttachment: 'fixed',
+          padding: '2rem', 
+          textAlign: 'center', 
+          color: '#FFF' 
+        }}
+      >
+        <h2>Franchise Not Found</h2>
+        <button onClick={onLogout} className="btn-sold" style={{ marginTop: '1rem' }}>Return to Login</button>
+      </div>
+    );
+  }
+
+  // Purse metrics calculations
+  const totalPurse = team.purseTotal || 80.0;
+  const purseRemaining = team.purseRemaining ?? 80.0;
+  const purseSpent = +(totalPurse - purseRemaining).toFixed(2);
 
   const isLeading = leadingTeam?.id === team.id;
 
