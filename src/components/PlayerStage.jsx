@@ -117,7 +117,9 @@ export default function PlayerStage({ player, status, leadingTeam, currentBid })
       <div className="stage-bidding-console">
         {/* Current Bid Display Card */}
         <div className="bid-box-card">
-          <span className="bid-box-label">CURRENT BID</span>
+          <span className="bid-box-label">
+            {status === 'SOLD' ? 'FINAL SOLD PRICE' : status === 'UNSOLD' ? 'UNSOLD (BASE PRICE)' : 'CURRENT BID'}
+          </span>
           <div className="bid-amount-value">
             {formatPrice(currentBid)}
           </div>
@@ -129,7 +131,7 @@ export default function PlayerStage({ player, status, leadingTeam, currentBid })
         {/* Leading Franchise Card */}
         <div className={`leading-team-card ${leadingTeam ? 'active-leader' : ''}`}>
           <span className="bid-box-label">
-            {leadingTeam ? 'LEADING BIDDER' : 'WAITING FOR FIRST BID'}
+            {status === 'SOLD' ? 'SOLD TO FRANCHISE' : leadingTeam ? 'LEADING BIDDER' : status === 'UNSOLD' ? 'PASSED UNSOLD' : 'WAITING FOR FIRST BID'}
           </span>
 
           {leadingTeam ? (
@@ -151,7 +153,7 @@ export default function PlayerStage({ player, status, leadingTeam, currentBid })
             </div>
           ) : (
             <div style={{ color: '#9eb8a8', fontSize: 'clamp(0.68rem, 1vw, 0.76rem)', marginTop: '0.35rem', fontWeight: 700, fontFamily: 'var(--font-mono)', letterSpacing: '0.08em' }}>
-              PRESS TEAM KEY TO BID
+              {status === 'UNSOLD' ? 'ENTERED RESERVE POOL' : 'PRESS TEAM KEY TO BID'}
             </div>
           )}
         </div>

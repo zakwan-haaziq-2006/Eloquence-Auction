@@ -42,16 +42,40 @@ export default function ActionBar({
       {/* Bid Bumps & Increments + Undo / Redo */}
       <div className="bidding-increments">
         <div className="increments-grid">
-          <button className="increment-btn" onClick={() => onManualIncrement(0.20)} title="Bump Bid by ₹ 20 Lakh">
+          <button 
+            className="increment-btn" 
+            onClick={() => onManualIncrement(0.20)} 
+            title="Bump Bid by ₹ 20 Lakh"
+            disabled={status !== 'LIVE'}
+            style={{ opacity: status !== 'LIVE' ? 0.35 : 1, cursor: status !== 'LIVE' ? 'not-allowed' : 'pointer' }}
+          >
             +20L
           </button>
-          <button className="increment-btn" onClick={() => onManualIncrement(0.50)} title="Bump Bid by ₹ 50 Lakh">
+          <button 
+            className="increment-btn" 
+            onClick={() => onManualIncrement(0.50)} 
+            title="Bump Bid by ₹ 50 Lakh"
+            disabled={status !== 'LIVE'}
+            style={{ opacity: status !== 'LIVE' ? 0.35 : 1, cursor: status !== 'LIVE' ? 'not-allowed' : 'pointer' }}
+          >
             +50L
           </button>
-          <button className="increment-btn" onClick={() => onManualIncrement(1.00)} title="Bump Bid by ₹ 1.00 Crore">
+          <button 
+            className="increment-btn" 
+            onClick={() => onManualIncrement(1.00)} 
+            title="Bump Bid by ₹ 1.00 Crore"
+            disabled={status !== 'LIVE'}
+            style={{ opacity: status !== 'LIVE' ? 0.35 : 1, cursor: status !== 'LIVE' ? 'not-allowed' : 'pointer' }}
+          >
             +1.00 Cr
           </button>
-          <button className="increment-btn" onClick={() => onManualIncrement(2.00)} title="Bump Bid by ₹ 2.00 Crore">
+          <button 
+            className="increment-btn" 
+            onClick={() => onManualIncrement(2.00)} 
+            title="Bump Bid by ₹ 2.00 Crore"
+            disabled={status !== 'LIVE'}
+            style={{ opacity: status !== 'LIVE' ? 0.35 : 1, cursor: status !== 'LIVE' ? 'not-allowed' : 'pointer' }}
+          >
             +2.00 Cr
           </button>
         </div>
