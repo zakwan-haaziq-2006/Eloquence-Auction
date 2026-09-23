@@ -1,7 +1,21 @@
-import React from 'react';
-import { Shield, DollarSign, Users, ExternalLink, TrendingUp, PieChart } from 'lucide-react';
+import React, { useState } from 'react';
+import { Shield, DollarSign, Users, ExternalLink, TrendingUp, PieChart, FileDown, Loader2 } from 'lucide-react';
 
-export default function SidebarTeams({ teams, onInspectTeam }) {
+export default function SidebarTeams({ teams, onInspectTeam, onExportPdf }) {
+  const [isExporting, setIsExporting] = useState(false);
+
+  const handleExport = async () => {
+    if (!onExportPdf) return;
+    try {
+      setIsExporting(true);
+      await onExportPdf();
+    } catch (err) {
+      console.error('Error generating PDF:', err);
+      alert('Failed to generate PDF: ' + (err.message || 'Unknown error'));
+    } finally {
+      setIsExporting(false);
+    }
+  };
   // Aggregate overall auction stats
   const totalPurseAll = teams.reduce((acc, t) => acc + t.purseTotal, 0);
   const remainingPurseAll = teams.reduce((acc, t) => acc + t.purseRemaining, 0);
@@ -66,11 +80,41 @@ export default function SidebarTeams({ teams, onInspectTeam }) {
         </div>
       </div>
 
-      {/* 10 Team Cards Grid Header */}
-      <h3 style={{ fontFamily: 'var(--font-display)', letterSpacing: '0.08em', fontSize: '1.05rem', marginTop: '0.5rem', display: 'flex', alignItems: 'center', gap: '0.5rem', color: '#ffffff' }}>
-        <Shield size={18} style={{ color: '#39ff88' }} />
-        <span>FRANCHISE PURSE & SQUAD ANALYSIS</span>
-      </h3>
+      {/* 10 Team Cards Grid Header + PDF Export Action */}
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginTop: '0.85rem', marginBottom: '0.35rem', flexWrap: 'wrap', gap: '0.5rem' }}>
+        <h3 style={{ fontFamily: 'var(--font-display)', letterSpacing: '0.08em', fontSize: '1.05rem', margin: 0, display: 'flex', alignItems: 'center', gap: '0.5rem', color: '#ffffff' }}>
+          <Shield size={18} style={{ color: '#39ff88' }} />
+          <span>FRANCHISE PURSE & SQUAD ANALYSIS</span>
+        </h3>
+
+        {onExportPdf && (
+          <button
+            onClick={handleExport}
+            disabled={isExporting}
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: '0.45rem',
+              padding: '0.42rem 0.85rem',
+              borderRadius: '999px',
+              border: '1px solid rgba(255, 215, 0, 0.45)',
+              background: 'linear-gradient(135deg, rgba(212, 175, 55, 0.22) 0%, rgba(10, 25, 15, 0.85) 100%)',
+              color: '#ffd700',
+              fontFamily: 'var(--font-display)',
+              fontSize: '0.74rem',
+              fontWeight: 800,
+              letterSpacing: '0.06em',
+              cursor: isExporting ? 'wait' : 'pointer',
+              boxShadow: '0 2px 10px rgba(0, 0, 0, 0.5)',
+              transition: 'all 0.2s ease'
+            }}
+            title="Download comprehensive PDF report of all teams and acquired players"
+          >
+            {isExporting ? <Loader2 size={13} className="spin-animation" /> : <FileDown size={13} />}
+            <span>{isExporting ? 'GENERATING...' : 'EXPORT SQUADS (PDF)'}</span>
+          </button>
+        )}
+      </div>
 
       <div className="teams-cards-grid">
         {teams.map((team) => {

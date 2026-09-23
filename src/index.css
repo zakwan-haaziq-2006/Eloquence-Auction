@@ -3170,6 +3170,11 @@ body {
   }
 }
 
+/* Hide mobile-only drawer items (Set banner & Analysis button) on laptop / desktop view */
+.menu-drawer-mobile-only {
+  display: none !important;
+}
+
 /* --------------------------------------------------------------------------
    TABLET & MOBILE BASE BREAKPOINT (<= 768px)
    -------------------------------------------------------------------------- */
@@ -3259,6 +3264,11 @@ body {
   .header-analysis-btn,
   .header-set-tag {
     display: none !important;
+  }
+
+  /* Show mobile-only drawer items on mobile view */
+  .menu-drawer-mobile-only {
+    display: flex !important;
   }
 
   .header-set-hub {

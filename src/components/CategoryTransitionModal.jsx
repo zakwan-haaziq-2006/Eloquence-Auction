@@ -9,7 +9,9 @@ import {
   ChevronLeft,
   ChevronRight,
   Shield,
-  DollarSign
+  DollarSign,
+  FileDown,
+  Loader2
 } from 'lucide-react';
 import { AUCTION_SETS } from '../data/auctionData';
 import { sounds } from '../utils/soundEffects';
@@ -26,8 +28,23 @@ export default function CategoryTransitionModal({
   onInspectTeam,
   onProceed,
   onClose,
-  onSelectSet
+  onSelectSet,
+  onExportPdf
 }) {
+  const [isExporting, setIsExporting] = useState(false);
+
+  const handleExport = async () => {
+    if (!onExportPdf) return;
+    try {
+      setIsExporting(true);
+      await onExportPdf();
+    } catch (err) {
+      console.error('Error generating PDF:', err);
+      alert('Failed to generate PDF: ' + (err.message || 'Unknown error'));
+    } finally {
+      setIsExporting(false);
+    }
+  };
   // activeModal: null (default hero screen with bg img & big text) | 'teams' | 'players' | 'recap'
   const [activeModal, setActiveModal] = useState(null);
   const [currentSelectedSet, setCurrentSelectedSet] = useState(
@@ -148,16 +165,44 @@ export default function CategoryTransitionModal({
     >
       <div className="revibe-bg-watermark"></div>
 
-      {/* Discreet Dismiss Button */}
-      {onClose && (
-        <button 
-          onClick={onClose}
-          style={{
-            position: 'absolute',
-            top: '1.5rem',
-            right: '1.5rem',
-            width: 38,
-            height: 38,
+      {/* Top Right Action Header: PDF Export + Dismiss */}
+      <div style={{ position: 'absolute', top: '1.5rem', right: '1.5rem', display: 'flex', alignItems: 'center', gap: '0.65rem', zIndex: 50 }}>
+        {onExportPdf && (
+          <button
+            onClick={handleExport}
+            disabled={isExporting}
+            style={{
+              height: 38,
+              padding: '0 0.95rem',
+              borderRadius: '999px',
+              background: 'linear-gradient(135deg, rgba(212, 175, 55, 0.25) 0%, rgba(4, 18, 10, 0.9) 100%)',
+              border: '1.5px solid rgba(255, 215, 0, 0.55)',
+              color: '#ffd700',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '0.5rem',
+              cursor: isExporting ? 'wait' : 'pointer',
+              backdropFilter: 'blur(10px)',
+              boxShadow: '0 4px 15px rgba(0,0,0,0.6)',
+              fontFamily: 'var(--font-display)',
+              fontSize: '0.74rem',
+              fontWeight: 800,
+              letterSpacing: '0.06em',
+              transition: 'all 0.2s ease'
+            }}
+            title="Download comprehensive PDF report of all teams and acquired players"
+          >
+            {isExporting ? <Loader2 size={14} className="spin-animation" /> : <FileDown size={14} />}
+            <span>{isExporting ? 'GENERATING...' : 'EXPORT SQUADS (PDF)'}</span>
+          </button>
+        )}
+
+        {onClose && (
+          <button 
+            onClick={onClose}
+            style={{
+              width: 38,
+              height: 38,
             borderRadius: '50%',
             background: 'rgba(2, 8, 4, 0.75)',
             border: '1.5px solid rgba(57, 255, 136, 0.35)',
@@ -184,6 +229,7 @@ export default function CategoryTransitionModal({
           <X size={18} />
         </button>
       )}
+      </div>
 
       {/* ========================================================================= */}
       {/* DEFAULT CENTER VIEW: Background Image with BIG Set Typography & Buttons    */}

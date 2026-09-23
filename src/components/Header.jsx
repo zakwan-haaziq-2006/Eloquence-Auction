@@ -1,7 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Volume2, VolumeX, Maximize, Minimize, HelpCircle, RefreshCw, Gavel, Users, Shield, Menu, X, BookOpen, LogOut, Play, PlusCircle, ChevronDown, BarChart2 } from 'lucide-react';
+import { Volume2, VolumeX, Maximize, Minimize, HelpCircle, RefreshCw, Gavel, Users, Shield, Menu, X, BookOpen, LogOut, Play, PlusCircle, ChevronDown, BarChart2, FileDown, Loader2 } from 'lucide-react';
 import { sounds } from '../utils/soundEffects';
 import { AUCTION_SETS } from '../data/auctionData';
+import { generateAuctionReportPdf } from '../utils/pdfExport';
 
 export default function Header({
   currentSet,
@@ -17,15 +18,36 @@ export default function Header({
   onLogout,
   onOpenSetTransition,
   onOpenSetOverview,
+  onExportPdf,
+  teams = [],
   players = [],
   completedPlayersMap = {}
 }) {
   const [menuOpen, setMenuOpen] = useState(false);
   const [setDropdownOpen, setSetDropdownOpen] = useState(false);
   const [isFullscreen, setIsFullscreen] = useState(false);
+  const [isExporting, setIsExporting] = useState(false);
   const menuButtonRef = useRef(null);
   const menuDropdownRef = useRef(null);
   const setDropdownRef = useRef(null);
+
+  const handleExportPdfClick = async () => {
+    try {
+      setIsExporting(true);
+      if (soundEnabled) sounds.playBidSound();
+      if (onExportPdf) {
+        await onExportPdf();
+      } else {
+        generateAuctionReportPdf({ teams, players, completedPlayersMap });
+      }
+    } catch (err) {
+      console.error('Failed to export PDF:', err);
+      alert('Failed to generate PDF: ' + (err.message || 'Unknown error'));
+    } finally {
+      setIsExporting(false);
+      setMenuOpen(false);
+    }
+  };
 
   // Sync fullscreen state
   useEffect(() => {
@@ -312,9 +334,9 @@ export default function Header({
               transform: 'translateZ(0)'
             }}
           >
-            {/* Quick Set Switcher banner in mobile drawer */}
+            {/* Quick Set Switcher banner (Mobile Only - already present on top bar in laptop view) */}
             <div
-              className="menu-drawer-set-banner"
+              className="menu-drawer-set-banner menu-drawer-mobile-only"
               onClick={() => {
                 setMenuOpen(false);
                 setSetDropdownOpen(true);
@@ -325,7 +347,6 @@ export default function Header({
                 background: 'linear-gradient(135deg, rgba(0, 168, 59, 0.25) 0%, rgba(4, 18, 10, 0.85) 100%)',
                 border: '1px solid #39ff88',
                 cursor: 'pointer',
-                display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'space-between',
                 gap: '0.5rem'
@@ -340,12 +361,12 @@ export default function Header({
 
             {onOpenSetOverview && (
               <button
+                className="menu-drawer-analysis-btn menu-drawer-mobile-only"
                 onClick={() => {
                   setMenuOpen(false);
                   onOpenSetOverview();
                 }}
                 style={{
-                  display: 'flex',
                   alignItems: 'center',
                   gap: '0.65rem',
                   padding: '0.6rem 0.95rem',
@@ -365,6 +386,45 @@ export default function Header({
                 <span>PURSE & SQUAD ANALYSIS</span>
               </button>
             )}
+
+            {/* Dedicated PDF Export Button in Admin Menu */}
+            <button
+              onClick={handleExportPdfClick}
+              disabled={isExporting}
+              title="Download comprehensive PDF report of all teams, purse spent, and auctioned players"
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'space-between',
+                padding: '0.65rem 0.95rem',
+                borderRadius: '10px',
+                border: '1px solid rgba(255, 215, 0, 0.45)',
+                background: 'linear-gradient(135deg, rgba(212, 175, 55, 0.22) 0%, rgba(16, 28, 18, 0.85) 100%)',
+                color: '#ffd700',
+                fontFamily: 'var(--font-display)',
+                fontSize: '0.78rem',
+                fontWeight: 800,
+                letterSpacing: '0.06em',
+                cursor: isExporting ? 'wait' : 'pointer',
+                textAlign: 'left',
+                boxShadow: '0 4px 14px rgba(0, 0, 0, 0.55)',
+                transition: 'all 0.2s ease',
+                opacity: isExporting ? 0.75 : 1
+              }}
+            >
+              <div style={{ display: 'flex', alignItems: 'center', gap: '0.65rem' }}>
+                {isExporting ? <Loader2 size={15} className="spin-animation" /> : <FileDown size={15} />}
+                <div>
+                  <div>{isExporting ? 'GENERATING REPORT...' : 'EXPORT AUCTION REPORT (PDF)'}</div>
+                  <div style={{ fontSize: '0.62rem', fontFamily: 'var(--font-mono)', color: '#d6c19a', fontWeight: 400, marginTop: '1px' }}>
+                    Team-wise Squads & Telemetry
+                  </div>
+                </div>
+              </div>
+              <span style={{ fontSize: '0.65rem', background: 'rgba(255, 215, 0, 0.2)', padding: '2px 6px', borderRadius: '4px', color: '#fff', fontWeight: 800 }}>
+                PDF
+              </span>
+            </button>
 
             <div style={{ height: '1px', background: 'rgba(57, 255, 136, 0.15)', margin: '0.1rem 0' }} />
 

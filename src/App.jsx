@@ -23,6 +23,7 @@ import {
   subscribeToAuctionState, 
   clearAuctionState 
 } from './utils/auctionSync';
+import { generateAuctionReportPdf } from './utils/pdfExport';
 
 export default function App() {
   // Enforce mandatory Login Screen on initial load
@@ -711,6 +712,11 @@ export default function App() {
     }
   };
 
+  const handleExportPdf = useCallback(() => {
+    sounds.playBidSound();
+    return generateAuctionReportPdf({ teams, players, completedPlayersMap });
+  }, [teams, players, completedPlayersMap]);
+
   const handleResetData = () => {
     if (window.confirm('Reset all IPL Auction data to initial Eloquence ₹80 Cr purse state?')) {
       clearAuctionState();
@@ -940,6 +946,7 @@ export default function App() {
             setCategoryTransitionInfo(null);
           }}
           onSelectSet={(targetSet) => handleOpenSetTransition(targetSet)}
+          onExportPdf={handleExportPdf}
         />
       )}
 
@@ -960,6 +967,8 @@ export default function App() {
         onLogout={handleLogout}
         onOpenSetTransition={handleOpenSetTransition}
         onOpenSetOverview={handleOpenSetOverview}
+        onExportPdf={handleExportPdf}
+        teams={teams}
         players={players}
         completedPlayersMap={completedPlayersMap}
       />
@@ -997,6 +1006,7 @@ export default function App() {
           <SidebarTeams
             teams={teams}
             onInspectTeam={(team) => setInspectedTeam(team)}
+            onExportPdf={handleExportPdf}
           />
         </main>
       )}
