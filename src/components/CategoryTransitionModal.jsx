@@ -65,7 +65,7 @@ export default function CategoryTransitionModal({
     }
   }, [nextCategory]);
 
-  // Parse set string into Number and Title: e.g. "SET 1 — MARQUEE PLAYERS"
+  // Parse set string into Number and Title: e.g. "SET 1 — BATSMEN (CAPPED) A"
   const parseSetName = (fullSetName = '') => {
     if (fullSetName.includes('—')) {
       const parts = fullSetName.split('—').map((s) => s.trim());

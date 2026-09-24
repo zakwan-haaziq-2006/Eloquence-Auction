@@ -58,7 +58,7 @@ export default function PlayerStage({ player, status, leadingTeam, currentBid })
               {player.status || 'Capped'}
             </span>
 
-            {/* Unsold Re-Entry Badge for Set 12 */}
+            {/* Unsold Re-Entry Badge for Reserve Pool */}
             {player.isReentry && (
               <span 
                 className="player-capped-badge" 

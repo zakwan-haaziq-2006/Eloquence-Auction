@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { Volume2, VolumeX, Maximize, Minimize, HelpCircle, RefreshCw, Gavel, Users, Shield, Menu, X, BookOpen, LogOut, Play, PlusCircle, ChevronDown, BarChart2, FileDown, Loader2 } from 'lucide-react';
 import { sounds } from '../utils/soundEffects';
 import { AUCTION_SETS } from '../data/auctionData';
-import { generateAuctionReportPdf } from '../utils/pdfExport';
+import { generateAuctionReportPdf, generatePlayersCataloguePdf } from '../utils/pdfExport';
 
 export default function Header({
   currentSet,
@@ -27,6 +27,7 @@ export default function Header({
   const [setDropdownOpen, setSetDropdownOpen] = useState(false);
   const [isFullscreen, setIsFullscreen] = useState(false);
   const [isExporting, setIsExporting] = useState(false);
+  const [isExportingPlayers, setIsExportingPlayers] = useState(false);
   const menuButtonRef = useRef(null);
   const menuDropdownRef = useRef(null);
   const setDropdownRef = useRef(null);
@@ -45,6 +46,20 @@ export default function Header({
       alert('Failed to generate PDF: ' + (err.message || 'Unknown error'));
     } finally {
       setIsExporting(false);
+      setMenuOpen(false);
+    }
+  };
+
+  const handleExportPlayersPdfClick = async () => {
+    try {
+      setIsExportingPlayers(true);
+      if (soundEnabled) sounds.playBidSound();
+      generatePlayersCataloguePdf({ sets: AUCTION_SETS, players });
+    } catch (err) {
+      console.error('Failed to export players PDF:', err);
+      alert('Failed to generate Players PDF: ' + (err.message || 'Unknown error'));
+    } finally {
+      setIsExportingPlayers(false);
       setMenuOpen(false);
     }
   };
@@ -162,10 +177,10 @@ export default function Header({
         <div
           className="header-set-pill"
           onClick={() => setSetDropdownOpen(prev => !prev)}
-          title="Click to Switch or Load any of the 12 Sets"
+          title="Click to Switch or Load any Set"
         >
           <span className="header-set-dot" />
-          <span className="set-name-full">{currentSet || 'SET 1 — MARQUEE PLAYERS'}</span>
+          <span className="set-name-full">{currentSet || AUCTION_SETS[0]?.name || 'SET 1 — BATSMEN (CAPPED) A'}</span>
           <span className="set-name-compact">{shortSetName}</span>
           <span className="set-name-mini">{miniSetName}</span>
           <ChevronDown size={14} className="header-set-chevron" style={{ transform: setDropdownOpen ? 'rotate(180deg)' : 'none' }} />
@@ -498,6 +513,61 @@ export default function Header({
             >
               <Users size={15} />
               <span>AUCTION QUEUE</span>
+            </button>
+
+            <div style={{ height: '1px', background: 'rgba(57, 255, 136, 0.15)', margin: '0.2rem 0' }} />
+
+            {/* Complete Players List PDF Export Button */}
+            <button
+              onClick={handleExportPlayersPdfClick}
+              disabled={isExportingPlayers}
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: '0.65rem',
+                padding: '0.6rem 0.95rem',
+                borderRadius: '10px',
+                border: '1px solid rgba(57, 255, 136, 0.4)',
+                background: 'linear-gradient(135deg, rgba(0, 168, 59, 0.25) 0%, rgba(3, 20, 10, 0.8) 100%)',
+                color: '#39ff88',
+                fontFamily: 'var(--font-display)',
+                fontSize: '0.78rem',
+                fontWeight: 800,
+                letterSpacing: '0.06em',
+                cursor: isExportingPlayers ? 'not-allowed' : 'pointer',
+                textAlign: 'left',
+                boxShadow: '0 0 12px rgba(57, 255, 136, 0.15)'
+              }}
+              title="Download publication-grade PDF catalogue of all 200 players organized by set and discipline"
+            >
+              {isExportingPlayers ? <Loader2 size={15} className="animate-spin" /> : <FileDown size={15} />}
+              <span>{isExportingPlayers ? 'GENERATING PDF...' : 'DOWNLOAD PLAYERS LIST (PDF)'}</span>
+            </button>
+
+            {/* Auction Summary Report PDF Export Button */}
+            <button
+              onClick={handleExportPdfClick}
+              disabled={isExporting}
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: '0.65rem',
+                padding: '0.6rem 0.95rem',
+                borderRadius: '10px',
+                border: 'none',
+                background: 'rgba(212, 175, 55, 0.12)',
+                color: '#facc15',
+                fontFamily: 'var(--font-display)',
+                fontSize: '0.78rem',
+                fontWeight: 800,
+                letterSpacing: '0.06em',
+                cursor: isExporting ? 'not-allowed' : 'pointer',
+                textAlign: 'left'
+              }}
+              title="Download live auction financial audit & squad breakdown PDF"
+            >
+              {isExporting ? <Loader2 size={15} className="animate-spin" /> : <FileDown size={15} />}
+              <span>{isExporting ? 'EXPORTING...' : 'EXPORT AUCTION REPORT (PDF)'}</span>
             </button>
 
             <div style={{ height: '1px', background: 'rgba(57, 255, 136, 0.15)', margin: '0.2rem 0' }} />

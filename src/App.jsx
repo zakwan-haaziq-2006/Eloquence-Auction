@@ -13,7 +13,7 @@ import CategoryTransitionModal from './components/CategoryTransitionModal';
 import LoginScreen from './components/LoginScreen';
 import BidderDashboard from './components/BidderDashboard';
 import AddTeamModal from './components/AddTeamModal';
-import { INITIAL_TEAMS, INITIAL_PLAYERS } from './data/auctionData';
+import { INITIAL_TEAMS, INITIAL_PLAYERS, AUCTION_SETS } from './data/auctionData';
 import { sounds } from './utils/soundEffects';
 import bgImage from './assets/eloquence_auction_bg.jpg';
 import { 
@@ -49,7 +49,7 @@ export default function App() {
   const getInitialPlayers = () => {
     if (!initialSyncState?.players) return INITIAL_PLAYERS;
     const basePlayers = INITIAL_PLAYERS.map((canonical) => {
-      const existing = initialSyncState.players.find((p) => p.id === canonical.id);
+      const existing = initialSyncState.players.find((p) => p.id === canonical.id || p.name === canonical.name);
       return existing 
         ? { 
             ...existing, 
@@ -60,13 +60,14 @@ export default function App() {
             country: canonical.country,
             flag: canonical.flag,
             isOverseas: canonical.isOverseas,
+            photoUrl: canonical.photoUrl,
             set: canonical.set,
             setNumber: canonical.setNumber
           } 
         : { ...canonical, soldPrice: null, soldTo: null, isPassed: false };
     });
 
-    const reentryPlayers = initialSyncState.players.filter((p) => p.isReentry || p.setNumber === 12);
+    const reentryPlayers = initialSyncState.players.filter((p) => p.isReentry || p.setNumber === 11 || p.setNumber === 12);
     return [...basePlayers, ...reentryPlayers];
   };
 
@@ -135,7 +136,7 @@ export default function App() {
     }
     if (newState.players) {
       const basePlayers = INITIAL_PLAYERS.map((canonical) => {
-        const existing = newState.players.find((p) => p.id === canonical.id);
+        const existing = newState.players.find((p) => p.id === canonical.id || p.name === canonical.name);
         return existing 
           ? { 
               ...existing, 
@@ -146,13 +147,14 @@ export default function App() {
               country: canonical.country,
               flag: canonical.flag,
               isOverseas: canonical.isOverseas,
+              photoUrl: canonical.photoUrl,
               set: canonical.set,
               setNumber: canonical.setNumber
             } 
           : { ...canonical, soldPrice: null, soldTo: null, isPassed: false };
       });
 
-      const reentryPlayers = newState.players.filter((p) => p.isReentry || p.setNumber === 12);
+      const reentryPlayers = newState.players.filter((p) => p.isReentry || p.setNumber === 11 || p.setNumber === 12);
       setPlayers([...basePlayers, ...reentryPlayers]);
     }
     if (typeof newState.currentPlayerIndex === 'number') setCurrentPlayerIndex(newState.currentPlayerIndex);
@@ -449,8 +451,8 @@ export default function App() {
     if (status !== 'LIVE' || showIntro || showCategoryTransition) return;
 
     const reentryId = `${currentPlayer.id}_reentry`;
-    const isAlreadyInSet12 = players.some(
-      (p) => p.id === reentryId || (p.originalId === currentPlayer.id && p.setNumber === 12)
+    const isAlreadyInReserve = players.some(
+      (p) => p.id === reentryId || (p.originalId === currentPlayer.id && (p.setNumber === 11 || p.setNumber === 12))
     );
 
     setPlayers((prevPlayers) => {
@@ -461,15 +463,15 @@ export default function App() {
         return p;
       });
 
-      // If player is from Sets 1-11 and not already queued into Set 12, add to Set 12
-      if (currentPlayer.setNumber !== 12 && !isAlreadyInSet12) {
+      // If player is from Sets 1-10 and not already queued into Set 11, add to Set 11
+      if (currentPlayer.setNumber !== 11 && currentPlayer.setNumber !== 12 && !isAlreadyInReserve) {
         const reentryPlayer = {
           ...currentPlayer,
           id: reentryId,
           originalId: currentPlayer.id,
           isReentry: true,
-          set: 'SET 12 — RESERVE / UNSOLD RE-ENTRY POOL',
-          setNumber: 12,
+          set: 'SET 11 — RESERVE / UNSOLD RE-ENTRY POOL',
+          setNumber: 11,
           soldPrice: null,
           soldTo: null,
           isPassed: false
@@ -591,8 +593,8 @@ export default function App() {
   const handleOpenSetTransition = (targetSetName) => {
     const setIdx = players.findIndex((p) => p.set === targetSetName);
     if (setIdx === -1) {
-      if (targetSetName.includes('SET 12') || targetSetName.includes('RESERVE')) {
-        alert('No players have gone unsold yet! Any players marked as UNSOLD during Sets 1 to 11 will automatically enter this reserve pool.');
+      if (targetSetName.includes('SET 11') || targetSetName.includes('SET 12') || targetSetName.includes('RESERVE')) {
+        alert('No players have gone unsold yet! Any players marked as UNSOLD during Sets 1 to 10 will automatically enter this reserve pool.');
       }
       return;
     }
@@ -612,7 +614,7 @@ export default function App() {
 
   // Open Set Overview & Analysis directly
   const handleOpenSetOverview = () => {
-    const currentSet = players[currentPlayerIndex]?.set || 'SET 1 — MARQUEE PLAYERS';
+    const currentSet = players[currentPlayerIndex]?.set || AUCTION_SETS[0]?.name || 'SET 1 — BATSMEN (CAPPED) A';
     const setPlayers = players.filter((p) => p.set === currentSet);
 
     setCategoryTransitionInfo({
@@ -633,7 +635,7 @@ export default function App() {
     setStatus('LIVE');
     setBidHistory([]);
     setRedoHistory([]);
-    handleOpenSetTransition(players[0]?.set || 'SET 1 — MARQUEE PLAYERS');
+    handleOpenSetTransition(players[0]?.set || AUCTION_SETS[0]?.name || 'SET 1 — BATSMEN (CAPPED) A');
   };
 
   // Manual Increments
