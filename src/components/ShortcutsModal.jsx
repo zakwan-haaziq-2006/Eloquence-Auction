@@ -19,7 +19,7 @@ export default function ShortcutsModal({ onClose }) {
     { key: 'U', description: 'Mark current player as UNSOLD' },
     { key: '→ / N', description: 'Advance to NEXT player' },
     { key: '← / P', description: 'Return to PREVIOUS player' },
-    { key: 'Z / Ctrl+Z', description: 'Undo last bid / action' },
+    { key: 'Z / Ctrl+Z', description: 'Undo last bid / Undo sale (if player is SOLD)' },
     { key: 'Y / Ctrl+Y', description: 'Redo last undone bid / action' }
   ];
 

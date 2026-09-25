@@ -706,6 +706,163 @@ export default function App() {
     sounds.playBidSound();
   }, [redoHistory, leadingTeam, currentBid, status, teams, completedPlayersMap, players, showIntro, showCategoryTransition]);
 
+  // Dedicated Undo for Sold Players: refunds purse, restores squad/role counts, removes from acquired list, and reopens player to LIVE
+  const handleUndoSale = useCallback((playerToUndo) => {
+    const targetPlayer = playerToUndo || currentPlayer;
+    if (!targetPlayer) return;
+
+    const targetId = targetPlayer.id;
+    const originalId = targetPlayer.originalId;
+
+    // Find the purchasing franchise
+    const buyingTeam = teams.find((t) =>
+      (t.acquiredPlayers || []).some(
+        (ap) => ap.id === targetId || (originalId && ap.id === originalId)
+      )
+    ) || teams.find((t) =>
+      (targetPlayer.soldToTeamId && t.id === targetPlayer.soldToTeamId) ||
+      t.id === targetPlayer.soldTo ||
+      t.name === targetPlayer.soldTo ||
+      t.code === targetPlayer.soldTo
+    );
+
+    // Calculate refunded price
+    const acquiredRecord = buyingTeam?.acquiredPlayers?.find(
+      (ap) => ap.id === targetId || (originalId && ap.id === originalId)
+    );
+    const refundPrice = acquiredRecord?.price ?? acquiredRecord?.bidAmount ?? targetPlayer.soldPrice ?? currentBid ?? targetPlayer.basePrice ?? 0;
+
+    // 1. Update teams: refund purse, decrement squad & role counts, remove from acquiredPlayers
+    if (buyingTeam) {
+      setTeams((prevTeams) => {
+        const updatedTeams = prevTeams.map((t) => {
+          if (t.id === buyingTeam.id) {
+            const role = targetPlayer.role || 'Batsman';
+            const newRoleCounts = { 
+              Batsman: t.squadRoleCounts?.Batsman || 0,
+              Bowler: t.squadRoleCounts?.Bowler || 0,
+              'All-Rounder': t.squadRoleCounts?.['All-Rounder'] || 0,
+              Wicketkeeper: t.squadRoleCounts?.Wicketkeeper || 0
+            };
+            if (newRoleCounts[role] !== undefined) {
+              newRoleCounts[role] = Math.max(0, newRoleCounts[role] - 1);
+            } else if (role.toLowerCase().includes('bat')) {
+              newRoleCounts.Batsman = Math.max(0, newRoleCounts.Batsman - 1);
+            } else if (role.toLowerCase().includes('bowl')) {
+              newRoleCounts.Bowler = Math.max(0, newRoleCounts.Bowler - 1);
+            } else if (role.toLowerCase().includes('round')) {
+              newRoleCounts['All-Rounder'] = Math.max(0, newRoleCounts['All-Rounder'] - 1);
+            } else if (role.toLowerCase().includes('keep')) {
+              newRoleCounts.Wicketkeeper = Math.max(0, newRoleCounts.Wicketkeeper - 1);
+            }
+
+            const filteredAcquired = (t.acquiredPlayers || []).filter(
+              (ap) => ap.id !== targetId && (!originalId || ap.id !== originalId)
+            );
+
+            return {
+              ...t,
+              purseRemaining: +(t.purseRemaining + refundPrice).toFixed(2),
+              squadCount: Math.max(0, (t.squadCount || 0) - 1),
+              overseasCount: targetPlayer.isOverseas ? Math.max(0, (t.overseasCount || 0) - 1) : (t.overseasCount || 0),
+              squadRoleCounts: newRoleCounts,
+              acquiredPlayers: filteredAcquired
+            };
+          }
+          return t;
+        });
+
+        // Update inspectedTeam modal state if viewing this team
+        setInspectedTeam((prevInspected) => {
+          if (prevInspected && prevInspected.id === buyingTeam.id) {
+            return updatedTeams.find((t) => t.id === buyingTeam.id) || prevInspected;
+          }
+          return prevInspected;
+        });
+
+        return updatedTeams;
+      });
+    }
+
+    // 2. Update players list: clear soldPrice, soldTo, soldToTeamId, isPassed
+    setPlayers((prevPlayers) =>
+      prevPlayers.map((p) => {
+        if (p.id === targetId || (originalId && p.id === originalId)) {
+          return {
+            ...p,
+            soldPrice: null,
+            soldTo: null,
+            soldToTeamId: null,
+            isPassed: false
+          };
+        }
+        return p;
+      })
+    );
+
+    // 3. Update completedPlayersMap: remove entry
+    setCompletedPlayersMap((prev) => {
+      const next = { ...prev };
+      delete next[targetId];
+      if (originalId) delete next[originalId];
+      return next;
+    });
+
+    // 4. If current stage player is this player, reopen bidding / reset status to LIVE
+    if (currentPlayer?.id === targetId || (originalId && currentPlayer?.id === originalId)) {
+      setStatus('LIVE');
+      setCurrentBid(targetPlayer.basePrice || 2.00);
+      setLeadingTeam(null);
+      setCelebrationActive(false);
+      setBidHistory([]);
+      setRedoHistory([]);
+    }
+
+    // 5. If lastSoldPlayer was this player, clear it
+    setLastSoldPlayer((prev) => (prev?.name === targetPlayer.name ? null : prev));
+
+    sounds.playBidSound();
+  }, [currentPlayer, teams, currentBid]);
+
+  // Reopen bidding for an UNSOLD player
+  const handleReopenPlayer = useCallback((playerToReopen) => {
+    const targetPlayer = playerToReopen || currentPlayer;
+    if (!targetPlayer) return;
+
+    const targetId = targetPlayer.id;
+    const originalId = targetPlayer.originalId;
+
+    // Remove any re-entry copy added to Set 11
+    const reentryId = `${targetId}_reentry`;
+    setPlayers((prevPlayers) =>
+      prevPlayers
+        .filter((p) => p.id !== reentryId)
+        .map((p) => {
+          if (p.id === targetId || (originalId && p.id === originalId)) {
+            return { ...p, isPassed: false };
+          }
+          return p;
+        })
+    );
+
+    setCompletedPlayersMap((prev) => {
+      const next = { ...prev };
+      delete next[targetId];
+      if (originalId) delete next[originalId];
+      return next;
+    });
+
+    if (currentPlayer?.id === targetId || (originalId && currentPlayer?.id === originalId)) {
+      setStatus('LIVE');
+      setCurrentBid(targetPlayer.basePrice || 2.00);
+      setLeadingTeam(null);
+      setBidHistory([]);
+      setRedoHistory([]);
+    }
+
+    sounds.playBidSound();
+  }, [currentPlayer]);
+
   const handleSelectPlayerFromQueue = (player) => {
     const idx = players.findIndex((p) => p.id === player.id);
     if (idx !== -1) {
@@ -798,7 +955,13 @@ export default function App() {
         if (e.shiftKey) {
           handleRedoBid();
         } else {
-          handleUndoBid();
+          if (status === 'SOLD') {
+            handleUndoSale();
+          } else if (status === 'UNSOLD') {
+            handleReopenPlayer();
+          } else {
+            handleUndoBid();
+          }
         }
         return;
       } else if (key === 'Y' || (e.ctrlKey && key === 'Y')) {
@@ -873,7 +1036,7 @@ export default function App() {
 
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [currentUser, teams, handlePlaceBid, handleSold, handleUnsold, handleNextPlayer, handlePreviousPlayer, handleUndoBid, handleRedoBid, showIntro, showCategoryTransition]);
+  }, [currentUser, teams, handlePlaceBid, handleSold, handleUnsold, handleNextPlayer, handlePreviousPlayer, handleUndoBid, handleRedoBid, handleUndoSale, handleReopenPlayer, status, showIntro, showCategoryTransition]);
 
   // 1. Not Authenticated Screen
   if (!currentUser) {
@@ -984,6 +1147,8 @@ export default function App() {
               status={status}
               leadingTeam={leadingTeam}
               currentBid={currentBid}
+              onUndoSale={handleUndoSale}
+              onReopenPlayer={handleReopenPlayer}
             />
 
             <ActionBar
@@ -993,7 +1158,9 @@ export default function App() {
               onPreviousPlayer={handlePreviousPlayer}
               onUndoBid={handleUndoBid}
               onRedoBid={handleRedoBid}
-              canUndo={bidHistory.length > 0}
+              onUndoSale={handleUndoSale}
+              onReopenPlayer={handleReopenPlayer}
+              canUndo={status === 'SOLD' || status === 'UNSOLD' || bidHistory.length > 0}
               canRedo={redoHistory.length > 0}
               onManualIncrement={handleManualIncrement}
               canSold={!!leadingTeam}
@@ -1048,6 +1215,7 @@ export default function App() {
         <TeamDetailModal
           team={inspectedTeam}
           onClose={() => setInspectedTeam(null)}
+          onUndoSale={handleUndoSale}
         />
       )}
     </div>

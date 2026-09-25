@@ -1,8 +1,8 @@
 import React, { useState, useRef } from 'react';
-import { X, ChevronUp, ChevronDown } from 'lucide-react';
+import { X, ChevronUp, ChevronDown, RotateCcw } from 'lucide-react';
 import { INITIAL_PLAYERS } from '../data/auctionData';
 
-export default function TeamDetailModal({ team, onClose }) {
+export default function TeamDetailModal({ team, onClose, onUndoSale }) {
   const [roleFilter, setRoleFilter] = useState('ALL');
   const scrollBodyRef = useRef(null);
   const tableContainerRef = useRef(null);
@@ -288,6 +288,7 @@ export default function TeamDetailModal({ team, onClose }) {
                   <th style={{ padding: '0.65rem 0.85rem' }}>ROLE</th>
                   <th style={{ padding: '0.65rem 0.85rem', textAlign: 'right' }}>PRICE</th>
                   <th style={{ padding: '0.65rem 0.85rem', textAlign: 'right' }}>% PURSE</th>
+                  {onUndoSale && <th style={{ padding: '0.65rem 0.85rem', textAlign: 'center' }}>ACTION</th>}
                 </tr>
               </thead>
               <tbody>
@@ -364,12 +365,29 @@ export default function TeamDetailModal({ team, onClose }) {
                       <td style={{ padding: '0.45rem 0.85rem', textAlign: 'right', color: '#9eb8a8', fontSize: '0.75rem', fontFamily: 'var(--font-mono)' }}>
                         {playerPurseShare}%
                       </td>
+                      {onUndoSale && (
+                        <td style={{ padding: '0.45rem 0.85rem', textAlign: 'center' }}>
+                          <button
+                            type="button"
+                            onClick={() => {
+                              if (window.confirm(`Undo sale of ${player.name} to ${team.name}?\n\n₹ ${player.price.toFixed(2)} Cr will be refunded to ${team.code} and ${player.name} will be returned to the live auction pool.`)) {
+                                onUndoSale(player);
+                              }
+                            }}
+                            className="roster-undo-btn"
+                            title={`Undo sale of ${player.name} & refund purse`}
+                          >
+                            <RotateCcw size={12} />
+                            <span>Undo</span>
+                          </button>
+                        </td>
+                      )}
                     </tr>
                   );
                 })}
                 {filteredPlayers.length === 0 && (
                   <tr>
-                    <td colSpan={4} style={{ padding: '1.5rem', textAlign: 'center', color: '#9eb8a8', fontFamily: 'var(--font-mono)' }}>
+                    <td colSpan={onUndoSale ? 5 : 4} style={{ padding: '1.5rem', textAlign: 'center', color: '#9eb8a8', fontFamily: 'var(--font-mono)' }}>
                       No players matching filter.
                     </td>
                   </tr>

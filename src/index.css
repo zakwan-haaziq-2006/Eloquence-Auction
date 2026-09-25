@@ -1045,6 +1045,89 @@ body {
   box-shadow: 0 6px 26px rgba(57, 255, 136, 0.75), 0 0 22px rgba(57, 255, 136, 0.5);
 }
 
+.btn-undo-sale {
+  background: linear-gradient(135deg, #b91c1c 0%, #7f1d1d 50%, #450a0a 100%);
+  color: #ffffff;
+  border: 1.5px solid #f87171;
+  font-family: var(--font-display);
+  font-size: 1.15rem;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+  padding: 0.38rem 1.35rem;
+  border-radius: 12px;
+  cursor: pointer;
+  box-shadow: 0 4px 20px rgba(220, 38, 38, 0.6), 0 0 16px rgba(248, 113, 113, 0.45);
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  text-shadow: 0 2px 6px rgba(0, 0, 0, 0.7);
+  white-space: nowrap;
+}
+
+.btn-undo-sale:hover {
+  transform: translateY(-2px);
+  background: linear-gradient(135deg, #dc2626 0%, #991b1b 100%);
+  box-shadow: 0 6px 26px rgba(239, 68, 68, 0.8), 0 0 22px rgba(248, 113, 113, 0.6);
+  border-color: #fca5a5;
+}
+
+.btn-undo-sale:active {
+  transform: translateY(0);
+}
+
+.stage-undo-sale-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  background: rgba(220, 38, 38, 0.28);
+  border: 1px solid #f87171;
+  color: #fecaca;
+  font-family: var(--font-display);
+  font-size: 0.74rem;
+  font-weight: 800;
+  letter-spacing: 0.05em;
+  padding: 0.25rem 0.65rem;
+  border-radius: 6px;
+  cursor: pointer;
+  margin-left: 0.75rem;
+  transition: all 0.2s ease;
+  box-shadow: 0 0 8px rgba(220, 38, 38, 0.4);
+}
+
+.stage-undo-sale-chip:hover {
+  background: #dc2626;
+  color: #ffffff;
+  border-color: #fca5a5;
+  transform: translateY(-1px);
+  box-shadow: 0 0 14px rgba(239, 68, 68, 0.7);
+}
+
+.roster-undo-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  background: rgba(220, 38, 38, 0.15);
+  border: 1px solid rgba(248, 113, 113, 0.4);
+  color: #fca5a5;
+  font-family: var(--font-display);
+  font-size: 0.68rem;
+  font-weight: 700;
+  padding: 0.22rem 0.55rem;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.roster-undo-btn:hover {
+  background: #dc2626;
+  color: #ffffff;
+  border-color: #f87171;
+  box-shadow: 0 0 10px rgba(239, 68, 68, 0.6);
+  transform: translateY(-1px);
+}
+
+
 .btn-unsold {
   background: linear-gradient(135deg, #7f1d1d 0%, #3f0909 100%);
   color: #ffffff;

@@ -1,7 +1,7 @@
 import React from 'react';
-import { User, Gavel, CheckCircle2, AlertCircle } from 'lucide-react';
+import { User, Gavel, CheckCircle2, AlertCircle, RotateCcw } from 'lucide-react';
 
-export default function PlayerStage({ player, status, leadingTeam, currentBid }) {
+export default function PlayerStage({ player, status, leadingTeam, currentBid, onUndoSale, onReopenPlayer }) {
   if (!player) {
     return (
       <div className="auction-stage-box">
@@ -33,13 +33,36 @@ export default function PlayerStage({ player, status, leadingTeam, currentBid })
           {status === 'SOLD' && (
             <>
               <CheckCircle2 size={18} />
-              SOLD TO {leadingTeam ? leadingTeam.code : 'FRANCHISE'} FOR {formatPrice(currentBid)}!
+              <span>SOLD TO {leadingTeam ? (leadingTeam.name || leadingTeam.code) : 'FRANCHISE'} FOR {formatPrice(currentBid)}!</span>
+              {onUndoSale && (
+                <button
+                  type="button"
+                  onClick={onUndoSale}
+                  className="stage-undo-sale-chip"
+                  title="Undo this sale and return player to live auction pool"
+                >
+                  <RotateCcw size={12} />
+                  <span>UNDO SALE</span>
+                </button>
+              )}
             </>
           )}
           {status === 'UNSOLD' && (
             <>
               <AlertCircle size={18} />
-              PLAYER UNSOLD — PASSED TO ACCELERATED ROUND
+              <span>PLAYER UNSOLD — PASSED TO ACCELERATED ROUND</span>
+              {onReopenPlayer && (
+                <button
+                  type="button"
+                  onClick={onReopenPlayer}
+                  className="stage-undo-sale-chip"
+                  style={{ background: 'rgba(245, 158, 11, 0.25)', borderColor: '#f59e0b', color: '#fef3c7' }}
+                  title="Reopen bidding for this player"
+                >
+                  <RotateCcw size={12} />
+                  <span>REOPEN BIDDING</span>
+                </button>
+              )}
             </>
           )}
         </div>
